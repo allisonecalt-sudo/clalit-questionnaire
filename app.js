@@ -190,9 +190,11 @@ function updateProgress() {
 // ============================
 
 function showPage(page) {
-  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'parentsUnder3', 'sideB'].forEach((p) => {
-    document.getElementById(p).classList.toggle('hidden', p !== page);
-  });
+  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'parentsUnder3', 'sideB'].forEach(
+    (p) => {
+      document.getElementById(p).classList.toggle('hidden', p !== page);
+    },
+  );
   document.querySelectorAll('.nav-tab').forEach((tab, i) => {
     tab.classList.toggle(
       'active',
