@@ -397,7 +397,8 @@ select {
   #combined,
   #parentsOver3,
   #parentsUnder3,
-  #officialTeacher6 {
+  #officialTeacher6,
+  #teacherUnder3 {
     display: none !important;
   }
   .printing-combined #combined {
@@ -413,6 +414,9 @@ select {
     display: block !important;
   }
   .printing-officialTeacher6 #officialTeacher6 {
+    display: block !important;
+  }
+  .printing-teacherUnder3 #teacherUnder3 {
     display: block !important;
   }
 }
