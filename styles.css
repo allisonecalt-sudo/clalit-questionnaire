@@ -395,7 +395,8 @@ select {
   #sideA,
   #sideB,
   #combined,
-  #parentsOver3 {
+  #parentsOver3,
+  #officialTeacher6 {
     display: none !important;
   }
   .printing-combined #combined {
@@ -405,6 +406,9 @@ select {
     display: block !important;
   }
   .printing-parentsOver3 #parentsOver3 {
+    display: block !important;
+  }
+  .printing-officialTeacher6 #officialTeacher6 {
     display: block !important;
   }
 }

@@ -190,7 +190,7 @@ function updateProgress() {
 // ============================
 
 function showPage(page) {
-  ['combined', 'parentsOver3', 'sideA', 'sideB'].forEach((p) => {
+  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'sideB'].forEach((p) => {
     document.getElementById(p).classList.toggle('hidden', p !== page);
   });
   document.querySelectorAll('.nav-tab').forEach((tab, i) => {
@@ -199,7 +199,8 @@ function showPage(page) {
       (i === 0 && page === 'combined') ||
         (i === 1 && page === 'parentsOver3') ||
         (i === 2 && page === 'sideA') ||
-        (i === 3 && page === 'sideB'),
+        (i === 3 && page === 'officialTeacher6') ||
+        (i === 4 && page === 'sideB'),
     );
   });
   if (page === 'sideB') loadSideBData();
@@ -274,10 +275,18 @@ function printForm(formId) {
     localStorage.setItem('questionnaire_data', JSON.stringify(data));
   }
   // Add class to body so print CSS knows which form to show
-  document.body.classList.remove('printing-combined', 'printing-sideA');
+  document.body.classList.remove(
+    'printing-combined',
+    'printing-sideA',
+    'printing-officialTeacher6',
+  );
   document.body.classList.add('printing-' + formId);
   window.print();
-  document.body.classList.remove('printing-combined', 'printing-sideA');
+  document.body.classList.remove(
+    'printing-combined',
+    'printing-sideA',
+    'printing-officialTeacher6',
+  );
 }
 
 // ============================
@@ -977,6 +986,126 @@ buildRadioSection('po3-social-items', po3SocialItems, po3Scale3freq, 'po3soc');
 buildRadioSection('po3-language-items', po3LanguageItems, po3Scale3freq, 'po3lang');
 buildYesNoSection('po3-pronun-items', po3PronunItems, 'po3pron');
 buildRadioSection('po3-attention-items', po3AttentionItems, po3Scale4attention, 'po3att');
+
+// ============================
+// OFFICIAL TEACHER QUESTIONNAIRE (6+) — DATA
+// ============================
+
+const ot6ReferralAreas = [
+  'רופא התפתחותי',
+  'פיזיותרפיה',
+  'קלינאות תקשורת',
+  'ריפוי בעיסוק',
+  'תחום רגשי',
+  'אחר',
+];
+
+const ot6BehaviorCheckboxes = [
+  'עליז ושמח',
+  'במצב רוח נוח',
+  'מגיע בשמחה לבית הספר',
+  'משתף פעולה בכל המטלות',
+  'סובל משינויים קיצוניים במצב הרוח',
+  'עצוב או מדוכדך רוב הזמן',
+  'עקשן',
+  'מסתגר',
+  'בעל ביטחון עצמי נמוך',
+  'ביישן',
+  'פסיבי',
+  'לא משתתף בשיעור',
+];
+
+const ot6AttentionItems = ['אימפולסיבי', 'מוסח', 'קשוב להוראות', 'מתמיד במשימות', 'תנועתי'];
+
+const ot6PeItems = ['תפקוד הילד בשיעור התעמלות', 'תפקוד הילד בחצר בית הספר'];
+
+const ot6SensoryItems = ['מגע עם ילדים או עם מבוגרים', 'פעילויות עם רעש (מסיבות/חגים)'];
+
+const ot6OrgItems = [
+  'מביא את הציוד הנדרש לפי המערכת (ספרים, מחברות, כלי כתיבה)',
+  'מכין את ציוד הלימודים הדרוש במעבר משיעור לשיעור',
+  'הילקוט והקלמר מאורגנים',
+  'השולחן שבו הוא יושב מסודר ומאורגן',
+  'מגיע בזמן לשיעור',
+  'מכין שיעורי בית באופן סדיר',
+];
+
+const ot6FineMotorItems = [
+  'אחיזת עיפרון',
+  'שליטה בכלי הכתיבה',
+  'ציור',
+  'גזירה',
+  'הדבקה',
+  'שימוש בסרגל',
+  'שימוש במחדד',
+  'שימוש בקלסר ובניילונית',
+];
+
+const ot6WritingItems = [
+  'יושב באופן יציב ליד השולחן',
+  'רמת הכתיבה שלו היא כמו של בני גילו',
+  'ממלא ברצון מטלות של כתיבה',
+  'האותיות ממוקמות היטב בשורה',
+  'כותב בשורות הנכונות',
+  'שומר על רווחים מתאימים בתוך המילה ובין המילים',
+  'שומר על שוליים (ימניים ושמאליים)',
+  'מצליח להעתיק מהלוח',
+  'מפעיל לחץ על העיפרון בזמן הכתיבה',
+  'מעצב באופן תקין אותיות וספרות',
+  'מספיק לסיים את מטלות הכתיבה',
+];
+
+const ot6SocialItems = [
+  'יוצר קשר עם ילדים ומסוגל ליזום קשר',
+  'יוצר קשר עם מבוגרים',
+  'משתתף בפעילות חברתית: משחקים, מסיבות וכו׳',
+  'משתתף בתחרויות ומקבל הצלחה וכישלון',
+  'מגיב באלימות פיזית או מילולית',
+  'מוותר ומתפשר',
+  'מבקש עזרה כשזקוק לה',
+  'אינו מפרש רמזים וסיטואציות חברתיות',
+];
+
+const ot6LanguageItems = [
+  'מבין את התכנים הנלמדים בבית ספר',
+  'מבין הוראות מורכבות',
+  'זוכר רצף הוראות, את ימי השבוע, שירים',
+  'מבין שאלות שנשאל ועונה עליהן נכון',
+  'מצליח במטלות של הבנת הנקרא',
+  'מבין את התכנים הנלמדים בכיתה',
+  'מסוגל להסיק מסקנות',
+  'רמת הקריאה שלו תואמת את רמת הכיתה',
+  'מתבטא בעזרת אוצר מילים רחב (שכולל שמות עצם, פעלים ותארים)',
+  'מטה פעלים באופן תקין בכל הזמנים (עבר, הווה, עתיד)',
+  'משתמש במשפטים מחוברים ומורכבים (באמצעות מילות קישור כגון: ו, כי, משום ש)',
+  'יודע לספר סיפור',
+  'מספר חוויות בצורה מאורגנת',
+];
+
+const ot6PronunItems = [
+  'האם קיימים שיבושי היגוי? אם כן, באילו מהצלילים הבאים: ב, ג, ד, ו, ז, ח, ט, כ, ל, נ, ס, פ, צ, ר, ש',
+  'האם הוא משכל אותיות במילים (למשל אומר משחב במקום מחשב)?',
+  'האם קיים חוסר שטף בדיבור (גמגום)?',
+  'האם קיימת צרידות?',
+];
+
+// Scales for official teacher questionnaire
+const ot6Scale3freq = ['בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
+const ot6Scale4motor = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'נמנע'];
+const ot6Scale4sensory = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];
+
+// Build official teacher questionnaire sections
+buildDescCheckboxes('ot6-referral-areas', ot6ReferralAreas, 'ot6ref');
+buildDescCheckboxes('ot6-behavior-checkboxes', ot6BehaviorCheckboxes, 'ot6beh');
+buildRadioSection('ot6-attention-items', ot6AttentionItems, ot6Scale3freq, 'ot6att');
+buildRadioSection('ot6-pe-items', ot6PeItems, ot6Scale4motor, 'ot6pe');
+buildRadioSection('ot6-sensory-items', ot6SensoryItems, ot6Scale4sensory, 'ot6sens');
+buildRadioSection('ot6-org-items', ot6OrgItems, ot6Scale3freq, 'ot6org');
+buildRadioSection('ot6-finemotor-items', ot6FineMotorItems, ot6Scale4motor, 'ot6fm');
+buildRadioSection('ot6-writing-items', ot6WritingItems, ot6Scale3freq, 'ot6wrt');
+buildRadioSection('ot6-social-items', ot6SocialItems, ot6Scale3freq, 'ot6soc');
+buildRadioSection('ot6-language-items', ot6LanguageItems, ot6Scale3freq, 'ot6lang');
+buildYesNoSection('ot6-pronun-items', ot6PronunItems, 'ot6pron');
 
 // ============================
 

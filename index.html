@@ -1,963 +1,1525 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>שאלון מורה — כללית</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="nav-tab active" onclick="showPage('combined')">
+        שאלון הורים ומורה<span class="nav-tab-sub">גיל בית ספר · הורים + מורה</span>
+      </button>
+      <button class="nav-tab" onclick="showPage('parentsOver3')">
+        שאלון הורים — מעל גיל 3<span class="nav-tab-sub">גיל 3+ · הורים בלבד</span>
+      </button>
+      <button class="nav-tab" onclick="showPage('sideA')">
+        שאלון מורה מפורט<span class="nav-tab-sub">גיל 6+ · מורה/רב בלבד</span>
+      </button>
+      <button class="nav-tab" onclick="showPage('officialTeacher6')">
+        שאלון מורה רשמי (6+)<span class="nav-tab-sub">שאלון כללית רשמי</span>
+      </button>
+      <button class="nav-tab" onclick="showPage('sideB')">
+        כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
+      </button>
+    </nav>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-<!-- Navigation -->
-<nav class="top-nav">
-    <button class="nav-tab active" onclick="showPage('combined')">שאלון הורים ומורה<span class="nav-tab-sub">גיל בית ספר · הורים + מורה</span></button>
-    <button class="nav-tab" onclick="showPage('parentsOver3')">שאלון הורים — מעל גיל 3<span class="nav-tab-sub">גיל 3+ · הורים בלבד</span></button>
-    <button class="nav-tab" onclick="showPage('sideA')">שאלון מורה מפורט<span class="nav-tab-sub">גיל 6+ · מורה/רב בלבד</span></button>
-    <button class="nav-tab" onclick="showPage('sideB')">כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span></button>
-</nav>
-<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-
-<!-- ============================================ -->
-<!-- TAB 1 — PARENT + TEACHER (SEPARATE)          -->
-<!-- ============================================ -->
-<div id="combined" class="container">
-    <div class="page-header">
+    <!-- ============================================ -->
+    <!-- TAB 1 — PARENT + TEACHER (SEPARATE)          -->
+    <!-- ============================================ -->
+    <div id="combined" class="container">
+      <div class="page-header">
         <h1>שאלון הורים ומורה — ילד בגיל בית ספר</h1>
         <p>שני שאלונים נפרדים — חלק א׳ להורים, חלק ב׳ למורה</p>
         <div class="privacy-notice">
-            <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו בנפרד באימייל למרפאה.
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד באימייל למרפאה.
         </div>
-    </div>
+      </div>
 
-    <form id="combinedForm" onsubmit="return false;">
+      <form id="combinedForm" onsubmit="return false;">
+        <!-- ============ PARENT QUESTIONNAIRE ============ -->
+        <div class="form-part-header">חלק א׳ — שאלון הורים</div>
 
-    <!-- ============ PARENT QUESTIONNAIRE ============ -->
-    <div class="form-part-header">חלק א׳ — שאלון הורים</div>
-
-    <!-- PARENT: פרטים כלליים -->
-    <div class="section">
-        <div class="section-title">פרטים כלליים</div>
-        <div class="question-row">
+        <!-- PARENT: פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
             <label class="question-label">תאריך מילוי השאלון:</label>
-            <input type="text" name="p_date" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="question-row">
+            <input type="text" name="p_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מין הילד:</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="p_gender" id="p_gm" value="זכר"><label for="p_gm">זכר</label></div>
-                <div class="yesno-option"><input type="radio" name="p_gender" id="p_gf" value="נקבה"><label for="p_gf">נקבה</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="p_gender" id="p_gm" value="זכר" /><label for="p_gm"
+                  >זכר</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="p_gender" id="p_gf" value="נקבה" /><label for="p_gf"
+                  >נקבה</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">תאריך לידה:</label>
-            <input type="text" name="p_dob" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="question-row">
+            <input type="text" name="p_dob" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
             <label class="question-label">ארץ לידה:</label>
-            <input type="text" name="p_country_birth" placeholder="ישראל / אחר...">
-        </div>
-        <div class="question-row">
+            <input type="text" name="p_country_birth" placeholder="ישראל / אחר..." />
+          </div>
+          <div class="question-row">
             <label class="question-label">מספר שנים בארץ:</label>
-            <input type="text" name="p_years_in_country">
-        </div>
-        <div class="question-row">
+            <input type="text" name="p_years_in_country" />
+          </div>
+          <div class="question-row">
             <label class="question-label">סוג החינוך:</label>
             <select name="p_school_type">
-                <option value="">— בחרו —</option>
-                <option>חינוך רגיל</option>
-                <option>חינוך מיוחד</option>
-                <option>שיקומי</option>
+              <option value="">— בחרו —</option>
+              <option>חינוך רגיל</option>
+              <option>חינוך מיוחד</option>
+              <option>שיקומי</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">שפות מדוברות בבית:</label>
-            <input type="text" name="p_languages">
-        </div>
-        <div class="question-row">
+            <input type="text" name="p_languages" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מצב משפחתי:</label>
             <select name="p_family_status">
-                <option value="">— בחרו —</option>
-                <option>נשואים</option>
-                <option>גרושים</option>
-                <option>פרודים</option>
-                <option>משפחה חד הורית</option>
-                <option>אחר</option>
+              <option value="">— בחרו —</option>
+              <option>נשואים</option>
+              <option>גרושים</option>
+              <option>פרודים</option>
+              <option>משפחה חד הורית</option>
+              <option>אחר</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם יש קרבת דם בין ההורים?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="p_blood_rel" id="p_br_y" value="כן"><label for="p_br_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="p_blood_rel" id="p_br_n" value="לא"><label for="p_br_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="p_blood_rel" id="p_br_y" value="כן" /><label for="p_br_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="p_blood_rel" id="p_br_n" value="לא" /><label for="p_br_n"
+                  >לא</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">אירועים מיוחדים/משמעותיים בחיי הילד:</label>
             <textarea name="p_events" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
-            <label class="question-label">האם יש במשפחה ילדים הסובלים מבעיות התפתחות או לקויות למידה?</label>
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >האם יש במשפחה ילדים הסובלים מבעיות התפתחות או לקויות למידה?</label
+            >
             <textarea name="p_family_history" rows="2" placeholder="פרטו..."></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- PARENT: פנייה למרכז -->
-    <div class="section">
-        <div class="section-title">פנייה למרכז</div>
-        <div class="question-row">
+        <!-- PARENT: פנייה למרכז -->
+        <div class="section">
+          <div class="section-title">פנייה למרכז</div>
+          <div class="question-row">
             <label class="question-label">מי יזם את הפנייה למרכן?</label>
             <select name="p_referral">
-                <option value="">— בחרו —</option>
-                <option>גורם חינוכי</option>
-                <option>רופא</option>
-                <option>באופן עצמאי</option>
-                <option>אחר</option>
+              <option value="">— בחרו —</option>
+              <option>גורם חינוכי</option>
+              <option>רופא</option>
+              <option>באופן עצמאי</option>
+              <option>אחר</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">מדוע פניתם? מהם הקשיים העיקריים של הילד?</label>
             <textarea name="p_reason" rows="3" placeholder="תארו את הקשיים העיקריים..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם הילד מטופל כיום? פרטו:</label>
-            <textarea name="p_treatment" rows="2" placeholder="קלינאות תקשורת / ריפוי בעיסוק / פיזיותרפיה / אבחון דידקטי / גננת שיקום / נוירולוג / פסיכולוג / אחר..."></textarea>
+            <textarea
+              name="p_treatment"
+              rows="2"
+              placeholder="קלינאות תקשורת / ריפוי בעיסוק / פיזיותרפיה / אבחון דידקטי / גננת שיקום / נוירולוג / פסיכולוג / אחר..."
+            ></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- PARENT: רקע רפואי -->
-    <div class="section">
-        <div class="section-title">רקע רפואי והתפתחותי</div>
-        <div id="parent-medical-items"></div>
-    </div>
+        <!-- PARENT: רקע רפואי -->
+        <div class="section">
+          <div class="section-title">רקע רפואי והתפתחותי</div>
+          <div id="parent-medical-items"></div>
+        </div>
 
-    <!-- PARENT: בדיקות קודמות -->
-    <div class="section">
-        <div class="section-title">בדיקות קודמות</div>
-        <div class="section-subtitle">נא לסמן אם בוצעו הבדיקות הבאות</div>
-        <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:collapse; font-size:13px; direction:rtl;">
-                <thead>
-                    <tr style="background:#f0f4f8;">
-                        <th style="text-align:right; padding:8px; border:1px solid #ddd; font-weight:700;">בדיקה</th>
-                        <th style="text-align:center; padding:8px; border:1px solid #ddd; font-weight:700; width:60px;">בוצעה</th>
-                        <th style="padding:8px; border:1px solid #ddd; font-weight:700; min-width:90px;">תאריך</th>
-                        <th style="padding:8px; border:1px solid #ddd; font-weight:700; min-width:110px;">תוצאה</th>
-                    </tr>
-                </thead>
-                <tbody id="tests-table-body"></tbody>
+        <!-- PARENT: בדיקות קודמות -->
+        <div class="section">
+          <div class="section-title">בדיקות קודמות</div>
+          <div class="section-subtitle">נא לסמן אם בוצעו הבדיקות הבאות</div>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; direction: rtl">
+              <thead>
+                <tr style="background: #f0f4f8">
+                  <th
+                    style="
+                      text-align: right;
+                      padding: 8px;
+                      border: 1px solid #ddd;
+                      font-weight: 700;
+                    "
+                  >
+                    בדיקה
+                  </th>
+                  <th
+                    style="
+                      text-align: center;
+                      padding: 8px;
+                      border: 1px solid #ddd;
+                      font-weight: 700;
+                      width: 60px;
+                    "
+                  >
+                    בוצעה
+                  </th>
+                  <th
+                    style="padding: 8px; border: 1px solid #ddd; font-weight: 700; min-width: 90px"
+                  >
+                    תאריך
+                  </th>
+                  <th
+                    style="padding: 8px; border: 1px solid #ddd; font-weight: 700; min-width: 110px"
+                  >
+                    תוצאה
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="tests-table-body"></tbody>
             </table>
+          </div>
         </div>
-    </div>
 
-    <!-- PARENT: תפקוד כללי (5-point) -->
-    <div class="section">
-        <div class="section-title">תפקוד כללי</div>
-        <div class="section-subtitle">נא לסמן V במקום המתאים לדעתכם</div>
-        <div class="scale-header">
-            <span>מעולה</span><span>מעל הממוצע</span><span>ממוצע</span><span>מעט בעייתי</span><span>בעייתי</span>
+        <!-- PARENT: תפקוד כללי (5-point) -->
+        <div class="section">
+          <div class="section-title">תפקוד כללי</div>
+          <div class="section-subtitle">נא לסמן V במקום המתאים לדעתכם</div>
+          <div class="scale-header">
+            <span>מעולה</span><span>מעל הממוצע</span><span>ממוצע</span><span>מעט בעייתי</span
+            ><span>בעייתי</span>
+          </div>
+          <div id="parent-general-func"></div>
         </div>
-        <div id="parent-general-func"></div>
-    </div>
 
-    <!-- PARENT: שאלון קשב וריכוז -->
-    <div class="section">
-        <div class="section-title">שאלון קשב וריכוז</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- PARENT: שאלון קשב וריכוז -->
+        <div class="section">
+          <div class="section-title">שאלון קשב וריכוז</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>אף פעם</span><span>לפעמים</span><span>לעיתים קרובות</span><span>כל הזמן</span>
+          </div>
+          <div id="parent-attention-items"></div>
         </div>
-        <div id="parent-attention-items"></div>
-    </div>
 
-    <!-- PARENT: מצב רגשי -->
-    <div class="section">
-        <div class="section-title">מצב רגשי והתנהגותי</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- PARENT: מצב רגשי -->
+        <div class="section">
+          <div class="section-title">מצב רגשי והתנהגותי</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>אף פעם</span><span>לפעמים</span><span>לעיתים קרובות</span><span>כל הזמן</span>
+          </div>
+          <div id="parent-emotional-items"></div>
         </div>
-        <div id="parent-emotional-items"></div>
-    </div>
 
-    <!-- PARENT: תגובות חושים -->
-    <div class="section">
-        <div class="section-title">תגובות מערכות החושים</div>
-        <div class="section-subtitle">סמנו את התגובה האופיינית לכל גירוי</div>
-        <div class="scale-header">
-            <span style="flex:2">אוהב/רגיל</span><span style="flex:2">נרתע/נמנע</span><span style="flex:2">מחפש/מגזים</span><span style="flex:3">הערות</span>
+        <!-- PARENT: תגובות חושים -->
+        <div class="section">
+          <div class="section-title">תגובות מערכות החושים</div>
+          <div class="section-subtitle">סמנו את התגובה האופיינית לכל גירוי</div>
+          <div class="scale-header">
+            <span style="flex: 2">אוהב/רגיל</span><span style="flex: 2">נרתע/נמנע</span
+            ><span style="flex: 2">מחפש/מגזים</span><span style="flex: 3">הערות</span>
+          </div>
+          <div id="parent-sensory-items"></div>
         </div>
-        <div id="parent-sensory-items"></div>
-    </div>
 
-    <!-- PARENT: פעילות בחצר ולמידה -->
-    <div class="section">
-        <div class="section-title">פעילות בחצר, תנועה, פני ולמידה</div>
-        <div class="section-subtitle">דרגו כל פריט</div>
-        <div class="scale-header">
+        <!-- PARENT: פעילות בחצר ולמידה -->
+        <div class="section">
+          <div class="section-title">פעילות בחצר, תנועה, פני ולמידה</div>
+          <div class="section-subtitle">דרגו כל פריט</div>
+          <div class="scale-header">
             <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאד</span>
+          </div>
+          <div id="parent-activity-items"></div>
         </div>
-        <div id="parent-activity-items"></div>
-    </div>
 
-    <!-- PARENT: תפקוד חברתי -->
-    <div class="section">
-        <div class="section-title">התפקוד החברתי</div>
-        <div class="scale-header">
+        <!-- PARENT: תפקוד חברתי -->
+        <div class="section">
+          <div class="section-title">התפקוד החברתי</div>
+          <div class="scale-header">
             <span>בדרך כלל</span><span>לעיתים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="parent-social-items"></div>
         </div>
-        <div id="parent-social-items"></div>
-    </div>
 
-    <!-- PARENT: שפה -->
-    <div class="section">
-        <div class="section-title">שפה, הבנה והבעה</div>
-        <div class="scale-header">
+        <!-- PARENT: שפה -->
+        <div class="section">
+          <div class="section-title">שפה, הבנה והבעה</div>
+          <div class="scale-header">
             <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאד</span>
+          </div>
+          <div id="parent-language-items"></div>
         </div>
-        <div id="parent-language-items"></div>
-    </div>
 
-    <!-- PARENT: היגוי -->
-    <div class="section">
-        <div class="section-title">היגוי</div>
-        <div id="parent-pronun-items"></div>
-    </div>
+        <!-- PARENT: היגוי -->
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div id="parent-pronun-items"></div>
+        </div>
 
-    <!-- ============ TEACHER QUESTIONNAIRE ============ -->
-    <div class="form-part-header">חלק ב׳ — שאלון מורה</div>
+        <!-- ============ TEACHER QUESTIONNAIRE ============ -->
+        <div class="form-part-header">חלק ב׳ — שאלון מורה</div>
 
-    <!-- TEACHER: פרטים כלליים -->
-    <div class="section">
-        <div class="section-title">פרטים כלליים</div>
-        <div class="question-row">
+        <!-- TEACHER: פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
             <label class="question-label">תאריך מילוי השאלון:</label>
-            <input type="text" name="t_date" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="question-row">
+            <input type="text" name="t_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
             <label class="question-label">שם בית הספר:</label>
-            <input type="text" name="t_school">
-        </div>
-        <div class="question-row">
+            <input type="text" name="t_school" />
+          </div>
+          <div class="question-row">
             <label class="question-label">סוג מסגרת החינוך:</label>
             <select name="t_school_type">
-                <option value="">— בחרו —</option>
-                <option>חינוך רגיל</option>
-                <option>חינוך מיוחד</option>
+              <option value="">— בחרו —</option>
+              <option>חינוך רגיל</option>
+              <option>חינוך מיוחד</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">כיתה:</label>
-            <input type="text" name="t_class">
+            <input type="text" name="t_class" />
+          </div>
         </div>
-    </div>
 
-    <!-- TEACHER: תיאור כללי של הילד -->
-    <div class="section">
-        <div class="section-title">תיאור כללי של הילד</div>
-        <div class="section-subtitle">סמנו את המאפיינים הבולטים</div>
-        <div id="teacher-general-desc"></div>
-        <div class="question-row" style="margin-top:10px;">
+        <!-- TEACHER: תיאור כללי של הילד -->
+        <div class="section">
+          <div class="section-title">תיאור כללי של הילד</div>
+          <div class="section-subtitle">סמנו את המאפיינים הבולטים</div>
+          <div id="teacher-general-desc"></div>
+          <div class="question-row" style="margin-top: 10px">
             <label class="question-label">הערות נוספות:</label>
             <textarea name="t_general_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- TEACHER: קשב וריכוז -->
-    <div class="section">
-        <div class="section-title">תפקודי קשב וריכוז</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- TEACHER: קשב וריכוז -->
+        <div class="section">
+          <div class="section-title">תפקודי קשב וריכוז</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>אף פעם</span><span>לפעמים</span><span>לעיתים קרובות</span><span>כל הזמן</span>
+          </div>
+          <div id="teacher-attention-items"></div>
         </div>
-        <div id="teacher-attention-items"></div>
-    </div>
 
-    <!-- TEACHER: התנהגות ומצב רגשי -->
-    <div class="section">
-        <div class="section-title">התנהגות ומצב רגשי</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- TEACHER: התנהגות ומצב רגשי -->
+        <div class="section">
+          <div class="section-title">התנהגות ומצב רגשי</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>אף פעם</span><span>לפעמים</span><span>לעיתים קרובות</span><span>כל הזמן</span>
+          </div>
+          <div id="teacher-behavioral-items"></div>
         </div>
-        <div id="teacher-behavioral-items"></div>
-    </div>
 
-    <!-- TEACHER: תפקוד מוטורי -->
-    <div class="section">
-        <div class="section-title">התפקוד המוטורי</div>
-        <div class="scale-header">
+        <!-- TEACHER: תפקוד מוטורי -->
+        <div class="section">
+          <div class="section-title">התפקוד המוטורי</div>
+          <div class="scale-header">
             <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאד</span>
+          </div>
+          <div id="teacher-motor-items"></div>
         </div>
-        <div id="teacher-motor-items"></div>
-    </div>
 
-    <!-- TEACHER: תפקוד חברתי ותקשורתי -->
-    <div class="section">
-        <div class="section-title">תפקוד חברתי ותקשורתי</div>
-        <div class="scale-header">
+        <!-- TEACHER: תפקוד חברתי ותקשורתי -->
+        <div class="section">
+          <div class="section-title">תפקוד חברתי ותקשורתי</div>
+          <div class="scale-header">
             <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאד</span>
+          </div>
+          <div id="teacher-social-items"></div>
+          <div style="margin-top: 14px" id="teacher-social-yn"></div>
         </div>
-        <div id="teacher-social-items"></div>
-        <div style="margin-top:14px;" id="teacher-social-yn"></div>
-    </div>
 
-    <!-- TEACHER: שפה והבנה -->
-    <div class="section">
-        <div class="section-title">שפה: הבנה והבעה</div>
-        <div class="scale-header">
+        <!-- TEACHER: שפה והבנה -->
+        <div class="section">
+          <div class="section-title">שפה: הבנה והבעה</div>
+          <div class="scale-header">
             <span>בדרך כלל</span><span>לעיתים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="teacher-language-items"></div>
         </div>
-        <div id="teacher-language-items"></div>
-    </div>
 
-    <!-- TEACHER: היגוי -->
-    <div class="section">
-        <div class="section-title">היגוי</div>
-        <div id="teacher-pronun-items"></div>
-    </div>
+        <!-- TEACHER: היגוי -->
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div id="teacher-pronun-items"></div>
+        </div>
 
-    <!-- TEACHER: לימודים -->
-    <div class="section">
-        <div class="section-title">לימודים</div>
-        <div class="question-row">
+        <!-- TEACHER: לימודים -->
+        <div class="section">
+          <div class="section-title">לימודים</div>
+          <div class="question-row">
             <label class="question-label">האם הישגיו בלימודים תואמים את הישגים של בני גילו?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="t_acad_ok" id="t_ac_y" value="כן"><label for="t_ac_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="t_acad_ok" id="t_ac_n" value="לא"><label for="t_ac_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="t_acad_ok" id="t_ac_y" value="כן" /><label for="t_ac_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="t_acad_ok" id="t_ac_n" value="לא" /><label for="t_ac_n"
+                  >לא</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">באילו תחומים הוא מתקשה?</label>
             <textarea name="t_acad_diff" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם הוא מקבל טיפול תרופתי כגון ריטלין?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="t_medication" id="t_med_y" value="כן"><label for="t_med_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="t_medication" id="t_med_n" value="לא"><label for="t_med_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="t_medication" id="t_med_y" value="כן" /><label
+                  for="t_med_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="t_medication" id="t_med_n" value="לא" /><label
+                  for="t_med_n"
+                  >לא</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
-            <label class="question-label">במידה וכן, האם יש שינויים בתפקודו תחת השפעת התרופה? באיזה תפקוד?</label>
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >במידה וכן, האם יש שינויים בתפקודו תחת השפעת התרופה? באיזה תפקוד?</label
+            >
             <textarea name="t_med_effects" rows="2" placeholder="תארו שינויים..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם הוא קיבל הוראה מתקנת או תגבור במהלך השנה?</label>
             <textarea name="t_accommodations" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם יזדקק להוראה מתקנת או לתגבור בשנה הבאה?</label>
             <textarea name="t_next_year" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">האם לדעתך הוא מתאים למסגרת החינוכית שבו נמצא?</label>
             <textarea name="t_framework" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
         </div>
+
+        <button type="button" class="btn-primary" onclick="printForm('combined')">
+          הדפסה / שמירה כ-PDF
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
     </div>
 
-    <button type="button" class="btn-primary" onclick="printForm('combined')">
-        הדפסה / שמירה כ-PDF
-    </button>
-    <p class="print-note" style="text-align:center; margin-top:8px; font-size:12px; color:#999;">
-        בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
-    </p>
-
-    </form>
-</div>
-
-<!-- ============================================ -->
-<!-- SIDE A — QUESTIONNAIRE FORM                  -->
-<!-- ============================================ -->
-<div id="sideA" class="container hidden">
-    <div class="page-header">
+    <!-- ============================================ -->
+    <!-- SIDE A — QUESTIONNAIRE FORM                  -->
+    <!-- ============================================ -->
+    <div id="sideA" class="container hidden">
+      <div class="page-header">
         <h1>שאלון מורה/רב — ילד מעל גיל 6</h1>
         <p>מילוי ע״י מורה, גננת או רב</p>
         <div class="privacy-notice">
-            <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה.
-            פרטי הילד יישלחו בנפרד באימייל למרפאה.
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד באימייל למרפאה.
         </div>
-    </div>
+      </div>
 
-    <form id="questionnaireForm" onsubmit="return false;">
+      <form id="questionnaireForm" onsubmit="return false;">
+        <!-- ===== SECTION 2: התנהגות ===== -->
+        <div class="section" id="sec2">
+          <div class="section-title">התנהגות ומצב רוח</div>
+          <div class="section-subtitle">תארו את ההתנהגות הכללית של הילד/ה</div>
 
-    <!-- ===== SECTION 2: התנהגות ===== -->
-    <div class="section" id="sec2">
-        <div class="section-title">התנהגות ומצב רוח</div>
-        <div class="section-subtitle">תארו את ההתנהגות הכללית של הילד/ה</div>
-
-        <div class="question-row">
+          <div class="question-row">
             <label class="question-label">מצב רוח כללי של הילד/ה:</label>
             <select name="mood">
-                <option value="">— בחרו —</option>
-                <option value="שמח ומרוצה רוב הזמן">שמח ומרוצה רוב הזמן</option>
-                <option value="משתנה — לפעמים שמח, לפעמים עצוב">משתנה — לפעמים שמח, לפעמים עצוב</option>
-                <option value="מתוסכל או עצבני לעיתים קרובות">מתוסכל או עצבני לעיתים קרובות</option>
-                <option value="מסוגר ושקט רוב הזמן">מסוגר ושקט רוב הזמן</option>
+              <option value="">— בחרו —</option>
+              <option value="שמח ומרוצה רוב הזמן">שמח ומרוצה רוב הזמן</option>
+              <option value="משתנה — לפעמים שמח, לפעמים עצוב">
+                משתנה — לפעמים שמח, לפעמים עצוב
+              </option>
+              <option value="מתוסכל או עצבני לעיתים קרובות">מתוסכל או עצבני לעיתים קרובות</option>
+              <option value="מסוגר ושקט רוב הזמן">מסוגר ושקט רוב הזמן</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">כיצד הילד/ה מגיב/ה לשינויים בשגרה?</label>
             <select name="routine_change">
-                <option value="">— בחרו —</option>
-                <option value="מסתגל בקלות">מסתגל/ת בקלות</option>
-                <option value="צריך זמן אבל מסתגל">צריך/ה זמן אבל מסתגל/ת</option>
-                <option value="מתקשה מאוד עם שינויים">מתקשה מאוד עם שינויים</option>
+              <option value="">— בחרו —</option>
+              <option value="מסתגל בקלות">מסתגל/ת בקלות</option>
+              <option value="צריך זמן אבל מסתגל">צריך/ה זמן אבל מסתגל/ת</option>
+              <option value="מתקשה מאוד עם שינויים">מתקשה מאוד עם שינויים</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">כיצד הילד/ה מתמודד/ת עם כישלון או תסכול?</label>
             <select name="frustration">
-                <option value="">— בחרו —</option>
-                <option value="מתמודד בצורה סבירה">מתמודד/ת בצורה סבירה</option>
-                <option value="מתוסכל אך נרגע עם תמיכה">מתוסכל/ת אך נרגע/ת עם תמיכה</option>
-                <option value="תגובות קיצוניות — בכי, כעס, ויתור">תגובות קיצוניות — בכי, כעס, ויתור</option>
+              <option value="">— בחרו —</option>
+              <option value="מתמודד בצורה סבירה">מתמודד/ת בצורה סבירה</option>
+              <option value="מתוסכל אך נרגע עם תמיכה">מתוסכל/ת אך נרגע/ת עם תמיכה</option>
+              <option value="תגובות קיצוניות — בכי, כעס, ויתור">
+                תגובות קיצוניות — בכי, כעס, ויתור
+              </option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">הערות נוספות לגבי התנהגות:</label>
             <textarea name="behavior_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- ===== SECTION 3: קשב ===== -->
-    <div class="section" id="sec3">
-        <div class="section-title">תפקודי קשב</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 3: קשב ===== -->
+        <div class="section" id="sec3">
+          <div class="section-title">תפקודי קשב</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>תמיד</span><span>לעיתים קרובות</span><span>לעיתים רחוקות</span><span>אף פעם</span>
+          </div>
+          <div id="attention-items"></div>
         </div>
-        <div id="attention-items"></div>
-    </div>
 
-    <!-- ===== SECTION 4: חצר/התעמלות ===== -->
-    <div class="section" id="sec4">
-        <div class="section-title">פעילות בחצר / התעמלות</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 4: חצר/התעמלות ===== -->
+        <div class="section" id="sec4">
+          <div class="section-title">פעילות בחצר / התעמלות</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>תמיד</span><span>לעיתים קרובות</span><span>לעיתים רחוקות</span><span>אף פעם</span>
+          </div>
+          <div id="pe-items"></div>
         </div>
-        <div id="pe-items"></div>
-    </div>
 
-    <!-- ===== SECTION 5: תחושה ===== -->
-    <div class="section" id="sec5">
-        <div class="section-title">תחושה (סנסורי)</div>
-        <div class="section-subtitle">סמנו את התגובה האופיינית של הילד/ה</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 5: תחושה ===== -->
+        <div class="section" id="sec5">
+          <div class="section-title">תחושה (סנסורי)</div>
+          <div class="section-subtitle">סמנו את התגובה האופיינית של הילד/ה</div>
+          <div class="scale-header">
             <span>אוהב/ת</span><span>נמנע/ת</span><span>נרתע/ת</span><span>מחפש/ת</span>
+          </div>
+          <div id="sensory-items"></div>
         </div>
-        <div id="sensory-items"></div>
-    </div>
 
-    <!-- ===== SECTION 6: התארגנות בכיתה ===== -->
-    <div class="section" id="sec6">
-        <div class="section-title">התארגנות בכיתה</div>
-        <div class="section-subtitle">דרגו כל פריט</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 6: התארגנות בכיתה ===== -->
+        <div class="section" id="sec6">
+          <div class="section-title">התארגנות בכיתה</div>
+          <div class="section-subtitle">דרגו כל פריט</div>
+          <div class="scale-header">
             <span>עצמאי</span><span>זקוק לעזרה</span><span>לא מצליח</span>
+          </div>
+          <div id="org-items"></div>
         </div>
-        <div id="org-items"></div>
-    </div>
 
-    <!-- ===== SECTION 7: מוטוריקה עדינה ===== -->
-    <div class="section" id="sec7">
-        <div class="section-title">מוטוריקה עדינה</div>
-        <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 7: מוטוריקה עדינה ===== -->
+        <div class="section" id="sec7">
+          <div class="section-title">מוטוריקה עדינה</div>
+          <div class="section-subtitle">דרגו כל פריט לפי תדירות</div>
+          <div class="scale-header">
             <span>תמיד</span><span>לעיתים קרובות</span><span>לעיתים רחוקות</span><span>אף פעם</span>
+          </div>
+          <div id="finemotor-items"></div>
         </div>
-        <div id="finemotor-items"></div>
-    </div>
 
-    <!-- ===== SECTION 8: כתיבה ===== -->
-    <div class="section" id="sec8">
-        <div class="section-title">כתיבה</div>
-        <div class="section-subtitle">דרגו כל פריט</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 8: כתיבה ===== -->
+        <div class="section" id="sec8">
+          <div class="section-title">כתיבה</div>
+          <div class="section-subtitle">דרגו כל פריט</div>
+          <div class="scale-header">
             <span>תקין</span><span>קושי מסוים</span><span>קושי משמעותי</span>
+          </div>
+          <div id="writing-items"></div>
         </div>
-        <div id="writing-items"></div>
-    </div>
 
-    <!-- ===== SECTION 9: חברתי ותקשורתי ===== -->
-    <div class="section" id="sec9">
-        <div class="section-title">תפקוד חברתי ותקשורתי</div>
-        <div class="section-subtitle">דרגו כל פריט</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 9: חברתי ותקשורתי ===== -->
+        <div class="section" id="sec9">
+          <div class="section-title">תפקוד חברתי ותקשורתי</div>
+          <div class="section-subtitle">דרגו כל פריט</div>
+          <div class="scale-header">
             <span>תקין</span><span>קושי מסוים</span><span>קושי משמעותי</span>
+          </div>
+          <div id="social-items"></div>
         </div>
-        <div id="social-items"></div>
-    </div>
 
-    <!-- ===== SECTION 10: שפה ===== -->
-    <div class="section" id="sec10">
-        <div class="section-title">שפה</div>
-        <div class="section-subtitle">דרגו כל פריט</div>
-        <div class="scale-header">
+        <!-- ===== SECTION 10: שפה ===== -->
+        <div class="section" id="sec10">
+          <div class="section-title">שפה</div>
+          <div class="section-subtitle">דרגו כל פריט</div>
+          <div class="scale-header">
             <span>תקין</span><span>קושי מסוים</span><span>קושי משמעותי</span>
+          </div>
+          <div id="language-items"></div>
         </div>
-        <div id="language-items"></div>
-    </div>
 
-    <!-- ===== SECTION 11: הגוי ===== -->
-    <div class="section" id="sec11">
-        <div class="section-title">הגוי (הגייה)</div>
-        <div class="section-subtitle">ענו כן או לא</div>
-        <div id="pronun-items"></div>
-    </div>
+        <!-- ===== SECTION 11: הגוי ===== -->
+        <div class="section" id="sec11">
+          <div class="section-title">הגוי (הגייה)</div>
+          <div class="section-subtitle">ענו כן או לא</div>
+          <div id="pronun-items"></div>
+        </div>
 
-    <!-- ===== SECTION 12: לימודים ===== -->
-    <div class="section" id="sec12">
-        <div class="section-title">לימודים</div>
-        <div class="section-subtitle">תארו את הרמה הלימודית</div>
-        <div class="question-row">
+        <!-- ===== SECTION 12: לימודים ===== -->
+        <div class="section" id="sec12">
+          <div class="section-title">לימודים</div>
+          <div class="section-subtitle">תארו את הרמה הלימודית</div>
+          <div class="question-row">
             <label class="question-label">רמת הקריאה:</label>
             <select name="reading_level">
-                <option value="">— בחרו —</option>
-                <option value="מתאימה לגיל">מתאימה לגיל</option>
-                <option value="מתחת לרמת הגיל">מתחת לרמת הגיל</option>
-                <option value="קושי משמעותי">קושי משמעותי</option>
+              <option value="">— בחרו —</option>
+              <option value="מתאימה לגיל">מתאימה לגיל</option>
+              <option value="מתחת לרמת הגיל">מתחת לרמת הגיל</option>
+              <option value="קושי משמעותי">קושי משמעותי</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">רמת החשבון:</label>
             <select name="math_level">
-                <option value="">— בחרו —</option>
-                <option value="מתאימה לגיל">מתאימה לגיל</option>
-                <option value="מתחת לרמת הגיל">מתחת לרמת הגיל</option>
-                <option value="קושי משמעותי">קושי משמעותי</option>
+              <option value="">— בחרו —</option>
+              <option value="מתאימה לגיל">מתאימה לגיל</option>
+              <option value="מתחת לרמת הגיל">מתחת לרמת הגיל</option>
+              <option value="קושי משמעותי">קושי משמעותי</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">הערות לגבי הלימודים:</label>
             <textarea name="academics_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- ===== SECTION 13: סיכום ===== -->
-    <div class="section" id="sec13">
-        <div class="section-title">סיכום והמלצות</div>
-        <div class="section-subtitle">סכמו את הנקודות העיקריות</div>
-        <div class="question-row">
+        <!-- ===== SECTION 13: סיכום ===== -->
+        <div class="section" id="sec13">
+          <div class="section-title">סיכום והמלצות</div>
+          <div class="section-subtitle">סכמו את הנקודות העיקריות</div>
+          <div class="question-row">
             <label class="question-label">מהם התחומים שבהם הילד/ה מצטיין/ת?</label>
             <textarea name="strengths" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">מהם התחומים שבהם הילד/ה מתקשה?</label>
             <textarea name="difficulties" rows="2" placeholder="כתבו כאן..."></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">המלצות או הערות נוספות:</label>
             <textarea name="recommendations" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
         </div>
+
+        <button type="button" class="btn-primary" onclick="printForm('sideA')">
+          הדפסה / שמירה כ-PDF
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
     </div>
 
-    <button type="button" class="btn-primary" onclick="printForm('sideA')">
-        הדפסה / שמירה כ-PDF
-    </button>
-    <p class="print-note" style="text-align:center; margin-top:8px; font-size:12px; color:#999;">
-        בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
-    </p>
-
-    </form>
-</div>
-
-<!-- ============================================ -->
-<!-- TAB 2 — PARENT QUESTIONNAIRE (OVER AGE 3)   -->
-<!-- ============================================ -->
-<div id="parentsOver3" class="container hidden">
-    <div class="page-header">
+    <!-- ============================================ -->
+    <!-- TAB 2 — PARENT QUESTIONNAIRE (OVER AGE 3)   -->
+    <!-- ============================================ -->
+    <div id="parentsOver3" class="container hidden">
+      <div class="page-header">
         <h1>שאלון להורים — לילד מעל גיל 3</h1>
         <p>מילוי ע״י הורים בלבד · מחוז ירושלים</p>
         <div class="privacy-notice">
-            <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו בנפרד.
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד.
         </div>
-    </div>
-    <form id="parentsOver3Form" onsubmit="return false;">
-
-    <!-- פרטים אישיים -->
-    <div class="section">
-        <div class="section-title">פרטים אישיים</div>
-        <div class="question-row">
+      </div>
+      <form id="parentsOver3Form" onsubmit="return false;">
+        <!-- פרטים אישיים -->
+        <div class="section">
+          <div class="section-title">פרטים אישיים</div>
+          <div class="question-row">
             <label class="question-label">תאריך מילוי השאלון:</label>
-            <input type="text" name="po3_date" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מין הילד:</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_gender" id="po3_gm" value="זכר"><label for="po3_gm">זכר</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_gender" id="po3_gf" value="נקבה"><label for="po3_gf">נקבה</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_gender" id="po3_gm" value="זכר" /><label for="po3_gm"
+                  >זכר</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_gender" id="po3_gf" value="נקבה" /><label for="po3_gf"
+                  >נקבה</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">תאריך לידה:</label>
-            <input type="text" name="po3_dob" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_dob" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מסגרת חינוכית:</label>
             <select name="po3_school_type">
-                <option value="">— בחרו —</option>
-                <option>טרום חובה</option>
-                <option>חובה</option>
-                <option>כיתה א׳ ומעלה</option>
-                <option>חינוך מיוחד</option>
-                <option>תלמוד תורה</option>
+              <option value="">— בחרו —</option>
+              <option>טרום חובה</option>
+              <option>חובה</option>
+              <option>כיתה א׳ ומעלה</option>
+              <option>חינוך מיוחד</option>
+              <option>תלמוד תורה</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">שפות מדוברות בבית:</label>
-            <input type="text" name="po3_languages">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_languages" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מי יזם את הפנייה להתפתחות הילד?</label>
             <select name="po3_referral_source">
-                <option value="">— בחרו —</option>
-                <option>גננת/מורה</option>
-                <option>רופא</option>
-                <option>באופן עצמאי</option>
-                <option>אחר</option>
+              <option value="">— בחרו —</option>
+              <option>גננת/מורה</option>
+              <option>רופא</option>
+              <option>באופן עצמאי</option>
+              <option>אחר</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">מדוע פניתם — קשיים בבית:</label>
             <textarea name="po3_concerns_home" rows="2"></textarea>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">קשיים במסגרת החינוכית:</label>
             <textarea name="po3_concerns_school" rows="2"></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- רקע משפחתי -->
-    <div class="section">
-        <div class="section-title">רקע משפחתי</div>
-        <div class="question-row">
+        <!-- רקע משפחתי -->
+        <div class="section">
+          <div class="section-title">רקע משפחתי</div>
+          <div class="question-row">
             <label class="question-label">מצב משפחתי:</label>
             <select name="po3_family_status">
-                <option value="">— בחרו —</option>
-                <option>נשואים</option>
-                <option>גרושים</option>
-                <option>פרודים</option>
-                <option>משפחה חד הורית</option>
-                <option>אחר</option>
+              <option value="">— בחרו —</option>
+              <option>נשואים</option>
+              <option>גרושים</option>
+              <option>פרודים</option>
+              <option>משפחה חד הורית</option>
+              <option>אחר</option>
             </select>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">מספר אחים/יות (פרט גילאים):</label>
-            <input type="text" name="po3_siblings">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_siblings" />
+          </div>
+          <div class="question-row">
             <label class="question-label">האם אחד האחים במסגרת חינוך מיוחד או טופל?</label>
-            <input type="text" name="po3_sibling_special" placeholder="פרט...">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_sibling_special" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
             <label class="question-label">בעיות התפתחות במשפחה:</label>
-            <input type="text" name="po3_family_dev_issues">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_family_dev_issues" />
+          </div>
+          <div class="question-row">
             <label class="question-label">אירועים מיוחדים/משמעותיים בחיי הילד:</label>
-            <input type="text" name="po3_life_events">
+            <input type="text" name="po3_life_events" />
+          </div>
         </div>
-    </div>
 
-    <!-- רקע טיפולי -->
-    <div class="section">
-        <div class="section-title">רקע טיפולי</div>
-        <div class="question-row">
+        <!-- רקע טיפולי -->
+        <div class="section">
+          <div class="section-title">רקע טיפולי</div>
+          <div class="question-row">
             <label class="question-label">האם טופל בעבר/כיום? (סמנו הכל שרלוונטי)</label>
-            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; direction:rtl;">
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_comm"> קלינאות תקשורת</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_ot"> ריפוי בעיסוק</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_pt"> פיזיותרפיה</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_psych"> טיפול רגשי/פסיכולוגי</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_speech"> גננת שיח</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_diag"> אבחון דידקטי/נוירולוג</label>
-                <label style="display:flex;align-items:center;gap:4px;font-size:13px;"><input type="checkbox" name="po3_tx_other"> אחר</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; direction: rtl">
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_comm" /> קלינאות תקשורת</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_ot" /> ריפוי בעיסוק</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_pt" /> פיזיותרפיה</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_psych" /> טיפול רגשי/פסיכולוגי</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_speech" /> גננת שיח</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_diag" /> אבחון דידקטי/נוירולוג</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="po3_tx_other" /> אחר</label
+              >
             </div>
-            <textarea name="po3_tx_notes" rows="2" placeholder="פרטים / לצרך דוחות סיכום אבחון..." style="margin-top:8px;"></textarea>
+            <textarea
+              name="po3_tx_notes"
+              rows="2"
+              placeholder="פרטים / לצרך דוחות סיכום אבחון..."
+              style="margin-top: 8px"
+            ></textarea>
+          </div>
         </div>
-    </div>
 
-    <!-- רקע רפואי והתפתחותי -->
-    <div class="section">
-        <div class="section-title">רקע רפואי והתפתחותי</div>
-        <div class="question-row">
+        <!-- רקע רפואי והתפתחותי -->
+        <div class="section">
+          <div class="section-title">רקע רפואי והתפתחותי</div>
+          <div class="question-row">
             <label class="question-label">1. האם ההריון היה תקין?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_preg" id="po3_preg_y" value="כן"><label for="po3_preg_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_preg" id="po3_preg_n" value="לא"><label for="po3_preg_n">לא, פרט:</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_preg" id="po3_preg_y" value="כן" /><label
+                  for="po3_preg_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_preg" id="po3_preg_n" value="לא" /><label
+                  for="po3_preg_n"
+                  >לא, פרט:</label
+                >
+              </div>
             </div>
-            <input type="text" name="po3_preg_notes" placeholder="פרט..." style="margin-top:6px;">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_preg_notes" placeholder="פרט..." style="margin-top: 6px" />
+          </div>
+          <div class="question-row">
             <label class="question-label">2. האם הלידה הייתה רגילה?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_birth" id="po3_birth_y" value="כן"><label for="po3_birth_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_birth" id="po3_birth_n" value="לא"><label for="po3_birth_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_birth" id="po3_birth_y" value="כן" /><label
+                  for="po3_birth_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_birth" id="po3_birth_n" value="לא" /><label
+                  for="po3_birth_n"
+                  >לא</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">3. האם הלידה הייתה במועד?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_term" id="po3_term_y" value="כן"><label for="po3_term_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_term" id="po3_term_n" value="לא"><label for="po3_term_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_term" id="po3_term_y" value="כן" /><label
+                  for="po3_term_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_term" id="po3_term_n" value="לא" /><label
+                  for="po3_term_n"
+                  >לא</label
+                >
+              </div>
             </div>
-            <input type="text" name="po3_birth_week" placeholder="באיזה שבוע נולד הילד?" style="margin-top:6px;">
-        </div>
-        <div class="question-row">
+            <input
+              type="text"
+              name="po3_birth_week"
+              placeholder="באיזה שבוע נולד הילד?"
+              style="margin-top: 6px"
+            />
+          </div>
+          <div class="question-row">
             <label class="question-label">4. משקל לידה:</label>
-            <input type="text" name="po3_birth_weight" placeholder="ק״ג">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_birth_weight" placeholder="ק״ג" />
+          </div>
+          <div class="question-row">
             <label class="question-label">5. האם היו בעיות לאחר הלידה?</label>
-            <input type="text" name="po3_postbirth">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_postbirth" />
+          </div>
+          <div class="question-row">
             <label class="question-label">6. האם הילד סבל ממחלה מתמשכת בינקותו?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_chronic" id="po3_chr_y" value="כן"><label for="po3_chr_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_chronic" id="po3_chr_n" value="לא"><label for="po3_chr_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_chronic" id="po3_chr_y" value="כן" /><label
+                  for="po3_chr_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_chronic" id="po3_chr_n" value="לא" /><label
+                  for="po3_chr_n"
+                  >לא</label
+                >
+              </div>
             </div>
-            <input type="text" name="po3_chronic_notes" placeholder="פרט..." style="margin-top:6px;">
-        </div>
-        <div class="question-row">
-            <label class="question-label">האם הילד/ה סובל/ת כיום ממחלה כלשהי? האם מקבל/ת תרופות?</label>
-            <input type="text" name="po3_current_illness" placeholder="פרט...">
-        </div>
-        <div class="question-row">
+            <input
+              type="text"
+              name="po3_chronic_notes"
+              placeholder="פרט..."
+              style="margin-top: 6px"
+            />
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >האם הילד/ה סובל/ת כיום ממחלה כלשהי? האם מקבל/ת תרופות?</label
+            >
+            <input type="text" name="po3_current_illness" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
             <label class="question-label">האם ההתפתחות המוטורית הייתה בזמן?</label>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
-                <input type="text" name="po3_crawl" placeholder="זחילה">
-                <input type="text" name="po3_sit" placeholder="ישיבה">
-                <input type="text" name="po3_stand" placeholder="עמידה">
-                <input type="text" name="po3_walk" placeholder="הליכה">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px">
+              <input type="text" name="po3_crawl" placeholder="זחילה" />
+              <input type="text" name="po3_sit" placeholder="ישיבה" />
+              <input type="text" name="po3_stand" placeholder="עמידה" />
+              <input type="text" name="po3_walk" placeholder="הליכה" />
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">7. בדיקת ראייה — מתי ותוצאות:</label>
-            <input type="text" name="po3_vision">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_vision" />
+          </div>
+          <div class="question-row">
             <label class="question-label">8. בדיקת שמיעה — מתי ותוצאות:</label>
-            <input type="text" name="po3_hearing">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_hearing" />
+          </div>
+          <div class="question-row">
             <label class="question-label">9. האם ילדך עבר ניתוחים (כפתורים, פוליפים)?</label>
-            <input type="text" name="po3_surgeries">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_surgeries" />
+          </div>
+          <div class="question-row">
             <label class="question-label">10. האם הילד נגמל מחיתולים? מתי?</label>
-            <input type="text" name="po3_potty">
+            <input type="text" name="po3_potty" />
+          </div>
         </div>
-    </div>
 
-    <!-- התנהגות -->
-    <div class="section">
-        <div class="section-title">תפקוד הילד/ה — התנהגות</div>
-        <div class="section-subtitle">תאר את ילדך על פי האפיונים הבאים</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+        <!-- התנהגות -->
+        <div class="section">
+          <div class="section-title">תפקוד הילד/ה — התנהגות</div>
+          <div class="section-subtitle">תאר את ילדך על פי האפיונים הבאים</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="po3-behavior-items"></div>
         </div>
-        <div id="po3-behavior-items"></div>
-    </div>
 
-    <!-- עצמאות ותלות -->
-    <div class="section">
-        <div class="section-title">עצמאות ותלות</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>עצמאי בדר״כ</span><span>לפעמים תלוי</span><span>תלוי במבוגר</span>
-        </div>
-        <div id="po3-independence-items"></div>
-        <div class="question-row" style="margin-top:8px;">
+        <!-- עצמאות ותלות -->
+        <div class="section">
+          <div class="section-title">עצמאות ותלות</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>עצמאי בדר״כ</span><span>לפעמים תלוי</span
+            ><span>תלוי במבוגר</span>
+          </div>
+          <div id="po3-independence-items"></div>
+          <div class="question-row" style="margin-top: 8px">
             <label class="question-label">האם מתלכלך בזמן האכילה/שתייה?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_messy" id="po3_messy_y" value="כן"><label for="po3_messy_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_messy" id="po3_messy_n" value="לא"><label for="po3_messy_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_messy" id="po3_messy_y" value="כן" /><label
+                  for="po3_messy_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_messy" id="po3_messy_n" value="לא" /><label
+                  for="po3_messy_n"
+                  >לא</label
+                >
+              </div>
             </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_indep_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_indep_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- תחושה -->
-    <div class="section">
-        <div class="section-title">תחושה (סנסורי)</div>
-        <div class="section-subtitle">סמנו את התגובה האופיינית לכל גירוי</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>אוהב/רגיל</span><span>נרתע/נמנע</span><span>מחפש/מגזים</span>
-        </div>
-        <div id="po3-sensory1-items"></div>
-        <div style="margin-top:14px;">
+        <!-- תחושה -->
+        <div class="section">
+          <div class="section-title">תחושה (סנסורי)</div>
+          <div class="section-subtitle">סמנו את התגובה האופיינית לכל גירוי</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>אוהב/רגיל</span><span>נרתע/נמנע</span
+            ><span>מחפש/מגזים</span>
+          </div>
+          <div id="po3-sensory1-items"></div>
+          <div style="margin-top: 14px">
             <div class="section-subtitle">רגישויות — דרגו לפי תדירות</div>
             <div class="scale-header">
-                <span style="flex:3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+              <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+              ><span>לעיתים רחוקות</span>
             </div>
             <div id="po3-sensory2-items"></div>
-        </div>
-        <div class="question-row" style="margin-top:8px;">
+          </div>
+          <div class="question-row" style="margin-top: 8px">
             <label class="question-label">בזמן האוכל: מסתעל/מריייר/מוציא אוכל/מתעייף?</label>
-            <input type="text" name="po3_oral_notes">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_oral_notes" />
+          </div>
+          <div class="question-row">
             <label class="question-label">האם ילדך ישן היטב? האם נוחר בלילה?</label>
-            <input type="text" name="po3_sleep">
+            <input type="text" name="po3_sleep" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_sensory_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_sensory_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- פעילות בחצר ותנועה -->
-    <div class="section">
-        <div class="section-title">פעילות בחצר ותנועה</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
-        </div>
-        <div id="po3-gross-items"></div>
-        <div class="question-row" style="margin-top:8px;">
+        <!-- פעילות בחצר ותנועה -->
+        <div class="section">
+          <div class="section-title">פעילות בחצר ותנועה</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="po3-gross-items"></div>
+          <div class="question-row" style="margin-top: 8px">
             <label class="question-label">האם מתעייף בקלות?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_fatigue" id="po3_fat_y" value="כן"><label for="po3_fat_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_fatigue" id="po3_fat_n" value="לא"><label for="po3_fat_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_fatigue" id="po3_fat_y" value="כן" /><label
+                  for="po3_fat_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_fatigue" id="po3_fat_n" value="לא" /><label
+                  for="po3_fat_n"
+                  >לא</label
+                >
+              </div>
             </div>
-        </div>
-        <div class="question-row">
+          </div>
+          <div class="question-row">
             <label class="question-label">מסורבל, נופל לעיתים?</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_clumsy" id="po3_clm_y" value="כן"><label for="po3_clm_y">כן</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_clumsy" id="po3_clm_n" value="לא"><label for="po3_clm_n">לא</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_clumsy" id="po3_clm_y" value="כן" /><label
+                  for="po3_clm_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_clumsy" id="po3_clm_n" value="לא" /><label
+                  for="po3_clm_n"
+                  >לא</label
+                >
+              </div>
             </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_gross_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_gross_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- מוטוריקה עדינה -->
-    <div class="section">
-        <div class="section-title">מוטוריקה עדינה</div>
-        <div class="question-row">
+        <!-- מוטוריקה עדינה -->
+        <div class="section">
+          <div class="section-title">מוטוריקה עדינה</div>
+          <div class="question-row">
             <label class="question-label">דומיננטיות ידנית:</label>
             <div class="yesno-row">
-                <div class="yesno-option"><input type="radio" name="po3_hand" id="po3_hand_r" value="ימין"><label for="po3_hand_r">ימין</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_hand" id="po3_hand_l" value="שמאל"><label for="po3_hand_l">שמאל</label></div>
-                <div class="yesno-option"><input type="radio" name="po3_hand" id="po3_hand_m" value="מחליף"><label for="po3_hand_m">מחליף ידיים</label></div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_hand" id="po3_hand_r" value="ימין" /><label
+                  for="po3_hand_r"
+                  >ימין</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_hand" id="po3_hand_l" value="שמאל" /><label
+                  for="po3_hand_l"
+                  >שמאל</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_hand" id="po3_hand_m" value="מחליף" /><label
+                  for="po3_hand_m"
+                  >מחליף ידיים</label
+                >
+              </div>
             </div>
+          </div>
+          <div class="scale-header" style="margin-top: 8px">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="po3-fine-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_fine_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div class="scale-header" style="margin-top:8px;">
-            <span style="flex:3"></span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
-        </div>
-        <div id="po3-fine-items"></div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_fine_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- תפקוד בבית ספר -->
-    <div class="section">
-        <div class="section-title">תפקוד בבית ספר (אם רלוונטי)</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>זקוק לעזרה</span>
+        <!-- תפקוד בבית ספר -->
+        <div class="section">
+          <div class="section-title">תפקוד בבית ספר (אם רלוונטי)</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>זקוק לעזרה</span>
+          </div>
+          <div id="po3-school-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_school_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div id="po3-school-items"></div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_school_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- משחק ופנאי -->
-    <div class="section">
-        <div class="section-title">משחק ופנאי</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
-        </div>
-        <div id="po3-play-items"></div>
-        <div class="question-row" style="margin-top:8px;">
+        <!-- משחק ופנאי -->
+        <div class="section">
+          <div class="section-title">משחק ופנאי</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="po3-play-items"></div>
+          <div class="question-row" style="margin-top: 8px">
             <label class="question-label">האם ילדך משתתף בחוגים? אילו?</label>
-            <input type="text" name="po3_clubs">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_clubs" />
+          </div>
+          <div class="question-row">
             <label class="question-label">מה ילדך מעדיף לעשות בשעות הפנאי?</label>
-            <input type="text" name="po3_leisure">
-        </div>
-        <div class="question-row">
+            <input type="text" name="po3_leisure" />
+          </div>
+          <div class="question-row">
             <label class="question-label">באיזה משחקים נהנה ילדך לשחק בבית?</label>
-            <input type="text" name="po3_home_play" placeholder="קופסא / פזל / בנייה / טלוויזיה / מחשב...">
+            <input
+              type="text"
+              name="po3_home_play"
+              placeholder="קופסא / פזל / בנייה / טלוויזיה / מחשב..."
+            />
+          </div>
         </div>
-    </div>
 
-    <!-- תפקוד חברתי -->
-    <div class="section">
-        <div class="section-title">תפקוד חברתי</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+        <!-- תפקוד חברתי -->
+        <div class="section">
+          <div class="section-title">תפקוד חברתי</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="po3-social-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_social_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div id="po3-social-items"></div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_social_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- שפה: הבנה והבעה -->
-    <div class="section">
-        <div class="section-title">שפה: הבנה והבעה</div>
-        <div class="question-row">
+        <!-- שפה: הבנה והבעה -->
+        <div class="section">
+          <div class="section-title">שפה: הבנה והבעה</div>
+          <div class="question-row">
             <label class="question-label">באיזה גיל ילדך דיבר מילים ראשונות / משפטים?</label>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
-                <input type="text" name="po3_first_words" placeholder="מילים ראשונות — גיל">
-                <input type="text" name="po3_first_sentences" placeholder="משפטים — גיל">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px">
+              <input type="text" name="po3_first_words" placeholder="מילים ראשונות — גיל" />
+              <input type="text" name="po3_first_sentences" placeholder="משפטים — גיל" />
             </div>
+          </div>
+          <div class="scale-header" style="margin-top: 10px">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="po3-language-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_lang_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div class="scale-header" style="margin-top:10px;">
-            <span style="flex:3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
-        </div>
-        <div id="po3-language-items"></div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_lang_notes" rows="2"></textarea></div>
-    </div>
 
-    <!-- היגוי -->
-    <div class="section">
-        <div class="section-title">היגוי (הגייה)</div>
-        <div id="po3-pronun-items"></div>
-        <div class="question-row"><label class="question-label">פרט:</label><textarea name="po3_pronun_notes" rows="2"></textarea></div>
-    </div>
-
-    <!-- קשב וריכוז -->
-    <div class="section">
-        <div class="section-title">קשיים בתחום הקשב והריכוז</div>
-        <div class="section-subtitle">דרגו לפי תדירות</div>
-        <div class="scale-header">
-            <span style="flex:3"></span><span>אף פעם</span><span>מדי פעם</span><span>לעיתים קרובות</span><span>לעיתים קרובות מאד</span>
+        <!-- היגוי -->
+        <div class="section">
+          <div class="section-title">היגוי (הגייה)</div>
+          <div id="po3-pronun-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט:</label
+            ><textarea name="po3_pronun_notes" rows="2"></textarea>
+          </div>
         </div>
-        <div id="po3-attention-items"></div>
-        <div class="question-row">
+
+        <!-- קשב וריכוז -->
+        <div class="section">
+          <div class="section-title">קשיים בתחום הקשב והריכוז</div>
+          <div class="section-subtitle">דרגו לפי תדירות</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>אף פעם</span><span>מדי פעם</span
+            ><span>לעיתים קרובות</span><span>לעיתים קרובות מאד</span>
+          </div>
+          <div id="po3-attention-items"></div>
+          <div class="question-row">
             <label class="question-label">מה חששיות שלכם מהאבחון?</label>
             <textarea name="po3_concerns_eval" rows="3"></textarea>
+          </div>
         </div>
+
+        <button
+          type="button"
+          class="btn-primary"
+          onclick="
+            window.print();
+            document.body.className = 'printing-parentsOver3';
+          "
+        >
+          הדפסה / שמירה כ-PDF
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; color: #888; font-size: 12px; margin-top: 10px"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״
+        </p>
+      </form>
     </div>
 
-    <button type="button" class="btn-primary" onclick="window.print(); document.body.className='printing-parentsOver3';">
-        הדפסה / שמירה כ-PDF
-    </button>
-    <p class="print-note" style="text-align:center; color:#888; font-size:12px; margin-top:10px;">
-        בחלון ההדפסה בחרו ״שמור כ-PDF״
-    </p>
+    <!-- ============================================ -->
+    <!-- TAB 5 — OFFICIAL TEACHER QUESTIONNAIRE (6+)  -->
+    <!-- ============================================ -->
+    <div id="officialTeacher6" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון מורה רשמי — ילד מעל גיל 6</h1>
+        <p>שאלון כללית רשמי · מילוי ע"י מורה/רב</p>
+      </div>
 
-    </form>
-</div>
+      <form id="officialTeacher6Form" onsubmit="return false;">
+        <!-- ===== SECTION 1: פרטים כלליים ===== -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
+            <label class="question-label">שם המורה/הגננת:</label>
+            <input type="text" name="ot6_teacher_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאריך:</label>
+            <input type="text" name="ot6_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">טלפון בית הספר:</label>
+            <input type="text" name="ot6_school_phone" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">טלפון בית:</label>
+            <input type="text" name="ot6_home_phone" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם בית הספר:</label>
+            <input type="text" name="ot6_school_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">סוג מסגרת:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="ot6_edu_type" id="ot6_edu_reg" value="חינוך רגיל" /><label
+                  for="ot6_edu_reg"
+                  >חינוך רגיל</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input
+                  type="radio"
+                  name="ot6_edu_type"
+                  id="ot6_edu_spec"
+                  value="חינוך מיוחד"
+                /><label for="ot6_edu_spec">חינוך מיוחד</label>
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">כיתה:</label>
+            <input type="text" name="ot6_class" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר ילדים בכיתה:</label>
+            <input type="text" name="ot6_class_size" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר שעות ביום:</label>
+            <input type="text" name="ot6_hours_per_day" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מכיר/ה את הילד/ה במשך:</label>
+            <input type="text" name="ot6_knowing_duration" placeholder="למשל: שנתיים" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם הילד/ה:</label>
+            <input type="text" name="ot6_child_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר זהות:</label>
+            <input type="text" name="ot6_child_id" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאריך לידה:</label>
+            <input type="text" name="ot6_child_dob" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תחומי הפניה (סמנו את הרלוונטיים):</label>
+            <div id="ot6-referral-areas"></div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הנושאים העיקריים הנלמדים בכיתה:</label>
+            <textarea name="ot6_class_topics" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
 
-<!-- ============================================ -->
-<!-- SIDE B — OT ANALYSIS TOOL                    -->
-<!-- ============================================ -->
-<div id="sideB" class="container hidden">
-    <div class="page-header">
+        <!-- ===== SECTION 2: התנהגות ===== -->
+        <div class="section">
+          <div class="section-title">התנהגות</div>
+          <div class="section-subtitle">סמנו את המאפיינים המתארים את הילד/ה</div>
+          <div id="ot6-behavior-checkboxes"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">מאפייני התנהגות נוספים:</label>
+            <textarea name="ot6_behavior_other" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">באיזו מידה הוא ממושמע ויכול לקבל גבולות:</label>
+            <textarea name="ot6_discipline" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 3: תפקודי קשב ===== -->
+        <div class="section">
+          <div class="section-title">תפקודי קשב</div>
+          <div class="section-subtitle">דרגו + ציינו באילו פעילויות/סיטואציות</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="ot6-attention-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_attention_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 4: פעילות בחצר ובהתעמלות ===== -->
+        <div class="section">
+          <div class="section-title">פעילות בחצר ובהתעמלות</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="ot6-pe-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">האם מתעייף בקלות?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="ot6_fatigue" id="ot6_fat_y" value="כן" /><label
+                  for="ot6_fat_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="ot6_fatigue" id="ot6_fat_n" value="לא" /><label
+                  for="ot6_fat_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרט/י (משחקים, פעילויות):</label>
+            <textarea name="ot6_pe_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 5: תחושה ===== -->
+        <div class="section">
+          <div class="section-title">תחושה</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>אוהב</span><span>נמנע</span><span>נרתע</span
+            ><span>מחפש</span>
+          </div>
+          <div id="ot6-sensory-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_sensory_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 6: סדר וארגון בכיתה ===== -->
+        <div class="section">
+          <div class="section-title">סדר וארגון בכיתה</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="ot6-org-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_org_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 7: מוטוריקה עדינה ===== -->
+        <div class="section">
+          <div class="section-title">מוטוריקה עדינה</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
+            ><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="ot6-finemotor-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_finemotor_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 8: כתיבה ===== -->
+        <div class="section">
+          <div class="section-title">כתיבה</div>
+          <div class="question-row">
+            <label class="question-label">ציין את סוג המחברת שבה משתמש הילד:</label>
+            <input
+              type="text"
+              name="ot6_notebook_type"
+              placeholder="למשל: שורה אחת, שתי שורות, משבצות..."
+            />
+          </div>
+          <div class="scale-header" style="margin-top: 10px">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="ot6-writing-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_writing_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 9: תפקוד חברתי ותקשורתי ===== -->
+        <div class="section">
+          <div class="section-title">תפקוד חברתי ותקשורתי</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="ot6-social-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_social_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 10: שפה (הבנה והבעה) ===== -->
+        <div class="section">
+          <div class="section-title">שפה (הבנה והבעה)</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
+            ><span>לעיתים רחוקות</span>
+          </div>
+          <div id="ot6-language-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_language_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 11: היגוי ===== -->
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div id="ot6-pronun-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="ot6_pronun_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 12: לימודים ===== -->
+        <div class="section">
+          <div class="section-title">לימודים</div>
+          <div class="question-row">
+            <label class="question-label"
+              >האם הישגיו בלימודים תואמים את ההישגים של בני גילו? אם לא, באילו תחומים הוא
+              מתקשה?</label
+            >
+            <textarea name="ot6_academics" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 13: סיכום והמלצות ===== -->
+        <div class="section">
+          <div class="section-title">סיכום והמלצות המורה/הרב</div>
+          <div class="question-row">
+            <label class="question-label">מהם קשייו העיקריים של הילד?</label>
+            <textarea name="ot6_main_difficulties" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הוא קיבל הוראה מתקנת או תגבור במהלך השנה?</label>
+            <textarea name="ot6_remedial_current" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם יזדקק להוראה מתקנת או לתגבור בשנה הבאה?</label>
+            <textarea name="ot6_remedial_next" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם יש בבית הספר יועצת חינוכית או פסיכולוגית?</label>
+            <textarea name="ot6_counselor" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות:</label>
+            <textarea name="ot6_final_notes" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary" onclick="printForm('officialTeacher6')">
+          הדפסה / שמירה כ-PDF
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SIDE B — OT ANALYSIS TOOL                    -->
+    <!-- ============================================ -->
+    <div id="sideB" class="container hidden">
+      <div class="page-header">
         <h1>כלי ניתוח שאלון — מרפאה בעיסוק</h1>
         <p>סיכום אוטומטי של תשובות השאלון — מוכן להדבקה ב-Clicks</p>
-    </div>
+      </div>
 
-    <div id="sideBContent">
+      <div id="sideBContent">
         <div class="no-data" id="noDataMsg">
-            <h2>אין נתונים עדיין</h2>
-            <p>מלאו שאלון בצד א׳ כדי לראות כאן את הניתוח</p>
-            <p style="margin-top:12px; font-size:12px; color:#bbb;">(בגרסה הבאה: העלאת PDF)</p>
+          <h2>אין נתונים עדיין</h2>
+          <p>מלאו שאלון בצד א׳ כדי לראות כאן את הניתוח</p>
+          <p style="margin-top: 12px; font-size: 12px; color: #bbb">(בגרסה הבאה: העלאת PDF)</p>
         </div>
         <div id="summaryCards" class="hidden"></div>
         <button id="copyAllBtn" class="btn-primary btn-success hidden" onclick="copyAll()">
-            העתקת כל הסיכומים
+          העתקת כל הסיכומים
         </button>
+      </div>
     </div>
-</div>
 
-<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
