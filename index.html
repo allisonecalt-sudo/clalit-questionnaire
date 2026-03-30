@@ -25,6 +25,9 @@
       <button class="nav-tab" onclick="showPage('parentsUnder3')">
         שאלון הורים עד גיל 3<span class="nav-tab-sub">גיל 0-3 · הורים</span>
       </button>
+      <button class="nav-tab" onclick="showPage('teacherUnder3')">
+        שאלון גננת/מטפלת (עד 3)<span class="nav-tab-sub">גיל 0-3 · גננת/מטפלת</span>
+      </button>
       <button class="nav-tab" onclick="showPage('sideB')">
         כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
       </button>
@@ -1815,6 +1818,252 @@
 
         <!-- Print button -->
         <button type="button" class="btn-primary" onclick="window.print()">🖨️ הדפסת השאלון</button>
+        <p class="print-note" style="text-align: center; margin-top: 8px; font-size: 12px; color: #999">
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB 7 — TEACHER/CAREGIVER UNDER 3            -->
+    <!-- ============================================ -->
+    <div id="teacherUnder3" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון לגננת/מטפלת — לילד עד גיל 3</h1>
+        <p>מילוי ע״י גננת או מטפלת בלבד · כללית שירותי בריאות — מחוז ירושלים</p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד.
+        </div>
+      </div>
+
+      <form id="teacherUnder3Form" onsubmit="return false;">
+        <!-- 1. פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">1. פרטים כלליים</div>
+          <div class="question-row">
+            <label class="question-label">תאריך:</label>
+            <input type="text" name="tu3_date" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם פרטי של הילד/ה:</label>
+            <input type="text" name="tu3_child_first" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם משפחה של הילד/ה:</label>
+            <input type="text" name="tu3_child_last" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">ת.ז.:</label>
+            <input type="text" name="tu3_child_id" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאריך לידה:</label>
+            <input type="text" name="tu3_dob" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם הגננת/מטפלת:</label>
+            <input type="text" name="tu3_teacher_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם המסגרת החינוכית:</label>
+            <input type="text" name="tu3_school_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל הילדים במסגרת:</label>
+            <input type="text" name="tu3_age_range" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר הילדים במסגרת:</label>
+            <input type="text" name="tu3_num_children" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תיאור המסגרת החינוכית:</label>
+            <textarea name="tu3_school_desc" rows="2"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">לפניה לגננת/מטפלת, יש לציון את ההתמודדויות, התפקיד המתאימים לכברים בהתאם לצורך:</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; direction: rtl">
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_dev" /> רצף התפתחותי</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_speech" /> קלינאות תקשורת</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_ot" /> ריפוי בעיסוק</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_pt" /> פיזיותרפיה</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_behav" /> תחום רגשי/התנהגותי</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="tu3_ref_other" /> אחר</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. מבט כללי ותיאור התנהגויות אופייניות -->
+        <div class="section">
+          <div class="section-title">2. מבט כללי ותיאור התנהגויות אופייניות</div>
+          <div class="question-row">
+            <label class="question-label">עליו ניתן לומר: מצב רוח טוב, מגיע בשמחה לגן / בוכה בקלות, משתף פעולה בכל הפעילות, שקט ביצירתיות בפנות, פעיל מאוד, שינויים קיצוניים במצב הרוח/התנהגותי, מגיע ונסוג או מסתובב דרך רב ומגוון, מתכולל ולמידני בצורה, סרבן למידה, מרבה בניחוחים ובמורות, לוקח/ת שלנו בערים ומוגבלים, מתכנת באסטרטגית:</label>
+            <textarea name="tu3_general_desc" rows="5"></textarea>
+          </div>
+        </div>
+
+        <!-- 3. אכילה ושתייה -->
+        <div class="section">
+          <div class="section-title">3. אכילה ושתייה</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>לא רלוונטי</span><span>בהתאם לגיל</span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="tu3-eating-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">מהי שעת הארוחות בגן ומה אוכלים בכל ארוחה?</label>
+            <textarea name="tu3_meal_times" rows="2"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">איזה סוגי אוכל מעדיף לאכול?</label>
+            <textarea name="tu3_food_prefs" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מה מסרב לאכול?</label>
+            <textarea name="tu3_food_refuse" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם קיים ריר בריחות פנים וניגוב האף?</label>
+            <textarea name="tu3_drool" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_eating_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 4. תחושה -->
+        <div class="section">
+          <div class="section-title">4. תחושה (סנסורי)</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>אוהב</span><span>נמנע</span><span>נרתע</span><span>מחפש</span>
+          </div>
+          <div id="tu3-sensory-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם מגיע אל גרויות בריחות פנים וניגוב האף?</label>
+            <textarea name="tu3_sensory_face" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם מתמודד להתלבשות בגדים או חיתולים?</label>
+            <textarea name="tu3_sensory_dress" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם ישנם קולות לירדים בגילה?</label>
+            <textarea name="tu3_sensory_sounds" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_sensory_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 5. פעילות תנועה גסה בגן ובחצר -->
+        <div class="section">
+          <div class="section-title">5. פעילות תנועה גסה בגן ובחצר (ניתן לסמן בכמה עמודות)</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>לא רלוונטי</span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="tu3-gross-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_gross_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 6. פעילות ידיים ומשחק -->
+        <div class="section">
+          <div class="section-title">6. פעילות ידיים ומשחק (ניתן לסמן בכמה עמודות)</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>לא רלוונטי</span><span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="tu3-fine-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_fine_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 7. תפקוד חברתי ודיבור -->
+        <div class="section">
+          <div class="section-title">7. תפקוד חברתי ודיבור</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>לא רלוונטי</span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="tu3-social-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_social_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 8. שפה ותקשורת — במידה והילד אינו מדבר -->
+        <div class="section">
+          <div class="section-title">8. שפה ותקשורת</div>
+          <div class="section-subtitle">במידה והילד אינו מדבר</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>לא רלוונטי</span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="tu3-lang-nospeech-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם הייתה נסיגה בשפה ובדיבור?</label>
+            <textarea name="tu3_lang_regression_no" rows="1"></textarea>
+          </div>
+          <div style="margin-top: 14px">
+            <div class="section-subtitle">במידה והילד מדבר</div>
+            <div class="scale-header">
+              <span style="flex: 3"></span><span>לא רלוונטי</span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+            </div>
+            <div id="tu3-lang-speech-items"></div>
+          </div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם הייתה נסיגה בשפה ובדיבור?</label>
+            <textarea name="tu3_lang_regression_yes" rows="1"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הפניות:</label>
+            <textarea name="tu3_lang_referrals" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 9. סיכום והמלצות הגננת/מטפלת -->
+        <div class="section">
+          <div class="section-title">9. סיכום והמלצות הגננת/מטפלת</div>
+          <div class="question-row">
+            <label class="question-label">מה הם הקשיים העיקריים?</label>
+            <textarea name="tu3_main_difficulties" rows="3"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הילד זקוק לעזרה מקצועית ובאילו תחומים?</label>
+            <textarea name="tu3_professional_help" rows="2"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">איזו מסגרת מתאימה לדעתך לילד בשנה הבאה: גן / גן שולב / גן טיפולי / אחר?</label>
+            <textarea name="tu3_recommended_setting" rows="2"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם ידוע לך על גורמים טיפוליים נוספים המעורבים? (פיזיותרפיסט, נוירולוג וכו׳)</label>
+            <textarea name="tu3_other_professionals" rows="2"></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות:</label>
+            <textarea name="tu3_summary_notes" rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Print button -->
+        <button type="button" class="btn-primary" onclick="printForm('teacherUnder3')">🖨️ הדפסת השאלון</button>
         <p class="print-note" style="text-align: center; margin-top: 8px; font-size: 12px; color: #999">
           בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
         </p>

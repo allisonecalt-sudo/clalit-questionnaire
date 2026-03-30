@@ -190,11 +190,17 @@ function updateProgress() {
 // ============================
 
 function showPage(page) {
-  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'parentsUnder3', 'sideB'].forEach(
-    (p) => {
-      document.getElementById(p).classList.toggle('hidden', p !== page);
-    },
-  );
+  [
+    'combined',
+    'parentsOver3',
+    'sideA',
+    'officialTeacher6',
+    'parentsUnder3',
+    'teacherUnder3',
+    'sideB',
+  ].forEach((p) => {
+    document.getElementById(p).classList.toggle('hidden', p !== page);
+  });
   document.querySelectorAll('.nav-tab').forEach((tab, i) => {
     tab.classList.toggle(
       'active',
@@ -203,7 +209,8 @@ function showPage(page) {
         (i === 2 && page === 'sideA') ||
         (i === 3 && page === 'officialTeacher6') ||
         (i === 4 && page === 'parentsUnder3') ||
-        (i === 5 && page === 'sideB'),
+        (i === 5 && page === 'teacherUnder3') ||
+        (i === 6 && page === 'sideB'),
     );
   });
   if (page === 'sideB') loadSideBData();
@@ -284,6 +291,7 @@ function printForm(formId) {
     'printing-parentsOver3',
     'printing-parentsUnder3',
     'printing-officialTeacher6',
+    'printing-teacherUnder3',
   );
   document.body.classList.add('printing-' + formId);
   window.print();
@@ -293,6 +301,7 @@ function printForm(formId) {
     'printing-parentsOver3',
     'printing-parentsUnder3',
     'printing-officialTeacher6',
+    'printing-teacherUnder3',
   );
 }
 
@@ -1094,6 +1103,91 @@ buildRadioSection('pu3-fine-items', pu3FineItems, pu3Scale6motor, 'pu3fine');
 buildRadioSection('pu3-social-items', pu3SocialItems, pu3Scale5daily, 'pu3soc');
 buildRadioSection('pu3-lang-nospeech-items', pu3LangNoSpeechItems, pu3Scale5daily, 'pu3lns');
 buildRadioSection('pu3-lang-speech-items', pu3LangSpeechItems, pu3Scale5daily, 'pu3lsp');
+
+// ============================
+// TEACHER/CAREGIVER UNDER 3 — DATA
+// ============================
+
+const tu3Scale5eating = ['לא רלוונטי', 'בהתאם לגיל', 'בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
+const tu3Scale4sensory = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];
+const tu3Scale5motor = ['לא רלוונטי', 'בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'נמנע'];
+const tu3Scale4social = ['לא רלוונטי', 'בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
+
+const tu3EatingItems = [
+  'אוכל לבד עם הידיים',
+  'אוכל עם כפית',
+  'אי מולל',
+  'שותה לבד מבקבוק',
+  'שותה לבד מכוס',
+];
+
+const tu3SensoryItems = [
+  'משחק בחול',
+  'משחק בבצק/ פלסטלינה',
+  'בצבעי ידיים ודבק',
+  'מגע עם מים',
+  'מגע עם אוכל',
+  'מגע עם ילדים או מבוגרים',
+];
+
+const tu3GrossItems = [
+  'התהפכות',
+  'זחילה',
+  'הליכה',
+  'משחקי כדור',
+  'ריצה',
+  'עלייה וירידה במדרגות',
+  'השתלבות בפעילות',
+  'תנועה בגן',
+  'שטיפה במתקנים',
+];
+
+const tu3FineItems = [
+  'מניפולציות כף יד (אבנים, פטריות, חרוזים)',
+  'משחקי הרכבה (לגו, כלבים, קוביות)',
+  'פאזל',
+  'ציור או שרבוט',
+  'משחקי לוח/דמיון',
+];
+
+const tu3SocialItems = [
+  'מעדיף לשחק לבד',
+  'משתדל לשתף אחרים',
+  'בוכייה',
+  'בניה לוותר כשמפלל',
+  'משתף אחרים מיוזמתו',
+  'משתמש באלימות פיזית או מילולית',
+  'מתרייס לגנויות ושחרים',
+  'בבעיות',
+  'מביע רגשות מגוונים (שמחה, כעס, ואמפתיה)',
+];
+
+const tu3LangNoSpeechItems = [
+  'יוצר קשר עין',
+  'מגיב לדיבור',
+  'משמיע הברות וקולות',
+  'מבצע רצון ובקשות',
+  'משתמש בהצבעה/בעל',
+  'מדבר בשפה מושלת',
+  'סובין שפה ודיבור',
+];
+
+const tu3LangSpeechItems = [
+  'מביע את עצמו במילים',
+  'מביע את עצמו במשפטים',
+  'מבין חוראות והוראות',
+  'סודר באופן ברור',
+  'מבצע רצון ובקשות',
+  'האם מנהל שיחה בתחאם לגיל',
+];
+
+buildRadioSection('tu3-eating-items', tu3EatingItems, tu3Scale5eating, 'tu3eat');
+buildRadioSection('tu3-sensory-items', tu3SensoryItems, tu3Scale4sensory, 'tu3sens');
+buildRadioSection('tu3-gross-items', tu3GrossItems, tu3Scale5motor, 'tu3gross');
+buildRadioSection('tu3-fine-items', tu3FineItems, tu3Scale5motor, 'tu3fine');
+buildRadioSection('tu3-social-items', tu3SocialItems, tu3Scale4social, 'tu3soc');
+buildRadioSection('tu3-lang-nospeech-items', tu3LangNoSpeechItems, tu3Scale4social, 'tu3lns');
+buildRadioSection('tu3-lang-speech-items', tu3LangSpeechItems, tu3Scale4social, 'tu3lsp');
 
 // ============================
 // OFFICIAL TEACHER QUESTIONNAIRE (6+) — DATA
