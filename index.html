@@ -22,6 +22,9 @@
       <button class="nav-tab" onclick="showPage('officialTeacher6')">
         שאלון מורה רשמי (6+)<span class="nav-tab-sub">שאלון כללית רשמי</span>
       </button>
+      <button class="nav-tab" onclick="showPage('parentsUnder3')">
+        שאלון הורים עד גיל 3<span class="nav-tab-sub">גיל 0-3 · הורים</span>
+      </button>
       <button class="nav-tab" onclick="showPage('sideB')">
         כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
       </button>
@@ -1493,6 +1496,326 @@
           class="print-note"
           style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
         >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB — PARENTS UNDER 3                         -->
+    <!-- ============================================ -->
+    <div id="parentsUnder3" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון הורים — ילד עד גיל 3</h1>
+        <p>מילוי ע״י הורים בלבד · כללית מחוז ירושלים</p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד.
+        </div>
+      </div>
+
+      <form id="parentsUnder3Form" onsubmit="return false;">
+        <!-- 1. פרטים אישיים -->
+        <div class="section">
+          <div class="section-title">1. פרטים אישיים</div>
+          <div class="question-row">
+            <label class="question-label">שם הילד/ה:</label>
+            <input type="text" name="pu3_child_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאריך לידה:</label>
+            <input type="text" name="pu3_dob" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל:</label>
+            <input type="text" name="pu3_age" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם ההורים:</label>
+            <input type="text" name="pu3_parents_name" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">כתובת:</label>
+            <input type="text" name="pu3_address" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">טלפון:</label>
+            <input type="text" name="pu3_phone" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">גורם מפנה:</label>
+            <input type="text" name="pu3_referral_source" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">תחומי ההפניה:</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; direction: rtl">
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="pu3_ref_ot" /> ריפוי בעיסוק</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="pu3_ref_pt" /> פיזיותרפיה</label
+              >
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 13px"
+                ><input type="checkbox" name="pu3_ref_slp" /> קלינאות תקשורת</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. רקע משפחתי -->
+        <div class="section">
+          <div class="section-title">2. רקע משפחתי</div>
+          <div class="question-row">
+            <label class="question-label">ילד מס׳:</label>
+            <div style="display: flex; gap: 8px; align-items: center; direction: rtl">
+              <input type="text" name="pu3_child_num" style="width: 60px" />
+              <span>מתוך</span>
+              <input type="text" name="pu3_total_children" style="width: 60px" />
+              <span>ילדים</span>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרטי אחים:</label>
+            <div id="pu3-siblings-table">
+              <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 6px; margin-bottom: 4px; direction: rtl; font-size: 12px; font-weight: 700; color: #0077b6;">
+                <span>שם</span><span>גיל</span><span>הערות מיוחדות</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 6px; margin-bottom: 4px;">
+                <input type="text" name="pu3_sib1_name" /><input type="text" name="pu3_sib1_age" /><input type="text" name="pu3_sib1_notes" />
+              </div>
+              <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 6px; margin-bottom: 4px;">
+                <input type="text" name="pu3_sib2_name" /><input type="text" name="pu3_sib2_age" /><input type="text" name="pu3_sib2_notes" />
+              </div>
+              <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 6px; margin-bottom: 4px;">
+                <input type="text" name="pu3_sib3_name" /><input type="text" name="pu3_sib3_age" /><input type="text" name="pu3_sib3_notes" />
+              </div>
+              <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 6px; margin-bottom: 4px;">
+                <input type="text" name="pu3_sib4_name" /><input type="text" name="pu3_sib4_age" /><input type="text" name="pu3_sib4_notes" />
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">שפות בבית:</label>
+            <input type="text" name="pu3_languages" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם יש קרובי משפחה עם קשיי התפתחות?</label>
+            <input type="text" name="pu3_family_dev" placeholder="פרט..." />
+          </div>
+        </div>
+
+        <!-- 3. רקע — ציפיות -->
+        <div class="section">
+          <div class="section-title">3. רקע — ציפיות</div>
+          <div class="question-row">
+            <label class="question-label">מה מדאיג אתכם? מה הציפיות שלכם?</label>
+            <textarea name="pu3_expectations" rows="4"></textarea>
+          </div>
+        </div>
+
+        <!-- 4. רקע רפואי והתפתחותי -->
+        <div class="section">
+          <div class="section-title">4. רקע רפואי והתפתחותי</div>
+          <div class="question-row">
+            <label class="question-label">1. האם ההריון היה תקין? אם לא, פרטו:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pu3_preg" id="pu3_preg_y" value="כן" /><label for="pu3_preg_y">כן</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pu3_preg" id="pu3_preg_n" value="לא" /><label for="pu3_preg_n">לא</label>
+              </div>
+            </div>
+            <input type="text" name="pu3_preg_notes" placeholder="פרט..." style="margin-top: 6px" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">2. האם הלידה הייתה תקינה? אם לא, פרטו:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pu3_birth" id="pu3_birth_y" value="כן" /><label for="pu3_birth_y">כן</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pu3_birth" id="pu3_birth_n" value="לא" /><label for="pu3_birth_n">לא</label>
+              </div>
+            </div>
+            <input type="text" name="pu3_birth_notes" placeholder="פרט..." style="margin-top: 6px" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">3. האם נולד בזמן? (שבוע כמה)</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pu3_term" id="pu3_term_y" value="כן" /><label for="pu3_term_y">כן</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pu3_term" id="pu3_term_n" value="לא" /><label for="pu3_term_n">לא</label>
+              </div>
+            </div>
+            <input type="text" name="pu3_birth_week" placeholder="באיזה שבוע?" style="margin-top: 6px" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">4. משקל בלידה:</label>
+            <input type="text" name="pu3_birth_weight" placeholder="גרם" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">5. האם היו אשפוזים לאחר הלידה? פרטו:</label>
+            <input type="text" name="pu3_hospitalization" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">6. האם הילד עובר/עבר מעקב רפואי קבוע? אם כן, פרטו אצל מי ומדוע:</label>
+            <input type="text" name="pu3_medical_followup" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">7. האם קיימות בעיות שמיעה, ראיה? פרטו:</label>
+            <input type="text" name="pu3_hearing_vision" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">8. האם הילד נוטל תרופות באופן קבוע? פרטו:</label>
+            <input type="text" name="pu3_medications" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">9. האם הילד עבר ניתוחים (כולל צנתורים)? פרטו:</label>
+            <input type="text" name="pu3_surgeries" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">10. האם הילד מטופל/נמצא בהמתנה לטיפול נוסף? פרטו:</label>
+            <input type="text" name="pu3_other_treatment" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">11. האם הילד שוהה במסגרת חינוכית? איזו? כמה שעות?</label>
+            <input type="text" name="pu3_education" placeholder="פרט..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">12. האם יש דברים שמטרידים אתכם? פרטו:</label>
+            <textarea name="pu3_concerns" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 5. אבני דרך התפתחותיות -->
+        <div class="section">
+          <div class="section-title">5. אבני דרך התפתחותיות</div>
+          <div class="section-subtitle">ציינו באיזה גיל הושג כל שלב</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <input type="text" name="pu3_milestone_sit" placeholder="ישיבה — גיל" />
+            <input type="text" name="pu3_milestone_stand" placeholder="עמידה — גיל" />
+            <input type="text" name="pu3_milestone_walk" placeholder="הליכה — גיל" />
+            <input type="text" name="pu3_milestone_crawl" placeholder="זחילה — גיל" />
+          </div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label">הערות נוספות:</label>
+            <textarea name="pu3_milestone_notes" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- 6. תפקוד הילד היום -->
+        <div class="section">
+          <div class="section-title">6. תפקוד הילד היום</div>
+          <div class="section-subtitle">סמנו את התשובה המתאימה ביותר</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span><span>אף פעם</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-daily-items"></div>
+        </div>
+
+        <!-- 7. אכילה ושתייה -->
+        <div class="section">
+          <div class="section-title">7. אכילה ושתייה</div>
+          <div class="question-row">
+            <label class="question-label">האם הילד ינק/יונק מהשד?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pu3_breastfed" id="pu3_bf_y" value="כן" /><label for="pu3_bf_y">כן</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pu3_breastfed" id="pu3_bf_n" value="לא" /><label for="pu3_bf_n">לא</label>
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הילד שתה/שותה מבקבוק?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pu3_bottle" id="pu3_bot_y" value="כן" /><label for="pu3_bot_y">כן</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pu3_bottle" id="pu3_bot_n" value="לא" /><label for="pu3_bot_n">לא</label>
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאור מעבר למוצקים:</label>
+            <textarea name="pu3_solids_transition" rows="2"></textarea>
+          </div>
+          <div class="scale-header" style="margin-top: 12px">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span><span>אף פעם</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-eating-items"></div>
+        </div>
+
+        <!-- 8. תחושות -->
+        <div class="section">
+          <div class="section-title">8. תחושות (סנסורי)</div>
+          <div class="section-subtitle">ניתן לסמן יותר מעמודה אחת לכל פריט</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>בדרך כלל</span><span>נרתע</span><span>מחפש</span><span>אוהב</span>
+          </div>
+          <div id="pu3-sensory-items"></div>
+        </div>
+
+        <!-- 9. פעילות תנועה בבית ובחוץ -->
+        <div class="section">
+          <div class="section-title">9. פעילות תנועה בבית ובחוץ</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-gross-items"></div>
+        </div>
+
+        <!-- 10. פעילות ידיים ומשחק -->
+        <div class="section">
+          <div class="section-title">10. פעילות ידיים ומשחק</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-fine-items"></div>
+        </div>
+
+        <!-- 11. תפקוד חברתי ורגשי -->
+        <div class="section">
+          <div class="section-title">11. תפקוד חברתי ורגשי</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span><span>אף פעם</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-social-items"></div>
+        </div>
+
+        <!-- 12. שפה ותקשורת -->
+        <div class="section">
+          <div class="section-title">12. שפה ותקשורת</div>
+          <div class="section-subtitle">במידה והילד אינו מדבר</div>
+          <div class="scale-header">
+            <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span><span>אף פעם</span><span>לא רלוונטי</span>
+          </div>
+          <div id="pu3-lang-nospeech-items"></div>
+          <div style="margin-top: 14px">
+            <div class="section-subtitle">במידה והילד מדבר</div>
+            <div class="scale-header">
+              <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span><span>אף פעם</span><span>לא רלוונטי</span>
+            </div>
+            <div id="pu3-lang-speech-items"></div>
+          </div>
+        </div>
+
+        <!-- 13. ציפיות מהאבחון -->
+        <div class="section">
+          <div class="section-title">13. מה הציפיות שלכם מהאבחון?</div>
+          <div class="question-row">
+            <textarea name="pu3_eval_expectations" rows="4"></textarea>
+          </div>
+        </div>
+
+        <!-- Print button -->
+        <button type="button" class="btn-primary" onclick="window.print()">🖨️ הדפסת השאלון</button>
+        <p class="print-note" style="text-align: center; margin-top: 8px; font-size: 12px; color: #999">
           בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
         </p>
       </form>

@@ -190,7 +190,7 @@ function updateProgress() {
 // ============================
 
 function showPage(page) {
-  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'sideB'].forEach((p) => {
+  ['combined', 'parentsOver3', 'sideA', 'officialTeacher6', 'parentsUnder3', 'sideB'].forEach((p) => {
     document.getElementById(p).classList.toggle('hidden', p !== page);
   });
   document.querySelectorAll('.nav-tab').forEach((tab, i) => {
@@ -200,7 +200,8 @@ function showPage(page) {
         (i === 1 && page === 'parentsOver3') ||
         (i === 2 && page === 'sideA') ||
         (i === 3 && page === 'officialTeacher6') ||
-        (i === 4 && page === 'sideB'),
+        (i === 4 && page === 'parentsUnder3') ||
+        (i === 5 && page === 'sideB'),
     );
   });
   if (page === 'sideB') loadSideBData();
@@ -278,6 +279,8 @@ function printForm(formId) {
   document.body.classList.remove(
     'printing-combined',
     'printing-sideA',
+    'printing-parentsOver3',
+    'printing-parentsUnder3',
     'printing-officialTeacher6',
   );
   document.body.classList.add('printing-' + formId);
@@ -285,6 +288,8 @@ function printForm(formId) {
   document.body.classList.remove(
     'printing-combined',
     'printing-sideA',
+    'printing-parentsOver3',
+    'printing-parentsUnder3',
     'printing-officialTeacher6',
   );
 }
@@ -986,6 +991,107 @@ buildRadioSection('po3-social-items', po3SocialItems, po3Scale3freq, 'po3soc');
 buildRadioSection('po3-language-items', po3LanguageItems, po3Scale3freq, 'po3lang');
 buildYesNoSection('po3-pronun-items', po3PronunItems, 'po3pron');
 buildRadioSection('po3-attention-items', po3AttentionItems, po3Scale4attention, 'po3att');
+
+// ============================
+// PARENTS UNDER 3 — DATA
+// ============================
+
+const pu3Scale5daily = ['בדרך כלל', 'לפעמים', 'לעיתים רחוקות', 'אף פעם', 'לא רלוונטי'];
+const pu3Scale5sensory = ['בהתאם לגיל', 'בדרך כלל', 'נרתע', 'מחפש', 'אוהב'];
+const pu3Scale6motor = ['בהתאם לגיל', 'בדרך כלל', 'מתקשה', 'מתקשה מאוד', 'נמנע', 'לא רלוונטי'];
+
+const pu3DailyItems = [
+  'כניסה לשינה',
+  'מסוגל להיות ער לאורך זמן',
+  'מתמודד באופן בולט',
+  'תגובתי',
+  'מסתגל למצבים חדשים',
+  'חברותי',
+  'שקט בדרך כלל',
+  'מגדיר מנוחות בקלות',
+  'מתמודד עם קושי',
+];
+
+const pu3EatingItems = [
+  'אוכל מגוון מרקמים',
+  'מקבל אוכל חדש',
+  'אוכל באופן עצמאי',
+  'שותה מכוס',
+  'אוכל בכמות מתאימה לגילו',
+];
+
+const pu3SensoryItems = [
+  'מגע (ליטוף, חיבוק)',
+  'מרקמים שונים (חול, בצק, צבע)',
+  'רעש חזק',
+  'תנועה (נדנדה, סיבוב)',
+  'ריחות',
+  'אורות חזקים',
+  'חומרים רטובים/דביקים',
+  'תגובה להלבשה/פשיטה',
+];
+
+const pu3GrossItems = [
+  'עולה ויורד ממדרגות',
+  'רץ',
+  'קופץ',
+  'מטפס',
+  'בועט בכדור',
+  'שומר שיווי משקל',
+  'יושב ביציבות',
+  'עובר ממצב למצב (שכיבה-ישיבה-עמידה)',
+];
+
+const pu3FineItems = [
+  'אוחז בעצמים קטנים',
+  'משרבט/מצייר',
+  'בונה מגדל מקוביות',
+  'משחק בפאזלים פשוטים',
+  'מכניס צורות לחורים',
+  'מפרק ומרכיב צעצועים',
+  'משתמש בשתי ידיים',
+  'מעביר חפצים מיד ליד',
+];
+
+const pu3SocialItems = [
+  'יוצר קשר עין',
+  'מגיב לשמו',
+  'מחייך בתגובה',
+  'משחק עם ילדים אחרים',
+  'חולק צעצועים',
+  'מבקש עזרה',
+  'מביע רגשות בצורה מותאמת',
+  'נרגע לאחר בכי',
+  'מתמודד עם שינוי בשגרה',
+];
+
+const pu3LangNoSpeechItems = [
+  'מצביע על דברים שרוצה',
+  'מבין הוראות פשוטות',
+  'מגיב לשמו',
+  'משתמש במחוות (להתראות, בוא)',
+  'מחקה צלילים',
+  'מביע צרכים בצורה כלשהי',
+];
+
+const pu3LangSpeechItems = [
+  'משתמש במילים בודדות',
+  'משלב שתי מילים',
+  'מובן לאנשים זרים',
+  'מובן להורים',
+  'משתמש במשפטים',
+  'מספר על אירועים',
+  'שואל שאלות',
+];
+
+buildRadioSection('pu3-daily-items', pu3DailyItems, pu3Scale5daily, 'pu3daily');
+buildRadioSection('pu3-eating-items', pu3EatingItems, pu3Scale5daily, 'pu3eat');
+buildRadioSection('pu3-sensory-items', pu3SensoryItems, pu3Scale5sensory, 'pu3sens');
+buildRadioSection('pu3-gross-items', pu3GrossItems, pu3Scale6motor, 'pu3gross');
+buildRadioSection('pu3-fine-items', pu3FineItems, pu3Scale6motor, 'pu3fine');
+buildRadioSection('pu3-social-items', pu3SocialItems, pu3Scale5daily, 'pu3soc');
+buildRadioSection('pu3-lang-nospeech-items', pu3LangNoSpeechItems, pu3Scale5daily, 'pu3lns');
+buildRadioSection('pu3-lang-speech-items', pu3LangSpeechItems, pu3Scale5daily, 'pu3lsp');
 
 // ============================
 // OFFICIAL TEACHER QUESTIONNAIRE (6+) — DATA
