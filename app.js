@@ -1557,6 +1557,136 @@ buildYesNoSection('tg36-pronun-items', tg36PronunItems, 'tg36pron');
 buildYesNoSection('tg36-behavior-yn', tg36BehaviorYN, 'tg36behyn');
 
 // ============================
+// DOWNLOAD FOR AI — JSON EXPORT
+// ============================
+
+function downloadForAI(formId) {
+  const container = document.getElementById(formId);
+  if (!container) return;
+  const form = container.querySelector('form');
+  if (!form) return;
+
+  const result = { type: '', sections: {} };
+
+  // Get questionnaire title
+  const h1 = container.querySelector('h1');
+  if (h1) result.type = h1.textContent.trim();
+
+  // Walk through each section
+  const sections = form.querySelectorAll('.section');
+  sections.forEach((sec) => {
+    const titleEl = sec.querySelector('.section-title');
+    if (!titleEl) return;
+    const sectionName = titleEl.textContent.trim();
+    const sectionData = {};
+
+    // Radio buttons (grouped by name)
+    const radioGroups = {};
+    sec.querySelectorAll('input[type="radio"]').forEach((r) => {
+      if (!radioGroups[r.name]) radioGroups[r.name] = null;
+      if (r.checked) radioGroups[r.name] = r.value;
+    });
+
+    // Match radio answers to their question labels
+    sec.querySelectorAll('.question-row').forEach((row) => {
+      const label = row.querySelector('.question-label');
+      if (!label) return;
+      const q = label.textContent.trim().replace(/:$/, '');
+
+      // Check for radio in this row
+      const radios = row.querySelectorAll('input[type="radio"]');
+      if (radios.length > 0) {
+        const name = radios[0].name;
+        const val = radioGroups[name];
+        if (val) sectionData[q] = val;
+        return;
+      }
+
+      // Check for select
+      const sel = row.querySelector('select');
+      if (sel && sel.value) {
+        sectionData[q] = sel.value;
+        return;
+      }
+
+      // Check for textarea
+      const ta = row.querySelector('textarea');
+      if (ta && ta.value.trim()) {
+        sectionData[q] = ta.value.trim();
+        return;
+      }
+
+      // Check for text input
+      const inp = row.querySelector('input[type="text"]');
+      if (inp && inp.value.trim()) {
+        sectionData[q] = inp.value.trim();
+        return;
+      }
+    });
+
+    // Checkboxes (for description/treatment sections)
+    sec
+      .querySelectorAll('input[type="checkbox"]:checked:not([name*="test_done"])')
+      .forEach((cb) => {
+        const lbl = cb.closest('label') || (cb.id && sec.querySelector(`label[for="${cb.id}"]`));
+        if (lbl) {
+          const text = lbl.textContent.trim();
+          if (text) sectionData[text] = '✓';
+        }
+      });
+
+    // Tests table (special handling)
+    const testsBody = sec.querySelector('tbody');
+    if (testsBody) {
+      testsBody.querySelectorAll('tr').forEach((tr) => {
+        const cells = tr.querySelectorAll('td');
+        const checkbox = tr.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.checked && cells.length >= 1) {
+          const testName = cells[0].textContent.trim();
+          const dateInp = tr.querySelectorAll('input[type="text"]')[0];
+          const resultInp = tr.querySelectorAll('input[type="text"]')[1];
+          const parts = [];
+          if (dateInp && dateInp.value) parts.push(dateInp.value);
+          if (resultInp && resultInp.value) parts.push(resultInp.value);
+          sectionData[testName] = parts.length > 0 ? parts.join(' — ') : '✓';
+        }
+      });
+    }
+
+    // Medical yes/no with detail fields
+    sec.querySelectorAll('input[type="text"][name*="_detail"]').forEach((inp) => {
+      if (inp.value.trim()) {
+        const row = inp.closest('.question-row');
+        const label = row && row.querySelector('.question-label');
+        if (label) {
+          const q = label.textContent.trim().replace(/:$/, '');
+          const radioName = inp.name.replace('_detail', '');
+          const checked = sec.querySelector(`input[name="${radioName}"]:checked`);
+          const answer = checked ? checked.value : '';
+          sectionData[q] = answer + (inp.value.trim() ? ' — ' + inp.value.trim() : '');
+        }
+      }
+    });
+
+    if (Object.keys(sectionData).length > 0) {
+      result.sections[sectionName] = sectionData;
+    }
+  });
+
+  // Download as JSON
+  const json = JSON.stringify(result, null, 2);
+  /* eslint-disable no-undef */
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (result.type || formId) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  /* eslint-enable no-undef */
+}
+
+// ============================
 
 function copyAll() {
   const cards = document.querySelectorAll('.summary-text');
