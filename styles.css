@@ -398,7 +398,9 @@ select {
   #parentsOver3,
   #parentsUnder3,
   #officialTeacher6,
-  #teacherUnder3 {
+  #teacherUnder3,
+  #parentGan36,
+  #teacherGan36 {
     display: none !important;
   }
   .printing-combined #combined {
@@ -417,6 +419,12 @@ select {
     display: block !important;
   }
   .printing-teacherUnder3 #teacherUnder3 {
+    display: block !important;
+  }
+  .printing-parentGan36 #parentGan36 {
+    display: block !important;
+  }
+  .printing-teacherGan36 #teacherGan36 {
     display: block !important;
   }
 }

@@ -28,6 +28,12 @@
       <button class="nav-tab" onclick="showPage('teacherUnder3')">
         שאלון גננת/מטפלת (עד 3)<span class="nav-tab-sub">גיל 0-3 · גננת/מטפלת</span>
       </button>
+      <button class="nav-tab" onclick="showPage('parentGan36')">
+        שאלון הורים (3-6)<span class="nav-tab-sub">גיל 3-6 · הורים</span>
+      </button>
+      <button class="nav-tab" onclick="showPage('teacherGan36')">
+        שאלון חינוכי (3-6)<span class="nav-tab-sub">גיל 3-6 · גננת/מטפלת</span>
+      </button>
       <button class="nav-tab" onclick="showPage('sideB')">
         כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
       </button>
@@ -2240,6 +2246,573 @@
 
         <!-- Print button -->
         <button type="button" class="btn-primary" onclick="printForm('teacherUnder3')">
+          🖨️ הדפסת השאלון
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB 8 — PARENT 3-6                            -->
+    <!-- ============================================ -->
+    <div id="parentGan36" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון הורה לילד/ה בגיל 3-6 שנים</h1>
+        <p>מילוי ע״י הורים בלבד · כללית שירותי בריאות — מחוז ירושלים</p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד באימייל למרפאה.
+        </div>
+      </div>
+
+      <form id="parentGan36Form" onsubmit="return false;">
+        <!-- פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
+            <label class="question-label">תאריך מילוי השאלון:</label>
+            <input type="text" name="pg36_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מין הילד:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pg36_gender" id="pg36_gm" value="זכר" /><label
+                  for="pg36_gm"
+                  >זכר</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pg36_gender" id="pg36_gf" value="נקבה" /><label
+                  for="pg36_gf"
+                  >נקבה</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">תאריך לידה:</label>
+            <input type="text" name="pg36_dob" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מסגרת חינוכית:</label>
+            <input type="text" name="pg36_school" placeholder="שם הגן / מעון..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">סוג החינוך:</label>
+            <select name="pg36_school_type">
+              <option value="">— בחרו —</option>
+              <option>חינוך רגיל</option>
+              <option>חינוך מיוחד</option>
+              <option>שיקומי</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מצב משפחתי:</label>
+            <select name="pg36_family_status">
+              <option value="">— בחרו —</option>
+              <option>נשואים</option>
+              <option>גרושים</option>
+              <option>פרודים</option>
+              <option>משפחה חד הורית</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">שפות מדוברות בבית:</label>
+            <input type="text" name="pg36_languages" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם יש קרבת דם בין ההורים?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pg36_blood_rel" id="pg36_br_y" value="כן" /><label
+                  for="pg36_br_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pg36_blood_rel" id="pg36_br_n" value="לא" /><label
+                  for="pg36_br_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מי יזם את הפנייה?</label>
+            <select name="pg36_referral">
+              <option value="">— בחרו —</option>
+              <option>גננת / מורה</option>
+              <option>רופא</option>
+              <option>הורים</option>
+              <option>באופן עצמאי</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מה הם הקשיים העיקריים של הילד/ה?</label>
+            <textarea
+              name="pg36_main_diff"
+              rows="3"
+              placeholder="תארו את הקשיים העיקריים..."
+            ></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">אירועים משמעותיים בחיי הילד:</label>
+            <textarea name="pg36_events" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם יש במשפחה בעיות התפתחות?</label>
+            <textarea name="pg36_family_dev" rows="2" placeholder="פרטו..."></textarea>
+          </div>
+        </div>
+
+        <!-- רקע רפואי והתפתחותי -->
+        <div class="section">
+          <div class="section-title">רקע רפואי והתפתחותי</div>
+          <div id="pg36-medical-items"></div>
+          <div class="question-row" style="margin-top: 12px">
+            <label class="question-label">משקל בעת הלידה:</label>
+            <input type="text" name="pg36_birth_weight" placeholder="בגרמים" style="width: 120px" />
+          </div>
+        </div>
+
+        <!-- בדיקות קודמות -->
+        <div class="section">
+          <div class="section-title">בדיקות קודמות</div>
+          <div class="section-subtitle">נא לסמן אם בוצעו הבדיקות הבאות</div>
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; direction: rtl">
+              <thead>
+                <tr style="background: #f0f4f8">
+                  <th
+                    style="
+                      text-align: right;
+                      padding: 8px;
+                      border: 1px solid #ddd;
+                      font-weight: 700;
+                    "
+                  >
+                    בדיקה
+                  </th>
+                  <th
+                    style="
+                      text-align: center;
+                      padding: 8px;
+                      border: 1px solid #ddd;
+                      font-weight: 700;
+                      width: 60px;
+                    "
+                  >
+                    בוצעה
+                  </th>
+                  <th
+                    style="padding: 8px; border: 1px solid #ddd; font-weight: 700; min-width: 90px"
+                  >
+                    תאריך
+                  </th>
+                  <th
+                    style="padding: 8px; border: 1px solid #ddd; font-weight: 700; min-width: 110px"
+                  >
+                    תוצאה
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="pg36-tests-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- טיפולים -->
+        <div class="section">
+          <div class="section-title">האם הילד מטופל כיום או טופל בעבר?</div>
+          <div
+            id="pg36-treatment-areas"
+            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; direction: rtl"
+          ></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">פרטו:</label>
+            <textarea
+              name="pg36_treatment_detail"
+              rows="2"
+              placeholder="פירוט טיפולים..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- אבני דרך -->
+        <div class="section">
+          <div class="section-title">אבני דרך</div>
+          <div class="section-subtitle">
+            יש לציין את גיל הופעת אבני הדרך הבאות (אם לא זוכרים אפשר לציין: מוקדם / רגיל / באיחור)
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; direction: rtl">
+            <div class="question-row">
+              <label class="question-label">חיוך ראשון:</label
+              ><input type="text" name="pg36_mile_smile" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">התהפכות:</label
+              ><input type="text" name="pg36_mile_roll" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">נפנוף יד שלום:</label
+              ><input type="text" name="pg36_mile_wave" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">זחילה:</label
+              ><input type="text" name="pg36_mile_crawl" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">מילים ראשונות:</label
+              ><input type="text" name="pg36_mile_words" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">ישיבה:</label><input type="text" name="pg36_mile_sit" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">משפטים:</label
+              ><input type="text" name="pg36_mile_sentences" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">הליכה:</label
+              ><input type="text" name="pg36_mile_walk" />
+            </div>
+          </div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם היו אבני דרך שהילד רכש וכיום לא מסוגל לבצע?</label>
+            <textarea name="pg36_mile_lost" rows="2" placeholder="פרטו..."></textarea>
+          </div>
+        </div>
+
+        <!-- התנהגות, ויסות רגשי -->
+        <div class="section">
+          <div class="section-title">התנהגות, ויסות רגשי</div>
+          <div class="section-subtitle">יש לתאר את תפקוד הילד לפי המצופה לגילו</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-behavior-items"></div>
+        </div>
+
+        <!-- קשב וריכוז -->
+        <div class="section">
+          <div class="section-title">קשב וריכוז</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-attention-items"></div>
+        </div>
+
+        <!-- תגובות מערכות החושים -->
+        <div class="section">
+          <div class="section-title">תגובות מערכות החושים</div>
+          <div class="section-subtitle">ניתן לסמן בכמה עמודות</div>
+          <div class="scale-header">
+            <span>ברצון / בהנאה</span><span>מתנגד</span><span>מחפש / מגזים</span
+            ><span>נמנע / נרתע</span>
+          </div>
+          <div id="pg36-sensory-items"></div>
+        </div>
+
+        <!-- שגרות יום יום -->
+        <div class="section">
+          <div class="section-title">שגרות יום יום</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-daily-items"></div>
+        </div>
+
+        <!-- תנועה בבית ובסביבה -->
+        <div class="section">
+          <div class="section-title">תנועה בבית ובסביבה</div>
+          <div class="scale-header">
+            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-movement-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם ילדכם מסורבל בתנועה לעיתים?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pg36_clumsy" id="pg36_cl_y" value="כן" /><label
+                  for="pg36_cl_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pg36_clumsy" id="pg36_cl_n" value="לא" /><label
+                  for="pg36_cl_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- פעילויות ידיים ומשחקים -->
+        <div class="section">
+          <div class="section-title">פעילויות ידיים ומשחקים</div>
+          <div class="scale-header">
+            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-hand-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם יש לילד יד דומיננטית?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pg36_dominant" id="pg36_dom_y" value="כן" /><label
+                  for="pg36_dom_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pg36_dominant" id="pg36_dom_n" value="לא" /><label
+                  for="pg36_dom_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- תפקוד חברתי -->
+        <div class="section">
+          <div class="section-title">תפקוד חברתי</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-social-items"></div>
+        </div>
+
+        <!-- שפה ותקשורת -->
+        <div class="section">
+          <div class="section-title">שפה ותקשורת</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="pg36-language-items"></div>
+        </div>
+
+        <!-- היגוי -->
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div id="pg36-pronun-items"></div>
+        </div>
+
+        <!-- ציפיות מהאבחון -->
+        <div class="section">
+          <div class="section-title">מהם הציפיות שלכם מהאבחון?</div>
+          <div class="question-row">
+            <textarea name="pg36_expectations" rows="4" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- Print button -->
+        <button type="button" class="btn-primary" onclick="printForm('parentGan36')">
+          🖨️ הדפסת השאלון
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB 9 — TEACHER/EDUCATIONAL 3-6               -->
+    <!-- ============================================ -->
+    <div id="teacherGan36" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון חינוכי — ילד/ה בגיל 3-6 שנים</h1>
+        <p>מילוי ע״י גננת או מטפלת בלבד · כללית שירותי בריאות — מחוז ירושלים</p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד באימייל למרפאה.
+        </div>
+      </div>
+
+      <form id="teacherGan36Form" onsubmit="return false;">
+        <!-- פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
+            <label class="question-label">תאריך מילוי השאלון:</label>
+            <input type="text" name="tg36_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם המסגרת החינוכית:</label>
+            <input type="text" name="tg36_school" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">סוג המסגרת:</label>
+            <select name="tg36_school_type">
+              <option value="">— בחרו —</option>
+              <option>גן רגיל</option>
+              <option>גן חינוך מיוחד</option>
+              <option>מעון</option>
+              <option>משפחתון</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל הילדים במסגרת:</label>
+            <input type="text" name="tg36_age_range" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר ילדים במסגרת:</label>
+            <input type="text" name="tg36_num_children" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הילד/ה מקבל/ת סיוע במסגרת?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="tg36_support" id="tg36_sup_y" value="כן" /><label
+                  for="tg36_sup_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="tg36_support" id="tg36_sup_n" value="לא" /><label
+                  for="tg36_sup_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">אם כן, באיזה סוג סיוע? (סייעת, שילוב, וכו׳)</label>
+            <input type="text" name="tg36_support_detail" placeholder="פרטו..." />
+          </div>
+        </div>
+
+        <!-- תיאור כללי -->
+        <div class="section">
+          <div class="section-title">מצב רגשי כללי ותיאור התנהגויות אופייניות</div>
+          <div class="section-subtitle">סמנו את התיאור/ים המתאים/ים ביותר</div>
+          <div id="tg36-general-desc"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">הערות נוספות:</label>
+            <textarea name="tg36_general_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- קשב וריכוז -->
+        <div class="section">
+          <div class="section-title">קשב וריכוז</div>
+          <div class="section-subtitle">יש למלא לפי הביצוע והיכולת בפועל</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-attention-items"></div>
+        </div>
+
+        <!-- לבישה ופשיטה -->
+        <div class="section">
+          <div class="section-title">לבישה ופשיטה</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-dressing-items"></div>
+        </div>
+
+        <!-- אכילה ושתייה -->
+        <div class="section">
+          <div class="section-title">אכילה ושתייה</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-eating-items"></div>
+        </div>
+
+        <!-- תגובות מערכות החושים -->
+        <div class="section">
+          <div class="section-title">תגובות מערכות החושים</div>
+          <div class="section-subtitle">ניתן לסמן בכמה עמודות</div>
+          <div class="scale-header">
+            <span>ברצון / בהנאה</span><span>מחפש / מגזים</span><span>נמנע / נרתע</span>
+          </div>
+          <div id="tg36-sensory-items"></div>
+        </div>
+
+        <!-- פעילויות התנועה בגן ובחצר -->
+        <div class="section">
+          <div class="section-title">פעילויות התנועה בגן ובחצר</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-movement-items"></div>
+          <div style="margin-top: 10px" id="tg36-behavior-yn"></div>
+        </div>
+
+        <!-- פעילויות ידיים -->
+        <div class="section">
+          <div class="section-title">פעילויות ידיים</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-hand-items"></div>
+        </div>
+
+        <!-- קשר חברתי ומשחק -->
+        <div class="section">
+          <div class="section-title">קשר חברתי ומשחק</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-social-items"></div>
+        </div>
+
+        <!-- שפה ותקשורת -->
+        <div class="section">
+          <div class="section-title">שפה ותקשורת</div>
+          <div class="scale-header">
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+          </div>
+          <div id="tg36-language-items"></div>
+        </div>
+
+        <!-- היגוי -->
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div id="tg36-pronun-items"></div>
+        </div>
+
+        <!-- סיכום והמלצות -->
+        <div class="section">
+          <div class="section-title">סיכום והמלצות הגננת / המסגרת</div>
+          <div class="question-row">
+            <label class="question-label">תנו את התחושות של רגלי שהם התקשרים העיקריים שלו?</label>
+            <textarea
+              name="tg36_summary_diff"
+              rows="3"
+              placeholder="תארו את הקשיים העיקריים..."
+            ></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הילד זקוק לעזרה מקצועית ובאילו תחומים?</label>
+            <textarea name="tg36_summary_needs" rows="3" placeholder="פרטו..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">איזה מסגרת תתאים לדעתכם לילד בשנה הבאה?</label>
+            <textarea name="tg36_summary_framework" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות נוספות:</label>
+            <textarea name="tg36_summary_notes" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- Print button -->
+        <button type="button" class="btn-primary" onclick="printForm('teacherGan36')">
           🖨️ הדפסת השאלון
         </button>
         <p

@@ -197,6 +197,8 @@ function showPage(page) {
     'officialTeacher6',
     'parentsUnder3',
     'teacherUnder3',
+    'parentGan36',
+    'teacherGan36',
     'sideB',
   ].forEach((p) => {
     document.getElementById(p).classList.toggle('hidden', p !== page);
@@ -210,7 +212,9 @@ function showPage(page) {
         (i === 3 && page === 'officialTeacher6') ||
         (i === 4 && page === 'parentsUnder3') ||
         (i === 5 && page === 'teacherUnder3') ||
-        (i === 6 && page === 'sideB'),
+        (i === 6 && page === 'parentGan36') ||
+        (i === 7 && page === 'teacherGan36') ||
+        (i === 8 && page === 'sideB'),
     );
   });
   if (page === 'sideB') loadSideBData();
@@ -292,6 +296,8 @@ function printForm(formId) {
     'printing-parentsUnder3',
     'printing-officialTeacher6',
     'printing-teacherUnder3',
+    'printing-parentGan36',
+    'printing-teacherGan36',
   );
   document.body.classList.add('printing-' + formId);
   window.print();
@@ -302,6 +308,8 @@ function printForm(formId) {
     'printing-parentsUnder3',
     'printing-officialTeacher6',
     'printing-teacherUnder3',
+    'printing-parentGan36',
+    'printing-teacherGan36',
   );
 }
 
@@ -1298,6 +1306,250 @@ buildRadioSection('ot6-writing-items', ot6WritingItems, ot6Scale3freq, 'ot6wrt')
 buildRadioSection('ot6-social-items', ot6SocialItems, ot6Scale3freq, 'ot6soc');
 buildRadioSection('ot6-language-items', ot6LanguageItems, ot6Scale3freq, 'ot6lang');
 buildYesNoSection('ot6-pronun-items', ot6PronunItems, 'ot6pron');
+
+// ============================
+// PARENT 3-6 — DATA
+// ============================
+
+const pg36MedicalItems = [
+  'האם ההריון היה תקין?',
+  'האם הלידה הייתה רגילה?',
+  'האם הלידה הייתה בזמן? (באיזה שבוע?)',
+  'האם היו סיבוכים לאחר הלידה?',
+  'האם הילד סבל או סובל ממחלה ממושכת או חוזרת?',
+  'האם ילדכם סובל מפרכוסים?',
+  'האם ילדכם מקבל תרופות באופן קבוע?',
+  'האם בטיפולו של רופא מומחה כלשהו?',
+  'האם ילדכם עבר ניתוחים (השתלת כפתורים, הוצאת פוליפים וכו׳)?',
+  'האם ילדכם ישן היטב? האם נוחר בלילה?',
+];
+
+const pg36TestsList = ['ראייה', 'שמיעה', 'ייעוץ גנטי', 'בדיקות דם', 'EEG', 'CT / MRI / הדמיית מוח'];
+
+const pg36TreatmentAreas = [
+  'קלינאות תקשורת',
+  'ריפוי בעיסוק',
+  'פיזיותרפיה',
+  'טיפול רגשי',
+  'גננת שיח',
+  'אבחון דידקטי',
+  'נוירולוג',
+  'פסיכולוג',
+  'אחר',
+];
+
+const pg36BehaviorItems = [
+  'רגוע ושקט לרוב',
+  'מסתגל למצבים חדשים ושינויים בסדר היום',
+  'בטוח, אינו חרד',
+  'מתמודד עם גבולות ודרישות בהתאם לגיל',
+];
+
+const pg36AttentionItems = [
+  'מסוגל להתמיד בפעילויות, להשלים מטלות',
+  'שוקל את תגובותיו, רגוע ולא פעלתן',
+  'מסוגל להתרכז ולא מוסח מגירויים חיצוניים',
+  'מסודר ומאורגן',
+];
+
+const pg36SensoryItems = [
+  'רגישות למגע של חומרים כמו חול, בצק, דבק',
+  'רגישות לסוג בגדים, תפרים, צווארונים',
+  'אמבטיה, מקלחות, חפיפה, גזירת ציפורניים',
+  'תגובה חריגה לרעש, אור, ריח, טעם',
+];
+
+const pg36DailyItems = [
+  'מסוגל לאכול ולשתות כמו בני גילו',
+  'מתלבש ומתפשט בעצמו בהתאם לגיל',
+  'מטפל בצרכים בשירותים בעצמו',
+  'שומר על ניקיון והיגיינה אישית בהתאם לגיל',
+];
+
+const pg36MovementItems = [
+  'הליכה, ריצה, משחקי כדור, מתקני חצר',
+  'עלייה וירידה במדרגות',
+  'רכיבה על אופניים / קפיצה בחבל (אם רלוונטי)',
+];
+
+const pg36HandItems = [
+  'מניפולציות כף יד (חרוזים, פטריות, לגו, משחקי הרכבה)',
+  'שרבוט, ציור, צביעה',
+  'גזירה, הדבקה, יצירה',
+];
+
+const pg36SocialItems = [
+  'יוזם קשר עם בני גילו ומשתלב איתם',
+  'מביע עניין בחברים, פונה לחברים כדי לשחק',
+  'מגיב לרגשות של אחרים (אמפתיה)',
+  'מוכן לשתף, להתפשר, לקבל חוקי משחק',
+  'מבין מצבים חברתיים בהתאם לגיל',
+  'משתתף במשחקי דמיון עם בני גילו',
+];
+
+const pg36LanguageItems = [
+  'מבין שפה מדוברת כמו בני גילו',
+  'מגיב לדיבור ולבקשות בהתאם לגיל',
+  'מבצע הוראות פשוטות ומורכבות',
+  'משתמש באוצר מילים מתאים לגיל',
+  'מתבטא במשפטים בהתאם לגיל',
+  'מביע רגשות, רצונות ובקשות מילולית',
+  'מספר חוויה או סיפור בצורה מאורגנת',
+  'מנהל שיחה בהתאם לגיל',
+];
+
+const pg36PronunItems = [
+  'האם קיימים שיבושי היגוי?',
+  'האם הילד מרייר?',
+  'האם קיימים חילופי אותיות במילים (למשל מחשב ← משחב)?',
+  'האם קיים חוסר שטף בדיבור (גמגום)?',
+  'האם קיימת צרידות?',
+];
+
+// Scales for parent 3-6
+const pg36Scale3behav = ['בדרך כלל', 'מתקשה', 'מתקשה מאוד'];
+const pg36Scale3motor = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד'];
+const pg36Scale4sensory = ['ברצון / בהנאה', 'מתנגד', 'מחפש / מגזים', 'נמנע / נרתע'];
+
+// Build parent 3-6 sections
+buildMedicalSection('pg36-medical-items', pg36MedicalItems, 'pg36med');
+buildRadioSection('pg36-behavior-items', pg36BehaviorItems, pg36Scale3behav, 'pg36beh');
+buildRadioSection('pg36-attention-items', pg36AttentionItems, pg36Scale3behav, 'pg36att');
+buildRadioSection('pg36-sensory-items', pg36SensoryItems, pg36Scale4sensory, 'pg36sens');
+buildRadioSection('pg36-daily-items', pg36DailyItems, pg36Scale3behav, 'pg36daily');
+buildRadioSection('pg36-movement-items', pg36MovementItems, pg36Scale3motor, 'pg36mov');
+buildRadioSection('pg36-hand-items', pg36HandItems, pg36Scale3motor, 'pg36hand');
+buildRadioSection('pg36-social-items', pg36SocialItems, pg36Scale3behav, 'pg36soc');
+buildRadioSection('pg36-language-items', pg36LanguageItems, pg36Scale3behav, 'pg36lang');
+buildYesNoSection('pg36-pronun-items', pg36PronunItems, 'pg36pron');
+
+// Build parent 3-6 tests table
+(function buildPg36TestsTable() {
+  const tbody = document.getElementById('pg36-tests-body');
+  if (!tbody) return;
+  pg36TestsList.forEach((test, i) => {
+    tbody.innerHTML += `<tr>
+      <td style="padding:7px 10px; border:1px solid #ddd; font-size:13px;">${test}</td>
+      <td style="text-align:center; padding:7px; border:1px solid #ddd;">
+        <input type="checkbox" name="pg36_test_done_${i}">
+      </td>
+      <td style="border:1px solid #ddd; padding:4px;">
+        <input type="text" name="pg36_test_date_${i}" placeholder="תאריך" style="width:100%; border:none; padding:4px; font-size:12px;">
+      </td>
+      <td style="border:1px solid #ddd; padding:4px;">
+        <input type="text" name="pg36_test_result_${i}" placeholder="תוצאה" style="width:100%; border:none; padding:4px; font-size:12px;">
+      </td>
+    </tr>`;
+  });
+})();
+
+// Build parent 3-6 treatment checkboxes
+(function buildPg36Treatment() {
+  const container = document.getElementById('pg36-treatment-areas');
+  if (!container) return;
+  pg36TreatmentAreas.forEach((area, i) => {
+    container.innerHTML += `<label style="display:flex; align-items:center; gap:4px; font-size:13px;">
+      <input type="checkbox" name="pg36_treat_${i}"> ${area}
+    </label>`;
+  });
+})();
+
+// ============================
+// TEACHER/EDUCATIONAL 3-6 — DATA
+// ============================
+
+const tg36GeneralDescItems = [
+  'עליז ושמח / במצב רוח נוח / מגיע בשמחה לגן / משתתף פעולה / ממושמע / יכול לקבל גבולות',
+  'סובל משינויים קיצוניים במצב הרוח / עקשן / מתקשה לוותר / מרבה לריב / מכה',
+  'מסתגר / בעל ביטחון עצמי נמוך / עצוב / פסיבי / בודד',
+  'מגיב בכעס / מגיב באלימות פיזית / אלימות מילולית / רב עם חברים',
+];
+
+const tg36AttentionItems = [
+  'מרוכז לאורך זמן סביר',
+  'שקט ורגוע בזמן פעילות מובנית',
+  'פועל לפי הוראות ומשלים מטלות',
+  'קשוב להוראות ומבצע אותן',
+];
+
+const tg36DressingItems = ['יכולת ללבוש ולהפשיט בעצמו, ריכוס, הסרה'];
+
+const tg36EatingItems = [
+  'אוכל בעצמו, אוכל בצורה מסודרת ונקיה',
+  'משתמש בכלי אוכל / כף בהתאם לגיל',
+  'אוכל מגוון גדול של מאכלים / מרקמים',
+];
+
+const tg36SensoryItems = [
+  'משחקים בחול, פלסטלינה, דבק, צבעי ידיים',
+  'מגע עם ילדים אחרים או מבוגרים',
+  'פעילויות בסביבה רועשת (מסיבות, חגיגות)',
+  'אם יש בגן — האם מסוגל להיפרד מהם בקלות',
+];
+
+const tg36MovementItems = [
+  'הליכה, דילוג, ריצה, משחקי כדור',
+  'עלייה וירידה במדרגות, מתקנים בחצר',
+  'השתלבות בשאר פעילויות גופניות',
+];
+
+const tg36HandItems = [
+  'מניפולציות כף יד: חרוזים, פטריות, לגו, משחקי הרכבה',
+  'שרבוט, ציור, הרכבת פאזלים',
+  'גזירה, הדבקה',
+];
+
+const tg36SocialItems = [
+  'יוזם קשר עם בני גילו ומשתלב איתם',
+  'מראה עניין בחברים, פונה לחברים כדי לשחק',
+  'מוכן לשתף, להתפשר, לקבל חוקי משחק',
+  'מבין הצלחה וכישלון',
+  'מקיים שליטה על תגובות רגשיות בהתאם לגיל',
+  'משתתף במשחקי דמיון עם בני גילו',
+];
+
+const tg36LanguageItems = [
+  'מבין שיחה בהתאם לגילו',
+  'מגיב לדיבור ולבקשות',
+  'מבצע הוראות פשוטות ומורכבות',
+  'משתמש באוצר מילים מתאים לגיל',
+  'מתבטא במשפטים בהתאם לגילו',
+  'מביע רגשות, רצונות ובקשות',
+  'מספר חוויות בצורה מאורגנת',
+  'מנהל שיחה עם בני גילו ומבוגרים',
+];
+
+const tg36PronunItems = [
+  'יש שיבושי היגוי בעייתיים: ב, ג, ד, ו, ז, ח, ט, כ, ל, נ, ס, פ, צ, ר, ש',
+  'האם הילד מרייר?',
+  'האם קיימים חילופי אותיות במילים (למשל מחשב ← משחב)?',
+  'האם קיים חוסר שטף בדיבור (גמגום)?',
+  'האם קיימת צרידות?',
+];
+
+const tg36BehaviorYN = [
+  'האם ילדכם מסורבל בתנועה לעיתים?',
+  'האם ילדכם מתעייף בקלות בפעילות?',
+  'האם לילד יש יד דומיננטית?',
+  'דובר בטבעיות שפת אם? כן / לא, פרטו:',
+];
+
+// Scales for teacher 3-6
+const tg36Scale3 = ['בדומה לבני גילו', 'מתקשה', 'מתקשה מאוד'];
+const tg36Scale4sensory = ['ברצון / בהנאה', 'מחפש / מגזים', 'נמנע / נרתע'];
+
+// Build teacher/educational 3-6 sections
+buildDescCheckboxes('tg36-general-desc', tg36GeneralDescItems, 'tg36gdesc');
+buildRadioSection('tg36-attention-items', tg36AttentionItems, tg36Scale3, 'tg36att');
+buildRadioSection('tg36-dressing-items', tg36DressingItems, tg36Scale3, 'tg36dress');
+buildRadioSection('tg36-eating-items', tg36EatingItems, tg36Scale3, 'tg36eat');
+buildRadioSection('tg36-sensory-items', tg36SensoryItems, tg36Scale4sensory, 'tg36sens');
+buildRadioSection('tg36-movement-items', tg36MovementItems, tg36Scale3, 'tg36mov');
+buildRadioSection('tg36-hand-items', tg36HandItems, tg36Scale3, 'tg36hand');
+buildRadioSection('tg36-social-items', tg36SocialItems, tg36Scale3, 'tg36soc');
+buildRadioSection('tg36-language-items', tg36LanguageItems, tg36Scale3, 'tg36lang');
+buildYesNoSection('tg36-pronun-items', tg36PronunItems, 'tg36pron');
+buildYesNoSection('tg36-behavior-yn', tg36BehaviorYN, 'tg36behyn');
 
 // ============================
 
