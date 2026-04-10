@@ -2378,8 +2378,47 @@
           <div class="section-title">רקע רפואי והתפתחותי</div>
           <div id="pg36-medical-items"></div>
           <div class="question-row" style="margin-top: 12px">
-            <label class="question-label">משקל בעת הלידה:</label>
-            <input type="text" name="pg36_birth_weight" placeholder="בגרמים" style="width: 120px" />
+            <label class="question-label">באיזה שבוע נולד הילד?</label>
+            <input type="text" name="pg36_birth_week" placeholder="שבוע" style="width: 100px" />
+          </div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 8px;
+              direction: rtl;
+              margin-top: 8px;
+            "
+          >
+            <div class="question-row">
+              <label class="question-label">משקל הלידה:</label
+              ><input type="text" name="pg36_birth_weight" placeholder="גרמים" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">היקף הראש בלידה:</label
+              ><input type="text" name="pg36_head_circ" />
+            </div>
+            <div class="question-row">
+              <label class="question-label">אפגר:</label><input type="text" name="pg36_apgar" />
+            </div>
+          </div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">האם ילדך ישן היטב?</label>
+            <input
+              type="text"
+              name="pg36_sleep"
+              placeholder="פרטו..."
+              style="flex: 1; min-width: 150px"
+            />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם ילדך נוחר בלילה?</label>
+            <input
+              type="text"
+              name="pg36_snoring"
+              placeholder="פרטו..."
+              style="flex: 1; min-width: 150px"
+            />
           </div>
         </div>
 
@@ -2515,15 +2554,14 @@
           <div class="section-title">תגובות מערכות החושים</div>
           <div class="section-subtitle">ניתן לסמן בכמה עמודות</div>
           <div class="scale-header">
-            <span>ברצון / בהנאה</span><span>מתנגד</span><span>מחפש / מגזים</span
-            ><span>נמנע / נרתע</span>
+            <span>מתנסה ברצון</span><span>מגזים במגע</span><span>נמנע / נרתע</span>
           </div>
           <div id="pg36-sensory-items"></div>
         </div>
 
         <!-- שגרות יום יום -->
         <div class="section">
-          <div class="section-title">שגרות יום יום</div>
+          <div class="section-title">פעולות יום יום</div>
           <div class="scale-header">
             <span>בדרך כלל</span><span>מתקשה</span><span>מתקשה מאוד</span>
           </div>
@@ -2534,11 +2572,11 @@
         <div class="section">
           <div class="section-title">תנועה בבית ובסביבה</div>
           <div class="scale-header">
-            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span>
+            <span>מצליח כצפוי לגילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
           </div>
           <div id="pg36-movement-items"></div>
           <div class="question-row" style="margin-top: 10px">
-            <label class="question-label">האם ילדכם מסורבל בתנועה לעיתים?</label>
+            <label class="question-label">האם הילד מסורבל ומרבה ליפול?</label>
             <div class="yesno-row">
               <div class="yesno-option">
                 <input type="radio" name="pg36_clumsy" id="pg36_cl_y" value="כן" /><label
@@ -2549,6 +2587,23 @@
               <div class="yesno-option">
                 <input type="radio" name="pg36_clumsy" id="pg36_cl_n" value="לא" /><label
                   for="pg36_cl_n"
+                  >לא</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מתעייף בקלות במרחב?</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="pg36_tires" id="pg36_tr_y" value="כן" /><label
+                  for="pg36_tr_y"
+                  >כן</label
+                >
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="pg36_tires" id="pg36_tr_n" value="לא" /><label
+                  for="pg36_tr_n"
                   >לא</label
                 >
               </div>
@@ -2580,6 +2635,10 @@
               </div>
             </div>
           </div>
+          <div class="question-row">
+            <label class="question-label">במה ילדך מעדיף לעסוק?</label>
+            <input type="text" name="pg36_prefers" placeholder="כתבו כאן..." />
+          </div>
         </div>
 
         <!-- תפקוד חברתי -->
@@ -2604,6 +2663,22 @@
         <div class="section">
           <div class="section-title">היגוי</div>
           <div id="pg36-pronun-items"></div>
+          <div class="question-row" style="margin-top: 8px">
+            <label class="question-label"
+              >אם כן, באילו מהצלילים: ב, ג, ד, ז, ח, ט, כ, ל, נ, ס, פ, צ, ר, ש</label
+            >
+            <input
+              type="text"
+              name="pg36_pronun_sounds"
+              placeholder="סמנו את הצלילים הרלוונטיים..."
+            />
+          </div>
+        </div>
+
+        <!-- שאלות התנהגות נוספות -->
+        <div class="section">
+          <div class="section-title">שאלות נוספות</div>
+          <div id="pg36-behavior-q-items"></div>
         </div>
 
         <!-- ציפיות מהאבחון -->
@@ -2715,13 +2790,13 @@
           <div id="tg36-attention-items"></div>
         </div>
 
-        <!-- לבישה ופשיטה -->
+        <!-- למידה ותפיסה -->
         <div class="section">
-          <div class="section-title">לבישה ופשיטה</div>
+          <div class="section-title">למידה ותפיסה</div>
           <div class="scale-header">
             <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
           </div>
-          <div id="tg36-dressing-items"></div>
+          <div id="tg36-learning-items"></div>
         </div>
 
         <!-- אכילה ושתייה -->
@@ -2738,16 +2813,16 @@
           <div class="section-title">תגובות מערכות החושים</div>
           <div class="section-subtitle">ניתן לסמן בכמה עמודות</div>
           <div class="scale-header">
-            <span>ברצון / בהנאה</span><span>מחפש / מגזים</span><span>נמנע / נרתע</span>
+            <span>מתנסה ברצון</span><span>מחפש / מגזים במגע</span><span>נמנע / נרתע</span>
           </div>
           <div id="tg36-sensory-items"></div>
         </div>
 
         <!-- פעילויות התנועה בגן ובחצר -->
         <div class="section">
-          <div class="section-title">פעילויות התנועה בגן ובחצר</div>
+          <div class="section-title">פעילויות תנועה בגן ובחצר</div>
           <div class="scale-header">
-            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאד / נמנע</span>
           </div>
           <div id="tg36-movement-items"></div>
           <div style="margin-top: 10px" id="tg36-behavior-yn"></div>
@@ -2757,7 +2832,7 @@
         <div class="section">
           <div class="section-title">פעילויות ידיים</div>
           <div class="scale-header">
-            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאוד</span>
+            <span>בדומה לבני גילו</span><span>מתקשה</span><span>מתקשה מאד / נמנע</span>
           </div>
           <div id="tg36-hand-items"></div>
         </div>
@@ -2790,7 +2865,7 @@
         <div class="section">
           <div class="section-title">סיכום והמלצות הגננת / המסגרת</div>
           <div class="question-row">
-            <label class="question-label">תנו את התחושות של רגלי שהם התקשרים העיקריים שלו?</label>
+            <label class="question-label">מהם הקשיים העיקריים של הילד?</label>
             <textarea
               name="tg36_summary_diff"
               rows="3"
