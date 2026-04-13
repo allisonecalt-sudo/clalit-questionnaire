@@ -34,6 +34,9 @@
       <button class="nav-tab" onclick="showPage('teacherGan36')">
         שאלון חינוכי (3-6)<span class="nav-tab-sub">גיל 3-6 · גננת/מטפלת</span>
       </button>
+      <button class="nav-tab" onclick="showPage('teacherGan36b')">
+        שאלון גננת (3-6) ב׳<span class="nav-tab-sub">גיל 3-6 · גננת/מטפלת</span>
+      </button>
       <button class="nav-tab" onclick="showPage('sideB')">
         כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
       </button>
@@ -2951,6 +2954,189 @@
           class="btn-primary"
           style="background: #2d9cdb; margin-right: 8px"
           onclick="downloadForAI('teacherGan36')"
+        >
+          📋 Download for AI
+        </button>
+        <p
+          class="print-note"
+          style="text-align: center; margin-top: 8px; font-size: 12px; color: #999"
+        >
+          בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
+        </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TAB 10 — TEACHER/GANENET 3-6 (B)             -->
+    <!-- ============================================ -->
+    <div id="teacherGan36b" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון גננת — ילד/ה בגיל 3-6 שנים (ב׳)</h1>
+        <p>מילוי ע״י גננת או מטפלת בלבד · כללית שירותי בריאות — מחוז ירושלים</p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
+          בנפרד באימייל למרפאה.
+        </div>
+      </div>
+
+      <form id="teacherGan36bForm" onsubmit="return false;">
+        <!-- פרטים כלליים -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="question-row">
+            <label class="question-label">תאריך מילוי השאלון:</label>
+            <input type="text" name="tg36b_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שם המסגרת החינוכית:</label>
+            <input type="text" name="tg36b_school" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">סוג המסגרת:</label>
+            <select name="tg36b_school_type">
+              <option value="">— בחרו —</option>
+              <option>גן רגיל</option>
+              <option>גן חינוך מיוחד</option>
+              <option>מעון</option>
+              <option>משפחתון</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל הילדים במסגרת:</label>
+            <input type="text" name="tg36b_age_range" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר ילדים במסגרת:</label>
+            <input type="text" name="tg36b_num_children" />
+          </div>
+        </div>
+
+        <!-- מצב רוח כללי -->
+        <div class="section">
+          <div class="section-title">מצב רוח כללי ותיאור התנהגויות אופייניות</div>
+          <div class="section-subtitle">הקיפי את המתאים — ניתן לבחור יותר מאחד</div>
+          <div id="tg36b-mood-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">אחר, אנא פרטי:</label>
+            <textarea name="tg36b_mood_other" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">משמעת ויכולת לקבל גבולות:</label>
+            <textarea name="tg36b_discipline" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עצמות ותלות -->
+        <div class="section">
+          <div class="section-title">עצמות ותלות</div>
+          <div class="scale-header">
+            <span>עצמאי</span><span>לפעמים תלוי</span><span>תלוי במבוגר</span>
+          </div>
+          <div id="tg36b-independence-items"></div>
+        </div>
+
+        <!-- תחושה -->
+        <div class="section">
+          <div class="section-title">תחושה</div>
+          <div class="scale-header"><span>נהנה</span><span>מסכים</span><span>נמנע</span></div>
+          <div id="tg36b-sensory-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label"
+              >האם יש לילד קושי בתחום הויסות החושי? (האם מחפש או נמנע ממגע/תחושות במיוחד?)</label
+            >
+            <textarea name="tg36b_sensory_regulation" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם ישן בגן והאם מצליח להירדם בקלות?</label>
+            <textarea name="tg36b_sleep" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- פעילות בחצר ותנועה -->
+        <div class="section">
+          <div class="section-title">פעילות בחצר ותנועה</div>
+          <div class="scale-header">
+            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="tg36b-movement-items"></div>
+          <div style="margin-top: 10px" id="tg36b-movement-yn"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">פרטי:</label>
+            <textarea name="tg36b_movement_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- מוטוריקה עדינה -->
+        <div class="section">
+          <div class="section-title">מוטוריקה עדינה</div>
+          <div class="question-row">
+            <label class="question-label">דומיננטיות ידנית (קבועה/מחליף ידיים):</label>
+            <input type="text" name="tg36b_hand_dominance" />
+          </div>
+          <div class="scale-header">
+            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="tg36b-fine-motor-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">פרטי:</label>
+            <textarea name="tg36b_fine_motor_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- משחק -->
+        <div class="section">
+          <div class="section-title">משחק</div>
+          <div class="scale-header">
+            <span>בהתאם לגיל</span><span>מתקשה</span><span>מתקשה מאוד</span><span>נמנע</span>
+          </div>
+          <div id="tg36b-play-items"></div>
+        </div>
+
+        <!-- חברתי -->
+        <div class="section">
+          <div class="section-title">חברתי</div>
+          <div class="scale-header">
+            <span>תמיד</span><span>לפעמים</span><span>כמעט אף פעם</span>
+          </div>
+          <div id="tg36b-social-items"></div>
+        </div>
+
+        <!-- קשב -->
+        <div class="section">
+          <div class="section-title">קשב</div>
+          <div class="scale-header">
+            <span>תמיד</span><span>לפעמים</span><span>כמעט אף פעם</span>
+          </div>
+          <div id="tg36b-attention-items"></div>
+        </div>
+
+        <!-- סיכום והמלצות -->
+        <div class="section">
+          <div class="section-title">סיכום והמלצות הגננת / המסגרת</div>
+          <div class="question-row">
+            <label class="question-label">מהם הקשיים העיקריים של הילד?</label>
+            <textarea
+              name="tg36b_summary_diff"
+              rows="3"
+              placeholder="תארו את הקשיים העיקריים..."
+            ></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות נוספות:</label>
+            <textarea name="tg36b_summary_notes" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- Print button -->
+        <button type="button" class="btn-primary" onclick="printForm('teacherGan36b')">
+          🖨️ הדפסת השאלון
+        </button>
+        <button
+          type="button"
+          class="btn-primary"
+          style="background: #2d9cdb; margin-right: 8px"
+          onclick="downloadForAI('teacherGan36b')"
         >
           📋 Download for AI
         </button>

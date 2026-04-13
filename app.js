@@ -1572,6 +1572,106 @@ buildYesNoSection('tg36-pronun-items', tg36PronunItems, 'tg36pron');
 buildYesNoSection('tg36-behavior-yn', tg36BehaviorYN, 'tg36behyn');
 
 // ============================
+// TEACHER/GANENET 3-6 (B) — DATA
+// ============================
+
+const tg36bMoodItems = [
+  'עליז ושמח',
+  'מצב רוח נוח',
+  'מגיע בשמחה לגן',
+  'נפרד בקלות',
+  'משתף פעולה',
+  'שינויים קיצוניים במצב הרוח',
+  'עצוב או מדוכדך',
+  'מתקשה להיפרד בבוקר',
+  'מרבה לבכות',
+  'מוצץ אצבע או מוצץ',
+  'עקשן',
+  'נמצא בחוסר שקט',
+  'מגלה פחדים וחרדות',
+  'ביישן',
+];
+
+const tg36bIndependenceItems = [
+  'עצמאי במשימות',
+  'אכילה עם כפית ומזלג',
+  'הרגלי ניקיון (שירותים, שטיפת ידיים)',
+];
+
+const tg36bSensoryItems = [
+  'משחק בחול',
+  'משחק בבצק/פלסטלינה',
+  'צבעי ידיים',
+  'דבק',
+  'מגע עם מים',
+  'מגע עם ילדים ומבוגרים',
+  'עמידה בתור עם ילדים נוספים',
+  'פעילויות עם רעש (מסיבות/חגים)',
+];
+
+const tg36bMovementItems = [
+  'הליכה וריצה',
+  'קפיצה',
+  'משחקי כדור',
+  'שימוש במתקני חצר',
+  'עליה וירידה במדרגות',
+  'השתתפות בריתמיקה',
+  'השתתפות בפעילות תנועה בגן',
+  'פעילות במתקנים',
+];
+
+const tg36bMovementYN = ['האם מתעייף בקלות?', 'האם מסורבל?'];
+
+const tg36bFineMotorItems = [
+  'מניפולציות כף יד (חרוזים, פטריות, הרכבות קטנות)',
+  'גזירה',
+  'אחיזה ושליטה בכלי כתיבה',
+  'ציור',
+  'צביעה',
+  'יצירה',
+  'התארגנות בזמן עבודה',
+];
+
+const tg36bPlayItems = ['משחקי בנייה והרכבה', 'משחקי קופסא', 'פאזלים', 'משחקי דמיון'];
+
+const tg36bSocialItems = [
+  'יוזם/ת קשר עם בני גילו ויכול/ה ליזום משחק',
+  'מצטרף/ת למשחק כשמוזמן/ת',
+  'משתתף/ת בפעילויות חברתיות — משחקים, מסיבות',
+  'משתתף/ת בתחרויות ומקבל/ת כישלון',
+  'מגיב/ה באלימות פיזית או מילולית',
+  'מוותר/ת ומתפשר/ת',
+  'פונה לעזרה כשצריך',
+  'מפרש/ת רמזים וסיטואציות חברתיות',
+];
+
+const tg36bAttentionItems = [
+  'מרוכז/ת',
+  'אימפולסיבי/ת',
+  'מוסח/ת',
+  'קשוב/ה להוראות',
+  'מתמיד/ה במשימות עד הסוף',
+  'תנועתי/ת — נע/ה הרבה',
+];
+
+// Scales for teacher 3-6 (B)
+const tg36bScale3 = ['עצמאי', 'לפעמים תלוי', 'תלוי במבוגר'];
+const tg36bScale3sensory = ['נהנה', 'מסכים', 'נמנע'];
+const tg36bScale4 = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'נמנע'];
+const tg36bScale3freq = ['תמיד', 'לפעמים', 'כמעט אף פעם'];
+
+// Build teacher/ganenet 3-6 (B) sections
+buildDescCheckboxes('tg36b-mood-items', tg36bMoodItems, 'tg36bmood');
+buildRadioSection('tg36b-independence-items', tg36bIndependenceItems, tg36bScale3, 'tg36bind');
+buildRadioSection('tg36b-sensory-items', tg36bSensoryItems, tg36bScale3sensory, 'tg36bsens');
+buildRadioSection('tg36b-movement-items', tg36bMovementItems, tg36bScale4, 'tg36bmov');
+buildYesNoSection('tg36b-movement-yn', tg36bMovementYN, 'tg36bmovyn');
+buildRadioSection('tg36b-fine-motor-items', tg36bFineMotorItems, tg36bScale4, 'tg36bfm');
+buildRadioSection('tg36b-play-items', tg36bPlayItems, tg36bScale4, 'tg36bplay');
+buildRadioSection('tg36b-social-items', tg36bSocialItems, tg36bScale3freq, 'tg36bsoc');
+buildRadioSection('tg36b-attention-items', tg36bAttentionItems, tg36bScale3freq, 'tg36batt');
+
+// ============================
 // DOWNLOAD FOR AI — JSON EXPORT
 // ============================
 
