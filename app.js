@@ -1136,7 +1136,8 @@ const po3PronunItems = [
   'האם קיימת צרידות?',
 ];
 
-const po3AttentionItems = ATTENTION_18_PAPER;
+// Numbered 1-18 like the paper
+const po3AttentionItems = ATTENTION_18_PAPER.map((t, i) => `${i + 1}. ${t}`);
 
 // Scale options for new tab
 const po3Scale3freq = ['בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
@@ -1930,7 +1931,7 @@ const gr36LanguageItems = [
   'מספר חוויה בצורה מאורגנת',
 ];
 
-const gr36AttentionItems = ATTENTION_18_PAPER;
+const gr36AttentionItems = ATTENTION_18_PAPER.map((t, i) => `${i + 1}. ${t}`);
 
 const gr36ScaleIndep = ['עצמאי', 'לפעמים תלוי', 'תלוי במבוגר'];
 const gr36ScaleSensory = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];
@@ -2002,6 +2003,9 @@ function collectAnswers(formId) {
   // Get questionnaire title
   const h1 = container.querySelector('h1');
   if (h1) result.type = h1.textContent.trim();
+
+  const allPages = new Set();
+  const filledPages = new Set();
 
   // Walk through each section
   const sections = form.querySelectorAll('.section');
@@ -2109,8 +2113,24 @@ function collectAnswers(formId) {
     if (Object.keys(sectionData).length > 0) {
       result.sections[sectionName] = sectionData;
     }
+
+    // Paper page of this section ("עמוד N" in its subtitle), so a skipped page shows
+    const sub = sec.querySelector('.section-subtitle');
+    const pageMatch = sub && sub.textContent.match(/עמוד (\d+)/);
+    if (pageMatch) {
+      const n = Number(pageMatch[1]);
+      allPages.add(n);
+      if (Object.keys(sectionData).length > 0) filledPages.add(n);
+    }
   });
 
+  if (allPages.size) {
+    const sorted = (set) => [...set].sort((a, b) => a - b);
+    result.pages = {
+      filled: sorted(filledPages),
+      empty: sorted(allPages).filter((n) => !filledPages.has(n)),
+    };
+  }
   return result;
 }
 
@@ -2135,6 +2155,10 @@ function formatForClaude(result) {
     `שאלון: ${result.type}`,
     `הועתק מהאפליקציה: ${new Date().toLocaleString('he-IL')}`,
   ];
+  if (result.pages) {
+    const empty = result.pages.empty.length ? result.pages.empty.join(', ') : 'אין';
+    lines.push(`עמודים עם סימונים: ${result.pages.filled.join(', ')} · עמודים ריקים: ${empty}`);
+  }
   Object.entries(result.sections).forEach(([section, items]) => {
     lines.push('', `## ${section}`);
     Object.entries(items).forEach(([q, a]) => lines.push(`- ${q}: ${a}`));
