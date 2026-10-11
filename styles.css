@@ -396,8 +396,13 @@ select {
 .pick-card:hover {
   border-color: #0077b6;
 }
+.pick-card-label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 2px;
+}
 .pick-card-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #0077b6;
   margin-bottom: 6px;

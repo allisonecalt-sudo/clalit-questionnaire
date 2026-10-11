@@ -355,10 +355,11 @@ function buildPicker() {
     const card = document.createElement('button');
     card.type = 'button';
     card.className = 'pick-card';
+    // The headline is what's printed at the top of page 1 — the quickest way to tell them apart.
     card.innerHTML = `
-      <div class="pick-card-title">${f.title}</div>
-      ${f.paperTitle ? `<div class="pick-card-line">כותרת בנייר: <b>${f.paperTitle}</b></div>` : ''}
-      <div class="pick-card-line">איך מזהים: ${f.fingerprint}</div>
+      <div class="pick-card-label">${f.paperTitle ? 'כתוב בראש עמוד 1:' : 'שם באפליקציה (הכותרת בנייר עוד לא נבדקה):'}</div>
+      <div class="pick-card-title">${f.paperTitle || f.title}</div>
+      <div class="pick-card-line">ועוד סימן: ${f.fingerprint}</div>
       <span class="badge ${badge.cls}">${badge.text}</span>`;
     card.onclick = () => showPage(f.id);
     results.appendChild(card);
@@ -1987,8 +1988,6 @@ buildRadioSection('gr36-attention-items', gr36AttentionItems, gr36ScaleAttention
 // EXPORT — "Copy for Claude" + JSON download
 // ============================
 
-const UNMARKED = 'לא סומן';
-
 function collectAnswers(formId) {
   const container = document.getElementById(formId);
   if (!container) return null;
@@ -2026,15 +2025,15 @@ function collectAnswers(formId) {
       const multi = row.querySelectorAll('input[type="checkbox"][data-col]');
       if (multi.length > 0) {
         const vals = [...multi].filter((c) => c.checked).map((c) => c.value);
-        sectionData[q] = vals.length ? vals.join(' + ') : UNMARKED;
+        if (vals.length) sectionData[q] = vals.join(' + ');
         return;
       }
 
-      // Check for radio in this row — unanswered items are kept, so "the others" are known
+      // Check for radio in this row — blank items are left out entirely
       const radios = row.querySelectorAll('input[type="radio"]');
       if (radios.length > 0) {
         const name = radios[0].name;
-        sectionData[q] = radioGroups[name] || UNMARKED;
+        if (radioGroups[name]) sectionData[q] = radioGroups[name];
         return;
       }
 
