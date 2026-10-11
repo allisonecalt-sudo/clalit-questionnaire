@@ -1941,7 +1941,8 @@ const gr36ScaleAttention = ['אף פעם', 'מדי פעם', 'לעיתים קרו
 // Grid where more than one column may be marked ("ניתן לסמן בכמה עמודות").
 function buildMultiGrid(containerId, items, options, sectionName) {
   const container = document.getElementById(containerId);
-  let html = '<div class="scale-header">';
+  let html = '<div class="multi-hint">✓✓ אפשר לסמן יותר מתשובה אחת בכל שורה</div>';
+  html += '<div class="scale-header">';
   options.forEach((opt) => (html += `<span>${opt}</span>`));
   html += '</div>';
   items.forEach((item, i) => {
