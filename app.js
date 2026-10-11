@@ -1147,6 +1147,8 @@ const po3Scale4school = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאו
 const po3Scale4attention = ['אף פעם', 'מדי פעם', 'לעיתים קרובות', 'לעיתים קרובות מאד'];
 
 buildChipChecks('po3-referral', REFERRAL_DOMAINS, 'po3ref');
+// Paper allows circling more than one (2026-10-11)
+buildChipChecks('po3-referral-source', ['גננת', 'מורה', 'רופא', 'באופן עצמאי', 'אחר'], 'po3refsrc');
 buildRadioSection('po3-behavior-items', po3BehaviorItems, po3Scale3freq, 'po3beh');
 buildRadioSection('po3-independence-items', po3IndependenceItems, po3Scale3indep, 'po3ind');
 buildMultiGrid('po3-sensory1-items', po3Sensory1Items, po3Scale4sens, 'po3sen1');
