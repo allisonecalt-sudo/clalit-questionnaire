@@ -20,8 +20,10 @@ test('no console errors', async ({ page }) => {
 
 test('parents under 3 tab has content', async ({ page }) => {
   await page.goto(APP_URL, { waitUntil: 'networkidle' });
-  // Click the under-3 parents tab
-  await page.click('text=שאלון הורים עד גיל 3');
+  // Open the under-3 parents form through the picker
+  await page.click('.pick-btn:has-text("הורים")');
+  await page.click('.pick-btn:has-text("עד 3")');
+  await page.click('.pick-card:has-text("שאלון הורים — ילד עד גיל 3")');
   await page.waitForTimeout(1000);
   // Check container is visible
   const container = page.locator('#parentsUnder3');
@@ -52,4 +54,43 @@ test('parents under 3 tab has content', async ({ page }) => {
   });
   console.log('JS check:', JSON.stringify(jsCheck));
   expect(jsCheck.dailyChildren).toBeGreaterThan(0);
+});
+
+test('every form in the picker opens', async ({ page }) => {
+  await page.goto(APP_URL, { waitUntil: 'networkidle' });
+  const cards = page.locator('.pick-card');
+  const n = await cards.count();
+  expect(n).toBeGreaterThanOrEqual(10);
+  for (let i = 0; i < n; i++) {
+    await page.click('#navPicker');
+    await cards.nth(i).click();
+    const open = page.locator('.container:not(.hidden) form');
+    await expect(open).toBeVisible();
+    await expect(page.locator('.container:not(.hidden) .btn-claude')).toHaveCount(1);
+  }
+});
+
+test('ganenet/rav 3-6 form matches the paper item counts', async ({ page }) => {
+  await page.goto(APP_URL + '#ganRav36', { waitUntil: 'networkidle' });
+  const rows = (id) => page.locator(`#${id} .question-row`).count();
+  expect(await rows('gr36-sensory-items')).toBe(8);
+  expect(await rows('gr36-movement-items')).toBe(6);
+  expect(await rows('gr36-fine-motor-items')).toBe(7);
+  expect(await rows('gr36-social-items')).toBe(8);
+  expect(await rows('gr36-language-items')).toBe(15);
+  expect(await rows('gr36-attention-items')).toBe(18);
+});
+
+test('parents over 3 form matches the paper item counts', async ({ page }) => {
+  await page.goto(APP_URL + '#parentsOver3', { waitUntil: 'networkidle' });
+  const rows = (id) => page.locator(`#${id} .question-row`).count();
+  expect(await rows('po3-sensory1-items')).toBe(5);
+  expect(await page.locator('#po3-sensory1-items input[type="checkbox"]').count()).toBe(20);
+  expect(await rows('po3-gross-items')).toBe(7);
+  expect(await rows('po3-fine-items')).toBe(8);
+  expect(await rows('po3-social-items')).toBe(8);
+  expect(await rows('po3-language-items')).toBe(12);
+  expect(await rows('po3-pronun-items')).toBe(5);
+  expect(await rows('po3-attention-items')).toBe(18);
+  await expect(page.locator('#parentsOver3')).toContainText('מהם הציפיות שלכם מהאבחון');
 });

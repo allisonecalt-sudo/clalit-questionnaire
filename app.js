@@ -257,10 +257,12 @@ const FORMS = [
   {
     id: 'parentsOver3',
     title: 'שאלון להורים — לילד מעל גיל 3',
+    paperTitle: 'שאלון להורים (לילד מעל גיל 3)',
     who: 'parent',
     ages: ['36', '6p'],
-    fingerprint: 'נגמר ב-18 שאלות קשב (אף פעם / מדי פעם / לעיתים קרובות / לעיתים קרובות מאד)',
-    match: 'old',
+    fingerprint:
+      '7 עמודים · מחוז ירושלים · עמוד 1 = פרטים אישיים + רקע משפחתי · עמוד 7 = 18 שאלות קשב + ציפיות מהאבחון',
+    match: 'paper',
   },
   {
     id: 'parentsUnder3',
@@ -338,6 +340,8 @@ function buildPicker() {
       (!pickState.who || f.who === pickState.who || f.who === 'both') &&
       (!pickState.age || f.ages.includes(pickState.age)),
   );
+  // Forms checked against real paper come first
+  matches.sort((a, b) => (b.match === 'paper') - (a.match === 'paper'));
   const results = document.getElementById('pickResults');
   const heading =
     pickState.who && pickState.age
@@ -998,6 +1002,40 @@ buildYesNoSection('teacher-pronun-items', teacherPronunItemsCombined, 'tpron');
 // PARENTS OVER 3 — DATA
 // ============================
 
+// Shared by the Jerusalem paper forms (parent >3 and ganenet/rav 3-6),
+// word-for-word from the paper (checked 2026-10-11).
+const REFERRAL_DOMAINS = [
+  'רופא התפתחותי',
+  'פיזיותרפיה',
+  'קלינאות תקשורת',
+  'ריפוי בעיסוק',
+  'תחום רגשי',
+  'אחר',
+];
+
+const PRONUN_SOUNDS = ['ב', 'ג', 'ד', 'ו', 'ז', 'ח', 'ט', 'כ', 'ל', 'נ', 'ס', 'פ', 'צ', 'ר', 'ש'];
+
+const ATTENTION_18_PAPER = [
+  'אינו שם לב לפרטים או עושה טעויות של חוסר תשומת לב (למשל בשיעורי בית)',
+  'מתקשה להיות מרוכז במה שצריך לעשות',
+  'לא נראה שמקשיב כאשר מדברים עמו ישירות',
+  'מתקשה לעקוב אחר הוראות ואינו מסיים משימות עד הסוף (לא בגלל שאינו מבין)',
+  'מתקשה לארגן משימות או פעילויות',
+  'נמנע, לא אוהב או לא רוצה להתחיל משימות הדורשות מאמץ שכלי ממושך',
+  'מאבד חפצים הדרושים למשימות או לפעילויות (פרטי לבוש, כלי כתיבה, שיעורי בית, צעצועים)',
+  'מוסח בקלות על ידי רעש או גירויים אחרים',
+  'שוכח מטלות יומיומיות',
+  'חסר מנוחה בזמן ישיבה, תנועתי בידיים או ברגליים',
+  'קם ממקומו כאשר מצופה ממנו לשבת',
+  'רץ או מטפס כאשר מצופה ממנו לשבת במקומו',
+  'מתקשה לשחק בשקט או להתחיל פעילויות שקטות',
+  'תנועתי, נראה כאילו ״מופעל על ידי מנוע״',
+  'מדבר יותר מדי, פטפטן',
+  'מתפרץ לדברי אחרים לפני שסיימו לדבר',
+  'מתקשה לחכות לתורו',
+  'מתפרץ או מפריע לשיחות או לפעילויות של אחרים',
+];
+
 const po3BehaviorItems = [
   'רגוע, נינוח',
   'מרוכז לאורך זמן',
@@ -1020,11 +1058,10 @@ const po3IndependenceItems = [
 
 const po3Sensory1Items = [
   'משחק בבצק/פלסטלינה/צבעי ידיים/דבק/מים/חול',
-  'משחק במתקנים — קרוסלה, נדנדה, סולם, מגלשה',
+  'משחק במתקנים כגון קרוסלה, נדנדה, סולם, מגלשה',
   'מגע עם ילדים או מבוגרים',
   'עמידה בתור עם ילדים נוספים',
-  'פעילויות עם רעש (מסיבות, אירועים)',
-  'מוסיקה / אירועים',
+  'פעילויות עם רעש (מסיבות/ מוסיקה/ אירועים)',
 ];
 
 const po3Sensory2Items = [
@@ -1098,41 +1135,24 @@ const po3PronunItems = [
   'האם קיימת צרידות?',
 ];
 
-const po3AttentionItems = [
-  'אינו שם לב לפרטים או עושה טעויות של חוסר תשומת לב (למשל בשיעורי בית)',
-  'מתקשה להיות מרוכז במה שצריך לעשות',
-  'לא נראה שמקשיב כאשר מדברים אליו ישירות',
-  'מתקשה לעקוב אחר ההוראות ואינו מסיים משימות עד הסוף',
-  'מתקשה לארגן משימות או פעילויות',
-  'נמנע, לא אוהב או לא רוצה להתחיל פעילויות הדורשות מאמץ שכלי',
-  'מאבד חפצים הדרושים למשימות (לבוש, כלי כתיבה, שיעורי בית, צעצועים)',
-  'מוסח בקלות על ידי רעש או גירויים אחרים',
-  'שוכח מטלות יומיומיות',
-  'חסר מנוחה בזמן ישיבה, תנועות ידיים ורגליים',
-  'קם ממקומו כאשר מצופה ממנו לשבת',
-  'רץ או מטפס כאשר מצופה ממנו לשבת במקומו',
-  'מתקשה לשחק בשקט או להתחיל פעילויות שקטות',
-  'תנועתי, נראה כאילו ״מופעל על ידי מנוע״',
-  'מדבר יותר מדי, פטפטן',
-  'מתפרץ לדברי אחרים לפני שסיימו לדבר',
-  'מתקשה לחכות לתורו',
-  'מתפרץ או מפריע לשיחות ולפעילויות של אחרים',
-];
+const po3AttentionItems = ATTENTION_18_PAPER;
 
 // Scale options for new tab
 const po3Scale3freq = ['בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
 const po3Scale3indep = ['עצמאי בדר״כ', 'לפעמים תלוי', 'תלוי במבוגר'];
-const po3Scale3sens = ['אוהב/רגיל', 'נרתע/נמנע', 'מחפש/מגזים'];
+const po3Scale4sens = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];
 const po3Scale4motor = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'נמנע'];
 const po3Scale4school = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'זקוק לעזרה'];
 const po3Scale4attention = ['אף פעם', 'מדי פעם', 'לעיתים קרובות', 'לעיתים קרובות מאד'];
 
+buildChipChecks('po3-referral', REFERRAL_DOMAINS, 'po3ref');
 buildRadioSection('po3-behavior-items', po3BehaviorItems, po3Scale3freq, 'po3beh');
 buildRadioSection('po3-independence-items', po3IndependenceItems, po3Scale3indep, 'po3ind');
-buildRadioSection('po3-sensory1-items', po3Sensory1Items, po3Scale3sens, 'po3sen1');
+buildMultiGrid('po3-sensory1-items', po3Sensory1Items, po3Scale4sens, 'po3sen1');
 buildRadioSection('po3-sensory2-items', po3Sensory2Items, po3Scale3freq, 'po3sen2');
-buildRadioSection('po3-gross-items', po3GrossItems, po3Scale4motor, 'po3gros');
-buildRadioSection('po3-fine-items', po3FineItems, po3Scale4motor, 'po3fine');
+buildMultiGrid('po3-gross-items', po3GrossItems, po3Scale4motor, 'po3gros');
+buildMultiGrid('po3-fine-items', po3FineItems, po3Scale4motor, 'po3fine');
+buildChipChecks('po3-sounds', PRONUN_SOUNDS, 'po3snd');
 buildRadioSection('po3-school-items', po3SchoolItems, po3Scale4school, 'po3sch');
 buildRadioSection('po3-play-items', po3PlayItems, po3Scale4motor, 'po3play');
 buildRadioSection('po3-social-items', po3SocialItems, po3Scale3freq, 'po3soc');
@@ -1804,14 +1824,7 @@ buildRadioSection('tg36b-attention-items', tg36bAttentionItems, tg36bScale3freq,
 // GANENET/RAV 3-6 — DATA (word-for-word from the paper, 2026-10-11)
 // ============================
 
-const gr36Referral = [
-  'רופא התפתחותי',
-  'פיזיותרפיה',
-  'קלינאות תקשורת',
-  'ריפוי בעיסוק',
-  'תחום רגשי',
-  'אחר',
-];
+const gr36Referral = REFERRAL_DOMAINS;
 
 const gr36Attendance = ['מבקר סדיר במסגרת'];
 
@@ -1894,7 +1907,7 @@ const gr36PronunItems = [
   'האם קיימת צרידות?',
 ];
 
-const gr36Sounds = ['ב', 'ג', 'ד', 'ו', 'ז', 'ח', 'ט', 'כ', 'ל', 'נ', 'ס', 'פ', 'צ', 'ר', 'ש'];
+const gr36Sounds = PRONUN_SOUNDS;
 
 const gr36LanguageItems = [
   'מבין את התכנים הנלמדים בגן',
@@ -1914,26 +1927,7 @@ const gr36LanguageItems = [
   'מספר חוויה בצורה מאורגנת',
 ];
 
-const gr36AttentionItems = [
-  'אינו שם לב לפרטים או עושה טעויות של חוסר תשומת לב (למשל בשיעורי בית)',
-  'מתקשה להיות מרוכז במה שצריך לעשות',
-  'לא נראה שמקשיב כאשר מדברים עמו ישירות',
-  'מתקשה לעקוב אחר הוראות ואינו מסיים משימות עד הסוף (לא בגלל שאינו מבין)',
-  'מתקשה לארגן משימות או פעילויות',
-  'נמנע, לא אוהב או לא רוצה להתחיל משימות הדורשות מאמץ שכלי ממושך',
-  'מאבד חפצים הדרושים למשימות או לפעילויות (פרטי לבוש, כלי כתיבה, שיעורי בית, צעצועים)',
-  'מוסח בקלות על ידי רעש או גירויים אחרים',
-  'שוכח מטלות יומיומיות',
-  'חסר מנוחה בזמן ישיבה, תנועתי בידיים או ברגליים',
-  'קם ממקומו כאשר מצופה ממנו לשבת',
-  'רץ או מטפס כאשר מצופה ממנו לשבת במקומו',
-  'מתקשה לשחק בשקט או להתחיל פעילויות שקטות',
-  'תנועתי, נראה כאילו ״מופעל על ידי מנוע״',
-  'מדבר יותר מדי, פטפטן',
-  'מתפרץ לדברי אחרים לפני שסיימו לדבר',
-  'מתקשה לחכות לתורו',
-  'מתפרץ או מפריע לשיחות או לפעילויות של אחרים',
-];
+const gr36AttentionItems = ATTENTION_18_PAPER;
 
 const gr36ScaleIndep = ['עצמאי', 'לפעמים תלוי', 'תלוי במבוגר'];
 const gr36ScaleSensory = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];

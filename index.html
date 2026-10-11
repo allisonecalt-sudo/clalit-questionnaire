@@ -684,19 +684,28 @@
     <div id="parentsOver3" class="container hidden">
       <div class="page-header">
         <h1>שאלון להורים — לילד מעל גיל 3</h1>
-        <p>מילוי ע״י הורים בלבד · מחוז ירושלים</p>
+        <p>כללית מחוז ירושלים · 7 עמודים · זהה לנייר (נבדק 11.10.2026)</p>
         <div class="privacy-notice">
-          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז.) בשאלון זה. פרטי הילד יישלחו
-          בנפרד.
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז., תאריך לידה, כתובת, טלפון).
+          מעתיקים מהנייר רק את הסימונים.
         </div>
       </div>
       <form id="parentsOver3Form" onsubmit="return false;">
         <!-- פרטים אישיים -->
         <div class="section">
           <div class="section-title">פרטים אישיים</div>
+          <div class="section-subtitle">עמוד 1</div>
           <div class="question-row">
             <label class="question-label">תאריך מילוי השאלון:</label>
             <input type="text" name="po3_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">ממלא השאלון:</label>
+            <input type="text" name="po3_filled_by" placeholder="אמא / אבא / ..." />
+          </div>
+          <div class="question-row">
+            <label class="question-label">לאיזה תחום/ים מקצועי/ים הילד מופנה:</label>
+            <div id="po3-referral"></div>
           </div>
           <div class="question-row">
             <label class="question-label">מין הילד:</label>
@@ -714,8 +723,14 @@
             </div>
           </div>
           <div class="question-row">
-            <label class="question-label">תאריך לידה:</label>
-            <input type="text" name="po3_dob" placeholder="DD/MM/YYYY" />
+            <label class="question-label">גיל הילד (שנים;חודשים):</label>
+            <input
+              type="text"
+              name="po3_age"
+              dir="ltr"
+              style="text-align: right"
+              placeholder="4;3"
+            />
           </div>
           <div class="question-row">
             <label class="question-label">מסגרת חינוכית:</label>
@@ -723,14 +738,31 @@
               <option value="">— בחרו —</option>
               <option>טרום חובה</option>
               <option>חובה</option>
-              <option>כיתה א׳ ומעלה</option>
-              <option>חינוך מיוחד</option>
+              <option>כיתה</option>
               <option>תלמוד תורה</option>
+              <option>מכינה</option>
             </select>
           </div>
           <div class="question-row">
-            <label class="question-label">שפות מדוברות בבית:</label>
-            <input type="text" name="po3_languages" />
+            <label class="question-label">חינוך רגיל / חינוך מיוחד:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="po3_edu" id="po3_edu_r" value="חינוך רגיל" />
+                <label for="po3_edu_r">חינוך רגיל</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="po3_edu" id="po3_edu_s" value="חינוך מיוחד" />
+                <label for="po3_edu_s">חינוך מיוחד</label>
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם — עיסוק / השכלה:</label>
+            <input type="text" name="po3_mother_work" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האב — עיסוק / השכלה:</label>
+            <input type="text" name="po3_father_work" />
           </div>
           <div class="question-row">
             <label class="question-label">מי יזם את הפנייה להתפתחות הילד?</label>
@@ -782,11 +814,16 @@
             <label class="question-label">אירועים מיוחדים/משמעותיים בחיי הילד:</label>
             <input type="text" name="po3_life_events" />
           </div>
+          <div class="question-row">
+            <label class="question-label">שפות מדוברות בבית:</label>
+            <input type="text" name="po3_languages" />
+          </div>
         </div>
 
         <!-- רקע טיפולי -->
         <div class="section">
           <div class="section-title">רקע טיפולי</div>
+          <div class="section-subtitle">עמוד 2</div>
           <div class="question-row">
             <label class="question-label">האם טופל בעבר/כיום? (סמנו הכל שרלוונטי)</label>
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; direction: rtl">
@@ -949,17 +986,22 @@
         <!-- התנהגות -->
         <div class="section">
           <div class="section-title">תפקוד הילד/ה — התנהגות</div>
-          <div class="section-subtitle">תאר את ילדך על פי האפיונים הבאים</div>
+          <div class="section-subtitle">עמוד 2 · תאר את ילדך על פי האפיונים הבאים</div>
           <div class="scale-header">
             <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
             ><span>לעיתים רחוקות</span>
           </div>
           <div id="po3-behavior-items"></div>
+          <div class="question-row">
+            <label class="question-label">האם קיימות התנהגויות אחרות יוצאות דופן? פרט:</label>
+            <textarea name="po3_unusual_behavior" rows="2"></textarea>
+          </div>
         </div>
 
         <!-- עצמאות ותלות -->
         <div class="section">
           <div class="section-title">עצמאות ותלות</div>
+          <div class="section-subtitle">עמוד 3</div>
           <div class="scale-header">
             <span style="flex: 3"></span><span>עצמאי בדר״כ</span><span>לפעמים תלוי</span
             ><span>תלוי במבוגר</span>
@@ -990,28 +1032,15 @@
 
         <!-- תחושה -->
         <div class="section">
-          <div class="section-title">תחושה (סנסורי)</div>
-          <div class="section-subtitle">סמנו את התגובה האופיינית לכל גירוי</div>
-          <div class="scale-header">
-            <span style="flex: 3"></span><span>אוהב/רגיל</span><span>נרתע/נמנע</span
-            ><span>מחפש/מגזים</span>
-          </div>
+          <div class="section-title">תחושה</div>
+          <div class="section-subtitle">עמוד 3 · ניתן לסמן בכמה עמודות</div>
           <div id="po3-sensory1-items"></div>
           <div style="margin-top: 14px">
-            <div class="section-subtitle">רגישויות — דרגו לפי תדירות</div>
             <div class="scale-header">
               <span style="flex: 3"></span><span>בדרך כלל</span><span>לפעמים</span
               ><span>לעיתים רחוקות</span>
             </div>
             <div id="po3-sensory2-items"></div>
-          </div>
-          <div class="question-row" style="margin-top: 8px">
-            <label class="question-label">בזמן האוכל: מסתעל/מריייר/מוציא אוכל/מתעייף?</label>
-            <input type="text" name="po3_oral_notes" />
-          </div>
-          <div class="question-row">
-            <label class="question-label">האם ילדך ישן היטב? האם נוחר בלילה?</label>
-            <input type="text" name="po3_sleep" />
           </div>
           <div class="question-row">
             <label class="question-label">פרט:</label
@@ -1022,10 +1051,7 @@
         <!-- פעילות בחצר ותנועה -->
         <div class="section">
           <div class="section-title">פעילות בחצר ותנועה</div>
-          <div class="scale-header">
-            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
-            ><span>מתקשה מאוד</span><span>נמנע</span>
-          </div>
+          <div class="section-subtitle">עמוד 4 · ניתן לסמן בכמה עמודות</div>
           <div id="po3-gross-items"></div>
           <div class="question-row" style="margin-top: 8px">
             <label class="question-label">האם מתעייף בקלות?</label>
@@ -1070,32 +1096,23 @@
         <!-- מוטוריקה עדינה -->
         <div class="section">
           <div class="section-title">מוטוריקה עדינה</div>
+          <div class="section-subtitle">עמוד 4 · ניתן לסמן בכמה עמודות</div>
           <div class="question-row">
-            <label class="question-label">דומיננטיות ידנית:</label>
+            <label class="question-label">דומיננטיות ידנית (קבועה, מחליף ידיים):</label>
             <div class="yesno-row">
               <div class="yesno-option">
-                <input type="radio" name="po3_hand" id="po3_hand_r" value="ימין" /><label
-                  for="po3_hand_r"
-                  >ימין</label
+                <input type="radio" name="po3_hand" id="po3_hand_f" value="קבועה" /><label
+                  for="po3_hand_f"
+                  >קבועה</label
                 >
               </div>
               <div class="yesno-option">
-                <input type="radio" name="po3_hand" id="po3_hand_l" value="שמאל" /><label
-                  for="po3_hand_l"
-                  >שמאל</label
-                >
-              </div>
-              <div class="yesno-option">
-                <input type="radio" name="po3_hand" id="po3_hand_m" value="מחליף" /><label
+                <input type="radio" name="po3_hand" id="po3_hand_m" value="מחליף ידיים" /><label
                   for="po3_hand_m"
                   >מחליף ידיים</label
                 >
               </div>
             </div>
-          </div>
-          <div class="scale-header" style="margin-top: 8px">
-            <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
-            ><span>מתקשה מאוד</span><span>נמנע</span>
           </div>
           <div id="po3-fine-items"></div>
           <div class="question-row">
@@ -1107,6 +1124,7 @@
         <!-- תפקוד בבית ספר -->
         <div class="section">
           <div class="section-title">תפקוד בבית ספר (אם רלוונטי)</div>
+          <div class="section-subtitle">עמוד 5</div>
           <div class="scale-header">
             <span style="flex: 3"></span><span>בהתאם לגיל</span><span>מתקשה</span
             ><span>מתקשה מאוד</span><span>זקוק לעזרה</span>
@@ -1161,6 +1179,7 @@
         <!-- שפה: הבנה והבעה -->
         <div class="section">
           <div class="section-title">שפה: הבנה והבעה</div>
+          <div class="section-subtitle">עמוד 6</div>
           <div class="question-row">
             <label class="question-label">באיזה גיל ילדך דיבר מילים ראשונות / משפטים?</label>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px">
@@ -1182,36 +1201,59 @@
         <!-- היגוי -->
         <div class="section">
           <div class="section-title">היגוי (הגייה)</div>
+          <div class="section-subtitle">עמוד 6</div>
           <div id="po3-pronun-items"></div>
+          <div class="question-row">
+            <label class="question-label">אם קיימים שיבושי היגוי — באילו מהצלילים הבאים:</label>
+            <div id="po3-sounds"></div>
+          </div>
           <div class="question-row">
             <label class="question-label">פרט:</label
             ><textarea name="po3_pronun_notes" rows="2"></textarea>
           </div>
         </div>
 
+        <!-- אכילה ושינה (עמוד 7) -->
+        <div class="section">
+          <div class="section-title">אכילה ושינה</div>
+          <div class="section-subtitle">עמוד 7</div>
+          <div class="question-row">
+            <label class="question-label"
+              >האם בזמן האוכל ילדך: משתעל, מריר, מוציא אוכל/שתייה, מתעייף?</label
+            >
+            <input type="text" name="po3_oral_notes" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם ילדך ישן היטב?</label>
+            <input type="text" name="po3_sleep" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם נוחר בלילה?</label>
+            <input type="text" name="po3_snore" />
+          </div>
+        </div>
+
         <!-- קשב וריכוז -->
         <div class="section">
           <div class="section-title">קשיים בתחום הקשב והריכוז</div>
-          <div class="section-subtitle">דרגו לפי תדירות</div>
+          <div class="section-subtitle">עמוד 7 · 18 שאלות</div>
           <div class="scale-header">
             <span style="flex: 3"></span><span>אף פעם</span><span>מדי פעם</span
             ><span>לעיתים קרובות</span><span>לעיתים קרובות מאד</span>
           </div>
           <div id="po3-attention-items"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">ציפיות מהאבחון</div>
+          <div class="section-subtitle">עמוד 7</div>
           <div class="question-row">
-            <label class="question-label">מה חששיות שלכם מהאבחון?</label>
+            <label class="question-label">מהם הציפיות שלכם מהאבחון?</label>
             <textarea name="po3_concerns_eval" rows="3"></textarea>
           </div>
         </div>
 
-        <button
-          type="button"
-          class="btn-primary"
-          onclick="
-            window.print();
-            document.body.className = 'printing-parentsOver3';
-          "
-        >
+        <button type="button" class="btn-primary" onclick="printForm('parentsOver3')">
           הדפסה / שמירה כ-PDF
         </button>
         <button
