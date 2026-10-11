@@ -10,43 +10,39 @@
   <body>
     <!-- Navigation -->
     <nav class="top-nav">
-      <button class="nav-tab active" onclick="showPage('combined')">
-        שאלון הורים ומורה<span class="nav-tab-sub">גיל בית ספר · הורים + מורה</span>
+      <button class="nav-tab" id="navPicker" onclick="showPage('picker')">
+        📋 בחירת שאלון<span class="nav-tab-sub">מי מילא · גיל · גרסה</span>
       </button>
-      <button class="nav-tab" onclick="showPage('parentsOver3')">
-        שאלון הורים — מעל גיל 3<span class="nav-tab-sub">גיל 3+ · הורים בלבד</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('sideA')">
-        שאלון מורה מפורט<span class="nav-tab-sub">גיל 6+ · מורה/רב בלבד</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('officialTeacher6')">
-        שאלון מורה רשמי (6+)<span class="nav-tab-sub">שאלון כללית רשמי</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('parentsUnder3')">
-        שאלון הורים עד גיל 3<span class="nav-tab-sub">גיל 0-3 · הורים</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('teacherUnder3')">
-        שאלון גננת/מטפלת (עד 3)<span class="nav-tab-sub">גיל 0-3 · גננת/מטפלת</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('parentGan36')">
-        שאלון הורים (3-6)<span class="nav-tab-sub">גיל 3-6 · הורים</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('teacherGan36')">
-        שאלון חינוכי (3-6)<span class="nav-tab-sub">גיל 3-6 · גננת/מטפלת</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('teacherGan36b')">
-        שאלון גננת (3-6) ב׳<span class="nav-tab-sub">גיל 3-6 · גננת/מטפלת</span>
-      </button>
-      <button class="nav-tab" onclick="showPage('sideB')">
+      <span class="nav-current" id="navCurrent"></span>
+      <button class="nav-tab" id="navSideB" onclick="showPage('sideB')">
         כלי מטפלת<span class="nav-tab-sub">סיכום אוטומטי</span>
       </button>
     </nav>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
     <!-- ============================================ -->
+    <!-- PICKER — which questionnaire is in my hand?  -->
+    <!-- ============================================ -->
+    <div id="picker" class="container">
+      <div class="page-header">
+        <h1>איזה שאלון יש לך ביד?</h1>
+        <p>שתי בחירות, ואז משווים לכותרת בעמוד הראשון של הנייר</p>
+      </div>
+      <div class="section">
+        <div class="section-title">1. מי מילא?</div>
+        <div class="picker-row" id="pickWho"></div>
+      </div>
+      <div class="section">
+        <div class="section-title">2. גיל הילד</div>
+        <div class="picker-row" id="pickAge"></div>
+      </div>
+      <div id="pickResults"></div>
+    </div>
+
+    <!-- ============================================ -->
     <!-- TAB 1 — PARENT + TEACHER (SEPARATE)          -->
     <!-- ============================================ -->
-    <div id="combined" class="container">
+    <div id="combined" class="container hidden">
       <div class="page-header">
         <h1>שאלון הורים ומורה — ילד בגיל בית ספר</h1>
         <p>שני שאלונים נפרדים — חלק א׳ להורים, חלק ב׳ למורה</p>
@@ -3146,6 +3142,305 @@
         >
           בחלון ההדפסה בחרו ״שמור כ-PDF״ — כך תקבלו קובץ מסודר בעברית
         </p>
+      </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- GANENET/RAV 3-6 — exact copy of the paper     -->
+    <!-- (מחוז ירושלים, 7 pages, checked 2026-10-11)    -->
+    <!-- ============================================ -->
+    <div id="ganRav36" class="container hidden">
+      <div class="page-header">
+        <h1>שאלון לגננת/לרב — לילד בן 3-6</h1>
+        <p>
+          כללית מחוז ירושלים · 7 עמודים · זהה לנייר · השאלון מנוסח בלשון זכר אך מיועד גם לבנים וגם
+          לבנות
+        </p>
+        <div class="privacy-notice">
+          <strong>שימו לב:</strong> אין להזין פרטים מזהים (שם, ת.ז., תאריך לידה). מעתיקים מהנייר רק
+          את הסימונים.
+        </div>
+      </div>
+
+      <form id="ganRav36Form" onsubmit="return false;">
+        <!-- עמוד 1 -->
+        <div class="section">
+          <div class="section-title">פרטים כלליים</div>
+          <div class="section-subtitle">עמוד 1</div>
+          <div class="question-row">
+            <label class="question-label">תאריך מילוי השאלון:</label>
+            <input type="text" name="gr36_date" placeholder="DD/MM/YYYY" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל הילד (שנים;חודשים):</label>
+            <input
+              type="text"
+              name="gr36_age"
+              dir="ltr"
+              style="text-align: right"
+              placeholder="4;3"
+            />
+          </div>
+          <div class="question-row">
+            <label class="question-label">לאיזה תחום/ים מקצועי/ים הילד מופנה:</label>
+            <div id="gr36-referral"></div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">סוג המסגרת:</label>
+            <select name="gr36_frame_type">
+              <option value="">— בחרו —</option>
+              <option>גן</option>
+              <option>גן חובה</option>
+              <option>טרום חובה</option>
+              <option>ת״ת</option>
+              <option>מכינה</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">חינוך רגיל / חינוך מיוחד:</label>
+            <div class="yesno-row">
+              <div class="yesno-option">
+                <input type="radio" name="gr36_edu" id="gr36_edu_r" value="חינוך רגיל" />
+                <label for="gr36_edu_r">חינוך רגיל</label>
+              </div>
+              <div class="yesno-option">
+                <input type="radio" name="gr36_edu" id="gr36_edu_s" value="חינוך מיוחד" />
+                <label for="gr36_edu_s">חינוך מיוחד</label>
+              </div>
+            </div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">גיל הילדים במסגרת:</label>
+            <input type="text" name="gr36_age_range" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">מספר הילדים במסגרת:</label>
+            <input type="text" name="gr36_num_children" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">משך ההיכרות עם הילד:</label>
+            <input type="text" name="gr36_known_for" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">שעות פעילות המסגרת:</label>
+            <input type="text" name="gr36_hours" />
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם מקבל סיוע במסגרת החינוכית?</label>
+            <input type="text" name="gr36_aide" />
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >מה הם הנושאים העיקריים הנלמדים כעת במסגרת (אותיות, עונות, מספרים, מושגים, קריאה,
+              כתיבה ועוד)?</label
+            >
+            <textarea name="gr36_topics" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">התרשמות כללית</div>
+          <div class="section-subtitle">עמוד 1</div>
+          <div id="gr36-attendance"></div>
+          <div class="question-row">
+            <label class="question-label">מבקר סדיר — פרט/י:</label>
+            <input type="text" name="gr36_attendance_detail" />
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >הופעה חיצונית (כולל לבוש, ניקיון, אפיונים מיוחדים):</label
+            >
+            <textarea name="gr36_appearance" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 2 -->
+        <div class="section">
+          <div class="section-title">מצב רוח כללי ותיאור התנהגויות אופייניות</div>
+          <div class="section-subtitle">עמוד 2 · סמני את כל המתאים</div>
+          <div id="gr36-mood-items"></div>
+          <div class="question-row" style="margin-top: 10px">
+            <label class="question-label">אחר, פרט:</label>
+            <textarea name="gr36_mood_other" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">משמעת ויכולת לקבל גבולות:</label>
+            <textarea name="gr36_discipline" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">עצמאות ותלות</div>
+          <div class="section-subtitle">עמוד 2</div>
+          <div class="scale-header">
+            <span>עצמאי</span><span>לפעמים תלוי</span><span>תלוי במבוגר</span>
+          </div>
+          <div id="gr36-independence-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_independence_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">תחושה</div>
+          <div class="section-subtitle">עמוד 2 · ניתן לסמן בכמה עמודות</div>
+          <div id="gr36-sensory-items"></div>
+          <div class="question-row">
+            <label class="question-label">האם יש לילד קושי בתחום הויסות החושי, פרט/י:</label>
+            <textarea name="gr36_sensory_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 3 -->
+        <div class="section">
+          <div class="section-title">פעילות בחצר ותנועה</div>
+          <div class="section-subtitle">עמוד 3 · ניתן לסמן בכמה עמודות</div>
+          <div id="gr36-movement-items"></div>
+          <div style="margin-top: 10px" id="gr36-movement-yn"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_movement_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">מוטוריקה עדינה</div>
+          <div class="section-subtitle">עמוד 3 · ניתן לסמן בכמה עמודות</div>
+          <div class="question-row">
+            <label class="question-label">דומיננטיות ידנית (קבועה, מחליף ידיים):</label>
+            <input type="text" name="gr36_hand_dominance" />
+          </div>
+          <div id="gr36-fine-motor-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_fine_motor_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 4 -->
+        <div class="section">
+          <div class="section-title">משחק</div>
+          <div class="section-subtitle">עמוד 4 · ניתן לסמן בכמה עמודות</div>
+          <div id="gr36-play-items"></div>
+          <div class="question-row">
+            <label class="question-label"
+              >פרט/י (סגנון המשחק, יכולת חקירה, חזרתיות במשחק, חוסר מגוון):</label
+            >
+            <textarea name="gr36_play_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">תפקוד חברתי ותקשורתי</div>
+          <div class="section-subtitle">
+            עמוד 4 · ⚠ שימי לב: השורה האחרונה מנוסחת בשלילה (״אינו מפרש״)
+          </div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="gr36-social-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_social_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">היגוי</div>
+          <div class="section-subtitle">עמוד 4</div>
+          <div id="gr36-pronun-items"></div>
+          <div class="question-row">
+            <label class="question-label">אם קיימים שיבושי היגוי — באילו מהצלילים הבאים:</label>
+            <div class="sound-grid" id="gr36-sounds"></div>
+          </div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_pronun_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 5 -->
+        <div class="section">
+          <div class="section-title">שפה (הבנה והבעה)</div>
+          <div class="section-subtitle">עמוד 5</div>
+          <div class="scale-header">
+            <span>בדרך כלל</span><span>לפעמים</span><span>לעיתים רחוקות</span>
+          </div>
+          <div id="gr36-language-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_language_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 6 -->
+        <div class="section">
+          <div class="section-title">קשיים בתחום הקשב והריכוז</div>
+          <div class="section-subtitle">עמוד 6 · 18 שאלות</div>
+          <div class="scale-header">
+            <span>אף פעם</span><span>מדי פעם</span><span>לעיתים קרובות</span
+            ><span>לעיתים קרובות מאד</span>
+          </div>
+          <div id="gr36-attention-items"></div>
+          <div class="question-row">
+            <label class="question-label">פרט/י:</label>
+            <textarea name="gr36_attention_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <!-- עמוד 7 -->
+        <div class="section">
+          <div class="section-title">סיכום והמלצות הגורם החינוכי</div>
+          <div class="section-subtitle">עמוד 7</div>
+          <div class="question-row">
+            <label class="question-label">מה הם הקשיים העיקריים?</label>
+            <textarea name="gr36_summary_diff" rows="3" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">האם הילד זקוק לעזרה מקצועית ובאילו תחומים?</label>
+            <textarea name="gr36_summary_help" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">איזו מסגרת תתאים לדעתך לילד בשנה הבאה?</label>
+            <select name="gr36_next_frame">
+              <option value="">— בחרו —</option>
+              <option>גן ת״ת</option>
+              <option>גן רגיל עם גננת שיח</option>
+              <option>גן משולב</option>
+              <option>גן טיפולי</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="question-row">
+            <label class="question-label">מסגרת לשנה הבאה — אחר / הערה:</label>
+            <input type="text" name="gr36_next_frame_other" />
+          </div>
+          <div class="question-row">
+            <label class="question-label"
+              >האם ידוע לך על גורמים טיפוליים נוספים המעורבים? (גננת שיח, פסיכולוג, גורם רווחה
+              וכו׳)</label
+            >
+            <textarea name="gr36_other_therapists" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+          <div class="question-row">
+            <label class="question-label">הערות:</label>
+            <textarea name="gr36_summary_notes" rows="2" placeholder="כתבו כאן..."></textarea>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary" onclick="printForm('ganRav36')">
+          🖨️ הדפסת השאלון
+        </button>
+        <button
+          type="button"
+          class="btn-primary"
+          style="background: #2d9cdb; margin-right: 8px"
+          onclick="downloadForAI('ganRav36')"
+        >
+          📋 Download for AI
+        </button>
       </form>
     </div>
 

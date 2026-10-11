@@ -189,36 +189,185 @@ function updateProgress() {
 // NAVIGATION
 // ============================
 
+// Every questionnaire in the app, in one list. The picker, navigation and
+// "copy for Claude" all read from here — add a new version = add one entry.
+// who: 'edu' (גננת/רב/מורה) | 'parent' | 'both'. ages: 'u3' | '36' | '6p'.
+// paperTitle: the title as printed on page 1 of the paper (when known).
+// match: 'paper' = checked word-for-word against a real paper form;
+//        'old' = built before 2026-10, not re-checked against paper;
+//        'garbled' = known broken items, check against the paper.
+const FORMS = [
+  {
+    id: 'ganRav36',
+    title: 'שאלון לגננת/לרב — לילד בן 3-6',
+    paperTitle: 'שאלון לגננת/לרב- לילד בן 3-6',
+    who: 'edu',
+    ages: ['36'],
+    fingerprint: '7 עמודים · מחוז ירושלים · עמוד 6 = 18 שאלות קשב · עמוד 7 = סיכום הגורם החינוכי',
+    match: 'paper',
+  },
+  {
+    id: 'teacherGan36',
+    title: 'שאלון חינוכי — ילד/ה בגיל 3-6',
+    who: 'edu',
+    ages: ['36'],
+    fingerprint: 'מתחיל ב-19 תיבות מצב רגשי · קשב = 5 שאלות (בדומה לבני גילו / מתקשה / מתקשה מאוד)',
+    match: 'old',
+  },
+  {
+    id: 'teacherGan36b',
+    title: 'שאלון גננת — ילד/ה בגיל 3-6 (ב׳)',
+    who: 'edu',
+    ages: ['36'],
+    fingerprint: 'קשב = 6 שאלות (תמיד / לפעמים / כמעט אף פעם) · אין חלק שפה ואין היגוי',
+    match: 'old',
+  },
+  {
+    id: 'teacherUnder3',
+    title: 'שאלון לגננת/מטפלת — לילד עד גיל 3',
+    who: 'edu',
+    ages: ['u3'],
+    fingerprint: 'אכילה · חושים · תנועה גסה (התהפכות, זחילה) · שפה ללא דיבור / עם דיבור',
+    match: 'garbled',
+  },
+  {
+    id: 'officialTeacher6',
+    title: 'שאלון מורה רשמי — ילד מעל גיל 6',
+    who: 'edu',
+    ages: ['6p'],
+    fingerprint: 'מתחיל ב-12 תיבות התנהגות · קשב = 5 שאלות · סדר וארגון בכיתה · כתיבה 11 שאלות',
+    match: 'old',
+  },
+  {
+    id: 'sideA',
+    title: 'שאלון מורה/רב מפורט — ילד מעל גיל 6',
+    who: 'edu',
+    ages: ['6p'],
+    fingerprint: 'מצב רוח = 3 רשימות נפתחות · קשב = 8 שאלות (תמיד ← אף פעם) · כתיבה 13 שאלות',
+    match: 'old',
+  },
+  {
+    id: 'parentGan36',
+    title: 'שאלון הורה לילד/ה בגיל 3-6',
+    who: 'parent',
+    ages: ['36'],
+    fingerprint: 'קשב = 4 שאלות בלבד · בסוף: 3 שאלות כן/לא (קולות, התעקשות, תנועות חוזרות)',
+    match: 'old',
+  },
+  {
+    id: 'parentsOver3',
+    title: 'שאלון להורים — לילד מעל גיל 3',
+    who: 'parent',
+    ages: ['36', '6p'],
+    fingerprint: 'נגמר ב-18 שאלות קשב (אף פעם / מדי פעם / לעיתים קרובות / לעיתים קרובות מאד)',
+    match: 'old',
+  },
+  {
+    id: 'parentsUnder3',
+    title: 'שאלון הורים — ילד עד גיל 3',
+    who: 'parent',
+    ages: ['u3'],
+    fingerprint: 'אבני דרך התפתחותיות · אכילה · שפה ללא דיבור / עם דיבור',
+    match: 'old',
+  },
+  {
+    id: 'combined',
+    title: 'שאלון הורים ומורה — ילד בגיל בית ספר',
+    who: 'both',
+    ages: ['6p'],
+    fingerprint: 'שני חלקים: חלק א׳ להורים, חלק ב׳ למורה · תפקוד כללי מעולה ← בעייתי',
+    match: 'old',
+  },
+];
+
+const MATCH_BADGES = {
+  paper: { text: '✓ זהה לנייר', cls: 'badge-ok' },
+  old: { text: 'לא נבדק מול הנייר', cls: 'badge-old' },
+  garbled: { text: '⚠ יש שאלות משובשות — בדקי מול הנייר', cls: 'badge-warn' },
+};
+
+const pickState = { who: '', age: '' };
+
 function showPage(page) {
-  [
-    'combined',
-    'parentsOver3',
-    'sideA',
-    'officialTeacher6',
-    'parentsUnder3',
-    'teacherUnder3',
-    'parentGan36',
-    'teacherGan36',
-    'sideB',
-  ].forEach((p) => {
-    document.getElementById(p).classList.toggle('hidden', p !== page);
+  ['picker', 'sideB', ...FORMS.map((f) => f.id)].forEach((p) => {
+    const el = document.getElementById(p);
+    if (el) el.classList.toggle('hidden', p !== page);
   });
-  document.querySelectorAll('.nav-tab').forEach((tab, i) => {
-    tab.classList.toggle(
-      'active',
-      (i === 0 && page === 'combined') ||
-        (i === 1 && page === 'parentsOver3') ||
-        (i === 2 && page === 'sideA') ||
-        (i === 3 && page === 'officialTeacher6') ||
-        (i === 4 && page === 'parentsUnder3') ||
-        (i === 5 && page === 'teacherUnder3') ||
-        (i === 6 && page === 'parentGan36') ||
-        (i === 7 && page === 'teacherGan36') ||
-        (i === 8 && page === 'sideB'),
-    );
-  });
+  document.getElementById('navPicker').classList.toggle('active', page === 'picker');
+  document.getElementById('navSideB').classList.toggle('active', page === 'sideB');
+  const form = FORMS.find((f) => f.id === page);
+  document.getElementById('navCurrent').textContent = form ? form.title : '';
+  if (window.location.hash.slice(1) !== page) {
+    const base = window.location.pathname + window.location.search;
+    window.history.replaceState(null, '', page === 'picker' ? base : '#' + page);
+  }
+  window.scrollTo(0, 0);
   if (page === 'sideB') loadSideBData();
 }
+
+function buildPicker() {
+  const whoOpts = [
+    ['edu', 'גננת / רב / מורה'],
+    ['parent', 'הורים'],
+  ];
+  const ageOpts = [
+    ['u3', 'עד 3'],
+    ['36', '3-6'],
+    ['6p', '6+ (בית ספר)'],
+  ];
+  const renderRow = (rowId, opts, key) => {
+    const row = document.getElementById(rowId);
+    row.innerHTML = '';
+    opts.forEach(([val, label]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pick-btn' + (pickState[key] === val ? ' active' : '');
+      btn.textContent = label;
+      btn.onclick = () => {
+        pickState[key] = pickState[key] === val ? '' : val;
+        buildPicker();
+      };
+      row.appendChild(btn);
+    });
+  };
+  renderRow('pickWho', whoOpts, 'who');
+  renderRow('pickAge', ageOpts, 'age');
+
+  const matches = FORMS.filter(
+    (f) =>
+      (!pickState.who || f.who === pickState.who || f.who === 'both') &&
+      (!pickState.age || f.ages.includes(pickState.age)),
+  );
+  const results = document.getElementById('pickResults');
+  const heading =
+    pickState.who && pickState.age
+      ? matches.length === 1
+        ? 'יש גרסה אחת:'
+        : `יש ${matches.length} גרסאות — השווי לכותרת ולסימנים בנייר:`
+      : `כל השאלונים (${matches.length}) — או בחרי למעלה כדי לצמצם:`;
+  results.innerHTML = `<div class="pick-heading">${heading}</div>`;
+  matches.forEach((f) => {
+    const badge = MATCH_BADGES[f.match];
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'pick-card';
+    card.innerHTML = `
+      <div class="pick-card-title">${f.title}</div>
+      ${f.paperTitle ? `<div class="pick-card-line">כותרת בנייר: <b>${f.paperTitle}</b></div>` : ''}
+      <div class="pick-card-line">איך מזהים: ${f.fingerprint}</div>
+      <span class="badge ${badge.cls}">${badge.text}</span>`;
+    card.onclick = () => showPage(f.id);
+    results.appendChild(card);
+  });
+}
+
+buildPicker();
+
+// Open a form straight from the link (e.g. …/#ganRav36)
+(function openFromHash() {
+  const id = window.location.hash.slice(1);
+  if (id && document.getElementById(id)) showPage(id);
+})();
 
 // ============================
 // COLLECT FORM DATA
@@ -288,29 +437,9 @@ function printForm(formId) {
     const data = collectFormData();
     localStorage.setItem('questionnaire_data', JSON.stringify(data));
   }
-  // Add class to body so print CSS knows which form to show
-  document.body.classList.remove(
-    'printing-combined',
-    'printing-sideA',
-    'printing-parentsOver3',
-    'printing-parentsUnder3',
-    'printing-officialTeacher6',
-    'printing-teacherUnder3',
-    'printing-parentGan36',
-    'printing-teacherGan36',
-  );
-  document.body.classList.add('printing-' + formId);
+  // Only the open form is visible, so print shows exactly that one.
+  showPage(formId);
   window.print();
-  document.body.classList.remove(
-    'printing-combined',
-    'printing-sideA',
-    'printing-parentsOver3',
-    'printing-parentsUnder3',
-    'printing-officialTeacher6',
-    'printing-teacherUnder3',
-    'printing-parentGan36',
-    'printing-teacherGan36',
-  );
 }
 
 // ============================
@@ -1672,14 +1801,205 @@ buildRadioSection('tg36b-social-items', tg36bSocialItems, tg36bScale3freq, 'tg36
 buildRadioSection('tg36b-attention-items', tg36bAttentionItems, tg36bScale3freq, 'tg36batt');
 
 // ============================
-// DOWNLOAD FOR AI — JSON EXPORT
+// GANENET/RAV 3-6 — DATA (word-for-word from the paper, 2026-10-11)
 // ============================
 
-function downloadForAI(formId) {
+const gr36Referral = [
+  'רופא התפתחותי',
+  'פיזיותרפיה',
+  'קלינאות תקשורת',
+  'ריפוי בעיסוק',
+  'תחום רגשי',
+  'אחר',
+];
+
+const gr36Attendance = ['מבקר סדיר במסגרת'];
+
+const gr36MoodItems = [
+  'עליז ושמח',
+  'מצב רוח נוח',
+  'מגיע בשמחה לגן',
+  'נפרד בקלות',
+  'משתף פעולה בכל המטלות',
+  'שינויים קיצוניים במצב הרוח',
+  'עצוב או מדוכדך רוב הזמן',
+  'מתקשה להיפרד בבוקר',
+  'מרבה לבכות',
+  'מוצץ אצבע או מוצץ',
+  'עקשן',
+  'מסתגר',
+  'נמצא בחוסר שקט',
+  'בטחון עצמי נמוך',
+  'מגלה פחדים וחרדות מוגזמים',
+  'התנהגות ביישנית',
+  'התנהגות פאסיבית',
+];
+
+const gr36IndependenceItems = [
+  'עצמאי במשימות',
+  'אכילה',
+  'הרגלי ניקיון (שטיפת ידיים, עצמאות בשירותים)',
+];
+
+const gr36SensoryItems = [
+  'משחק בחול',
+  'משחק בבצק/ פלסטלינה',
+  'צבעי ידיים',
+  'דבק',
+  'מגע עם מים',
+  'מגע עם ילדים או מבוגרים',
+  'עמידה בתור עם ילדים נוספים',
+  'פעילויות עם רעש (מסיבות/ חגים)',
+];
+
+const gr36MovementItems = [
+  'הליכה וריצה',
+  'קפיצה',
+  'משחקי כדור',
+  'שימוש במתקני חצר',
+  'עליה וירידה במדרגות',
+  'השתתפות בריתמיקה',
+];
+
+const gr36MovementYN = ['האם מתעייף בקלות?', 'האם מסורבל?'];
+
+const gr36FineMotorItems = [
+  'מניפולציות כף יד (חרוזים, פטריות, הרכבות קטנות)',
+  'גזירה',
+  'אחיזה ושליטה בכלי כתיבה',
+  'ציור',
+  'צביעה',
+  'יצירה',
+  'התארגנות בזמן עבודה',
+];
+
+const gr36PlayItems = ['משחקי בנייה והרכבה', 'משחקי קופסא', 'פאזלים', 'משחקי דמיון'];
+
+// Last item is phrased NEGATIVELY on the paper ("אינו מפרש") — kept as printed.
+const gr36SocialItems = [
+  'יוצר קשר עם ילדים ומסוגל ליזום משחק',
+  'משתתף במשחק כשמזמינים אותו',
+  'משתתף בפעילויות חברתית — משחקים, מסיבות',
+  'משתתף בתחרויות ומקבל הצלחה וכשלון',
+  'מגיב באלימות פיסית או מילולית',
+  'מוותר ומתפשר',
+  'מבקש עזרה כשזקוק לה',
+  'אינו מפרש רמזים וסיטואציות חברתיות',
+];
+
+const gr36PronunItems = [
+  'האם קיימים שיבושי היגוי?',
+  'האם קיימים חילופי אותיות במילים (מחשב ← משחב)?',
+  'האם קיים חוסר שטף (גמגום)?',
+  'האם קיימת צרידות?',
+];
+
+const gr36Sounds = ['ב', 'ג', 'ד', 'ו', 'ז', 'ח', 'ט', 'כ', 'ל', 'נ', 'ס', 'פ', 'צ', 'ר', 'ש'];
+
+const gr36LanguageItems = [
+  'מבין את התכנים הנלמדים בגן',
+  'מבין הוראות',
+  'זוכר רצף הוראות, ימי שבוע, שירים',
+  'מבין ועונה נכון לשאלות שנשאל',
+  'מסוגל להסיק מסקנות',
+  'מצליח במשימות של מודעות פונולוגית (חריזה, צלילי פותח)',
+  'מתבטא בעזרת אוצר מילים רחב (שמות עצם, פעלים, תארים)',
+  'מטה פעלים באופן תקין (עבר, הווה, עתיד)',
+  'משתמש במילות יחס (מעל, בתוך)',
+  'משתמש בשמות גוף מתאימים (אני, הוא, אתם)',
+  'מדבר במשפטים בני שלוש מילים או יותר',
+  'משתמש במשפטים מחוברים ומורכבים (ו.., בגלל ש..., כי...)',
+  'מתאר באופן מילולי תמונות המוצגות לפניו',
+  'מספר סיפור בעזרת רצף תמונות',
+  'מספר חוויה בצורה מאורגנת',
+];
+
+const gr36AttentionItems = [
+  'אינו שם לב לפרטים או עושה טעויות של חוסר תשומת לב (למשל בשיעורי בית)',
+  'מתקשה להיות מרוכז במה שצריך לעשות',
+  'לא נראה שמקשיב כאשר מדברים עמו ישירות',
+  'מתקשה לעקוב אחר הוראות ואינו מסיים משימות עד הסוף (לא בגלל שאינו מבין)',
+  'מתקשה לארגן משימות או פעילויות',
+  'נמנע, לא אוהב או לא רוצה להתחיל משימות הדורשות מאמץ שכלי ממושך',
+  'מאבד חפצים הדרושים למשימות או לפעילויות (פרטי לבוש, כלי כתיבה, שיעורי בית, צעצועים)',
+  'מוסח בקלות על ידי רעש או גירויים אחרים',
+  'שוכח מטלות יומיומיות',
+  'חסר מנוחה בזמן ישיבה, תנועתי בידיים או ברגליים',
+  'קם ממקומו כאשר מצופה ממנו לשבת',
+  'רץ או מטפס כאשר מצופה ממנו לשבת במקומו',
+  'מתקשה לשחק בשקט או להתחיל פעילויות שקטות',
+  'תנועתי, נראה כאילו ״מופעל על ידי מנוע״',
+  'מדבר יותר מדי, פטפטן',
+  'מתפרץ לדברי אחרים לפני שסיימו לדבר',
+  'מתקשה לחכות לתורו',
+  'מתפרץ או מפריע לשיחות או לפעילויות של אחרים',
+];
+
+const gr36ScaleIndep = ['עצמאי', 'לפעמים תלוי', 'תלוי במבוגר'];
+const gr36ScaleSensory = ['אוהב', 'נמנע', 'נרתע', 'מחפש'];
+const gr36ScaleMotor = ['בהתאם לגיל', 'מתקשה', 'מתקשה מאוד', 'נמנע'];
+const gr36ScaleFreq3 = ['בדרך כלל', 'לפעמים', 'לעיתים רחוקות'];
+const gr36ScaleAttention = ['אף פעם', 'מדי פעם', 'לעיתים קרובות', 'לעיתים קרובות מאד'];
+
+// Grid where more than one column may be marked ("ניתן לסמן בכמה עמודות").
+function buildMultiGrid(containerId, items, options, sectionName) {
+  const container = document.getElementById(containerId);
+  let html = '<div class="scale-header">';
+  options.forEach((opt) => (html += `<span>${opt}</span>`));
+  html += '</div>';
+  items.forEach((item, i) => {
+    const name = `${sectionName}_${i}`;
+    html += `<div class="question-row">
+            <label class="question-label">${item}</label>
+            <div class="radio-row multi-row">`;
+    options.forEach((opt, j) => {
+      html += `<div class="radio-option">
+                <input type="checkbox" data-col="1" name="${name}_${j}" id="${name}_${j}" value="${opt}">
+                <label for="${name}_${j}">${opt}</label>
+            </div>`;
+    });
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+function buildChipChecks(containerId, items, prefix) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = items
+    .map(
+      (item, i) => `<span class="chip">
+        <input type="checkbox" data-col="1" id="${prefix}_${i}" name="${prefix}_${i}" value="${item}">
+        <label for="${prefix}_${i}">${item}</label></span>`,
+    )
+    .join('');
+}
+
+buildChipChecks('gr36-referral', gr36Referral, 'gr36ref');
+buildYesNoSection('gr36-attendance', gr36Attendance, 'gr36att_yn');
+buildDescCheckboxes('gr36-mood-items', gr36MoodItems, 'gr36mood');
+buildRadioSection('gr36-independence-items', gr36IndependenceItems, gr36ScaleIndep, 'gr36ind');
+buildMultiGrid('gr36-sensory-items', gr36SensoryItems, gr36ScaleSensory, 'gr36sens');
+buildMultiGrid('gr36-movement-items', gr36MovementItems, gr36ScaleMotor, 'gr36mov');
+buildYesNoSection('gr36-movement-yn', gr36MovementYN, 'gr36movyn');
+buildMultiGrid('gr36-fine-motor-items', gr36FineMotorItems, gr36ScaleMotor, 'gr36fm');
+buildMultiGrid('gr36-play-items', gr36PlayItems, gr36ScaleMotor, 'gr36play');
+buildRadioSection('gr36-social-items', gr36SocialItems, gr36ScaleFreq3, 'gr36soc');
+buildYesNoSection('gr36-pronun-items', gr36PronunItems, 'gr36pron');
+buildChipChecks('gr36-sounds', gr36Sounds, 'gr36snd');
+buildRadioSection('gr36-language-items', gr36LanguageItems, gr36ScaleFreq3, 'gr36lang');
+buildRadioSection('gr36-attention-items', gr36AttentionItems, gr36ScaleAttention, 'gr36attn');
+
+// ============================
+// EXPORT — "Copy for Claude" + JSON download
+// ============================
+
+const UNMARKED = 'לא סומן';
+
+function collectAnswers(formId) {
   const container = document.getElementById(formId);
-  if (!container) return;
+  if (!container) return null;
   const form = container.querySelector('form');
-  if (!form) return;
+  if (!form) return null;
 
   const result = { type: '', sections: {} };
 
@@ -1708,12 +2028,19 @@ function downloadForAI(formId) {
       if (!label) return;
       const q = label.textContent.trim().replace(/:$/, '');
 
-      // Check for radio in this row
+      // Multi-mark grid / chips in this row (more than one may be ticked)
+      const multi = row.querySelectorAll('input[type="checkbox"][data-col]');
+      if (multi.length > 0) {
+        const vals = [...multi].filter((c) => c.checked).map((c) => c.value);
+        sectionData[q] = vals.length ? vals.join(' + ') : UNMARKED;
+        return;
+      }
+
+      // Check for radio in this row — unanswered items are kept, so "the others" are known
       const radios = row.querySelectorAll('input[type="radio"]');
       if (radios.length > 0) {
         const name = radios[0].name;
-        const val = radioGroups[name];
-        if (val) sectionData[q] = val;
+        sectionData[q] = radioGroups[name] || UNMARKED;
         return;
       }
 
@@ -1741,7 +2068,7 @@ function downloadForAI(formId) {
 
     // Checkboxes (for description/treatment sections)
     sec
-      .querySelectorAll('input[type="checkbox"]:checked:not([name*="test_done"])')
+      .querySelectorAll('input[type="checkbox"]:checked:not([name*="test_done"]):not([data-col])')
       .forEach((cb) => {
         const lbl = cb.closest('label') || (cb.id && sec.querySelector(`label[for="${cb.id}"]`));
         if (lbl) {
@@ -1788,7 +2115,12 @@ function downloadForAI(formId) {
     }
   });
 
-  // Download as JSON
+  return result;
+}
+
+function downloadForAI(formId) {
+  const result = collectAnswers(formId);
+  if (!result) return;
   const json = JSON.stringify(result, null, 2);
   /* eslint-disable no-undef */
   const blob = new Blob([json], { type: 'application/json' });
@@ -1800,6 +2132,48 @@ function downloadForAI(formId) {
   URL.revokeObjectURL(url);
   /* eslint-enable no-undef */
 }
+
+// Plain text Allison pastes into chat: form name, then every section and item.
+function formatForClaude(result) {
+  const lines = [
+    `שאלון: ${result.type}`,
+    `הועתק מהאפליקציה: ${new Date().toLocaleString('he-IL')}`,
+  ];
+  Object.entries(result.sections).forEach(([section, items]) => {
+    lines.push('', `## ${section}`);
+    Object.entries(items).forEach(([q, a]) => lines.push(`- ${q}: ${a}`));
+  });
+  return lines.join('\n');
+}
+
+function copyForClaude(formId, btn) {
+  const result = collectAnswers(formId);
+  if (!result) return;
+  const text = formatForClaude(result);
+  const done = (msg) => {
+    const old = btn.textContent;
+    btn.textContent = msg;
+    setTimeout(() => (btn.textContent = old), 2500);
+  };
+  navigator.clipboard.writeText(text).then(
+    () => done('✓ הועתק — הדביקי בצ׳אט'),
+    () => done('ההעתקה נכשלה — נסי שוב'),
+  );
+}
+
+// Every form gets a "Copy for Claude" button, right above its other buttons.
+FORMS.forEach((f) => {
+  const form = document.querySelector(`#${f.id} form`);
+  if (!form) return;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'btn-primary btn-claude';
+  btn.textContent = '✨ העתקה ל-Claude';
+  btn.onclick = () => copyForClaude(f.id, btn);
+  const firstBtn = form.querySelector(':scope > button');
+  if (firstBtn) form.insertBefore(btn, firstBtn);
+  else form.appendChild(btn);
+});
 
 // ============================
 
