@@ -116,3 +116,14 @@ test('"all good" button fills only empty rows, flips problem-worded rows, and un
   expect(await page.locator('#gr36soc_0_1').isChecked()).toBe(true);
   expect(await social.locator('input:checked').count()).toBe(1);
 });
+
+test('clicking a marked answer again clears it', async ({ page }) => {
+  await page.goto(APP_URL + '#parentsOver3', { waitUntil: 'networkidle' });
+  const label = page.locator('label[for="po3beh_0_1"]');
+  await label.click();
+  expect(await page.locator('#po3beh_0_1').isChecked()).toBe(true);
+  await label.click();
+  expect(await page.locator('#po3beh_0_1').isChecked()).toBe(false);
+  await page.locator('label[for="po3beh_0_0"]').click();
+  expect(await page.locator('#po3beh_0_0').isChecked()).toBe(true);
+});

@@ -1989,6 +1989,30 @@ buildRadioSection('gr36-language-items', gr36LanguageItems, gr36ScaleFreq3, 'gr3
 buildRadioSection('gr36-attention-items', gr36AttentionItems, gr36ScaleAttention, 'gr36attn');
 
 // ============================
+// Click a marked answer again = clear it (radios can't un-select on their
+// own). pointerdown remembers whether it was already marked; the click that
+// follows (on the input, also when the label was tapped) clears it.
+// Her ask 2026-10-13: "also a bility ot unclick box".
+// ============================
+
+document.addEventListener('pointerdown', (e) => {
+  const radio = e.target.matches('input[type="radio"]')
+    ? e.target
+    : e.target.closest('label')?.control;
+  if (radio && radio.type === 'radio') radio.dataset.wasChecked = String(radio.checked);
+});
+
+document.addEventListener('click', (e) => {
+  const radio = e.target;
+  if (!radio.matches('input[type="radio"]')) return;
+  if (radio.dataset.wasChecked === 'true') {
+    radio.checked = false;
+    radio.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  delete radio.dataset.wasChecked;
+});
+
+// ============================
 // "✓ כל השאר תקין" — one press marks every EMPTY row of a section with its
 // good answer (first column), so she clicks the problems first and the rest
 // in one go. Rows worded as problems are listed in `reversed` → their good
