@@ -433,6 +433,23 @@ select {
   color: #856404;
 }
 
+/* ===== "✓ כל השאר תקין" — fill empty rows with the good answer ===== */
+.btn-all-good {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e7a46;
+  background: #e8f6ee;
+  border: 1px solid #9fd8b6;
+  border-radius: 6px;
+  padding: 5px 12px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+.btn-all-good:hover {
+  background: #d4efdf;
+}
+
 /* ===== MULTI-MARK GRID + CHIPS ===== */
 /* Separate buttons (not one joined bar) so it reads as "tap as many as apply" */
 .multi-row {

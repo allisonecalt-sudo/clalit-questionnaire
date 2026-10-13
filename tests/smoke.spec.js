@@ -94,3 +94,25 @@ test('parents over 3 form matches the paper item counts', async ({ page }) => {
   expect(await rows('po3-attention-items')).toBe(18);
   await expect(page.locator('#parentsOver3')).toContainText('מהם הציפיות שלכם מהאבחון');
 });
+
+test('"all good" button fills only empty rows, flips problem-worded rows, and undoes', async ({
+  page,
+}) => {
+  await page.goto(APP_URL + '#ganRav36', { waitUntil: 'networkidle' });
+  const social = page.locator('#gr36-social-items');
+  // Mark row 0 by hand as "לפעמים" — the button must leave it alone
+  await page.locator('label[for="gr36soc_0_1"]').click();
+  const socialBtn = page
+    .locator('#ganRav36 .btn-all-good')
+    .nth(5); /* order: ind, sens, mov, fm, play, social */
+  await socialBtn.click();
+  expect(await page.locator('#gr36soc_0_1').isChecked()).toBe(true);
+  expect(await page.locator('#gr36soc_1_0').isChecked()).toBe(true);
+  expect(await page.locator('#gr36soc_4_2').isChecked()).toBe(true); // violence → rarely
+  expect(await page.locator('#gr36soc_7_2').isChecked()).toBe(true); // "אינו מפרש" → rarely
+  await expect(socialBtn).toContainText('ביטול');
+  await socialBtn.click();
+  expect(await page.locator('#gr36soc_1_0').isChecked()).toBe(false);
+  expect(await page.locator('#gr36soc_0_1').isChecked()).toBe(true);
+  expect(await social.locator('input:checked').count()).toBe(1);
+});

@@ -1989,6 +1989,65 @@ buildRadioSection('gr36-language-items', gr36LanguageItems, gr36ScaleFreq3, 'gr3
 buildRadioSection('gr36-attention-items', gr36AttentionItems, gr36ScaleAttention, 'gr36attn');
 
 // ============================
+// "✓ כל השאר תקין" — one press marks every EMPTY row of a section with its
+// good answer (first column), so she clicks the problems first and the rest
+// in one go. Rows worded as problems are listed in `reversed` → their good
+// answer is the LAST column. Press again = undo what the button filled.
+// Her ask 2026-10-13; אוהב = good for the sensory grids (her "ok").
+// ============================
+
+function addAllGoodButton(containerId, sectionName, reversed = []) {
+  const container = document.getElementById(containerId);
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'btn-all-good';
+  btn.textContent = '✓ כל השאר תקין';
+  let filled = [];
+  btn.addEventListener('click', () => {
+    if (filled.length) {
+      filled.forEach((input) => (input.checked = false));
+      filled = [];
+      btn.textContent = '✓ כל השאר תקין';
+    } else {
+      container.querySelectorAll('.question-row').forEach((row, i) => {
+        const inputs = [...row.querySelectorAll(`input[name^="${sectionName}_${i}"]`)];
+        if (!inputs.length || inputs.some((input) => input.checked)) return;
+        const good = reversed.includes(i) ? inputs[inputs.length - 1] : inputs[0];
+        good.checked = true;
+        filled.push(good);
+      });
+      if (filled.length) btn.textContent = `↺ ביטול (${filled.length} שורות)`;
+    }
+    container.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  const prev = container.previousElementSibling;
+  const anchor = prev && prev.classList.contains('scale-header') ? prev : container;
+  anchor.insertAdjacentElement('beforebegin', btn);
+}
+
+[
+  ['po3-behavior-items', 'po3beh'],
+  ['po3-independence-items', 'po3ind'],
+  ['po3-sensory1-items', 'po3sen1'],
+  ['po3-sensory2-items', 'po3sen2', [0, 1, 2, 3]],
+  ['po3-gross-items', 'po3gros'],
+  ['po3-fine-items', 'po3fine'],
+  ['po3-school-items', 'po3sch'],
+  ['po3-play-items', 'po3play'],
+  ['po3-social-items', 'po3soc', [4]],
+  ['po3-language-items', 'po3lang'],
+  ['po3-attention-items', 'po3att'],
+  ['gr36-independence-items', 'gr36ind'],
+  ['gr36-sensory-items', 'gr36sens'],
+  ['gr36-movement-items', 'gr36mov'],
+  ['gr36-fine-motor-items', 'gr36fm'],
+  ['gr36-play-items', 'gr36play'],
+  ['gr36-social-items', 'gr36soc', [4, 7]],
+  ['gr36-language-items', 'gr36lang'],
+  ['gr36-attention-items', 'gr36attn'],
+].forEach(([id, name, reversed]) => addAllGoodButton(id, name, reversed));
+
+// ============================
 // EXPORT — "Copy for Claude" + JSON download
 // ============================
 
